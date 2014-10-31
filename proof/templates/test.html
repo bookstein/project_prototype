@@ -12,6 +12,8 @@
 		  data-show-faces="true">
 		</div>
 
+		<a id="get_friends" href="">Get my list of friends</a>
+
 		<script>
   // This is called with the results from from FB.getLoginStatus().
 		  function statusChangeCallback(response) {
@@ -47,7 +49,7 @@
 
 		  window.fbAsyncInit = function() {
 		  FB.init({
-		    appId      : null,
+		    appId      : 705507309556479,
 		    cookie     : true,  // enable cookies to allow the server to access
 		                        // the session
 		    xfbml      : true,  // parse social plugins on this page
@@ -90,6 +92,30 @@
 			        'Thanks for logging in, ' + response.name + '!';
 			    });
 			  }
+
+				// 	RESPONSE OBJECT:
+				// 	{
+				//     status: 'connected',
+				//     authResponse: {
+				//         accessToken: '...',
+				//         expiresIn:'...',
+				//         signedRequest:'...',
+				//         userID:'...' (id of person using the app)
+				//     }
+				// }
+		</script>
+		<script>
+		// add event listener to "Get my list of friends" link
+		// launches another permissions window for user_friends
+			document.getElementById("get_friends").addEventListener("click", function(e) {
+					e.preventDefault();
+					FB.login(function(response) {
+				   		console.log(response);
+				 	}, {scope: 'user_friends'});
+			});
+
+			// QUESTIONS:
+			// how do I store a user id? e.g. for GET /{user-id}/permissions. In session? How to work it between server side and front end?
 		</script>
 
 		<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
