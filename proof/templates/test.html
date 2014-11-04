@@ -26,9 +26,9 @@
 		    if (response.status === 'connected') {
 		      // Logged into your app and Facebook.
 		      testAPI();
-		      login()
 		    } else if (response.status === 'not_authorized') {
 		      // The person is logged into Facebook, but not your app.
+		      login();
 		      document.getElementById('status').innerHTML = 'Please log ' +
 		        'into this app.';
 		    } else {
@@ -68,9 +68,21 @@
 			  //
 			  // These three cases are handled in the callback function.
 
-			  FB.getLoginStatus(function(response) {
-			    statusChangeCallback(response);
-			  });
+			  // FB.getLoginStatus(function(response) {
+			  //   statusChangeCallback(response);
+			  // });
+
+				function authorize() {
+				    FB.getLoginStatus(function(response) {
+				        if (response.status == 'connected') {
+				            // User is already connected with the App.
+				            handleUserConnect(response);
+				        } else {
+				            // Either not connected to app or not logged in to Facebook.
+				            login();
+				        }
+				    }, true); // Second parameter forces a roundtrip to Facebook - effectively refreshing the cache of the response object.
+				}
 
 			  };
 
@@ -85,14 +97,37 @@
 
 			  // Here we run a very simple test of the Graph API after login is
 			  // successful.  See statusChangeCallback() for when this call is made.
+
 			  function testAPI() {
-			    console.log('Welcome!  Fetching your information.... ');
-			    FB.api('/me', function(response) {
-			      console.log('Successful login for: ' + response.name);
-			      document.getElementById('status').innerHTML =
-			        'Thanks for logging in, ' + response.name + '!';
-			    });
+			    // console.log('Welcome!  Fetching your information.... ');
+			    // FB.api('/me', function(response) {
+			    //   console.log('Successful login for: ' + response.name);
+			    //   document.getElementById('status').innerHTML =
+			    //     'Thanks for logging in, ' + response.name + '!';
+			    // });
 			  }
+
+			  // login function from kibernick tutorial
+			  function login() {
+			  	FB.login(function(response) {
+			  		if (response.authResponse) {
+			  			// connected
+			  			FB.api('/me', function(response) {
+					      console.log('Successful login for: ' + response.name);
+					      document.getElementById('status').innerHTML =
+					        'Thanks for logging in, ' + response.name + '!';
+					    });
+			  		}
+
+			  		else {
+			  			// cancelled
+			  			console.log("cancelled");
+			  		}
+			  	}, { scope: "public_profile, email, user_friends, read_stream",
+			  		return_scopes: true })
+			  }
+
+
 
 				// 	RESPONSE OBJECT:
 				// 	{
@@ -111,8 +146,7 @@
 			document.getElementById("get_friends").addEventListener("click", function(e) {
 					e.preventDefault();
 					console.log("clicked");
-					// FB.login(function(response) {
-				   		// console.log(response);
+
 					FB.api(
 					    "/me/permissions",
 					    function (response) {
@@ -125,7 +159,7 @@
 
 		 				/* make the API call */
 						FB.api(
-						    "/me/friends",
+						    "/me/home",
 						    function (response) {
 							      if (response && !response.error) {
 							        console.log(response);
@@ -133,15 +167,13 @@
 							    }
 							);
 
-					// }, {scope: 'user_friends'});
-
 			});
 
 			// QUESTIONS:
 			// how do I store a user id? e.g. for GET /{user-id}/permissions. In session? How to work it between server side and front end?
 		</script>
 
-		<fb:login-button scope="public_profile, email, user_friends, read_stream" onlogin="checkLoginState();">
+		<fb:login-button onlogin="checkLoginState();">
 		</fb:login-button>
 
 		<div id="status">
