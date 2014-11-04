@@ -6,6 +6,19 @@
 	</head>
 	<body>
 		<h1>HELLO WORLD!</h1>
-		<a id="login" href="">Click to login with Twitter</a>
+		<form role="form" action="/login" method="POST">
+			<input type="submit" value="Click to login with Twitter">
+		</form>
+
+		<script>
+			// $("#login").click(function(e){
+			// 	e.preventDefault();
+				// $.post(
+				// 	"https://api.twitter.com/1.1/statuses/home_timeline.json", {},
+				// 	function(response) {
+				// 		console.log(response);
+				// 	});
+			// });
+		</script>
 	</body>
 </html>
