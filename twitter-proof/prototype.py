@@ -16,6 +16,6 @@ auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_SECRET_TOKEN)
 
 api = tweepy.API(auth)
 
-public_tweets = api.home_timeline()
+public_tweets = api.home_timeline() # returns 20 most recent statuses, equivalent to timeline/home
 for tweet in public_tweets:
 	print tweet.text
