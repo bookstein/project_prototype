@@ -16,4 +16,6 @@ auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_SECRET_TOKEN)
 
 api = tweepy.API(auth)
 
-print api
+public_tweets = api.home_timeline()
+for tweet in public_tweets:
+	print tweet.text
