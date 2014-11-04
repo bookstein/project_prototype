@@ -26,6 +26,7 @@
 		    if (response.status === 'connected') {
 		      // Logged into your app and Facebook.
 		      testAPI();
+		      login()
 		    } else if (response.status === 'not_authorized') {
 		      // The person is logged into Facebook, but not your app.
 		      document.getElementById('status').innerHTML = 'Please log ' +
@@ -49,7 +50,7 @@
 
 		  window.fbAsyncInit = function() {
 		  FB.init({
-		    appId      : 705507309556479,
+		    appId      : '705507309556479',
 		    cookie     : true,  // enable cookies to allow the server to access
 		                        // the session
 		    xfbml      : true,  // parse social plugins on this page
@@ -109,16 +110,38 @@
 		// launches another permissions window for user_friends
 			document.getElementById("get_friends").addEventListener("click", function(e) {
 					e.preventDefault();
-					FB.login(function(response) {
-				   		console.log(response);
-				 	}, {scope: 'user_friends'});
+					console.log("clicked");
+					// FB.login(function(response) {
+				   		// console.log(response);
+					FB.api(
+					    "/me/permissions",
+					    function (response) {
+					      if (response && !response.error) {
+					        /* handle the result */
+					        console.log(response);
+					      }
+					    }
+					);
+
+		 				/* make the API call */
+						FB.api(
+						    "/me/friends",
+						    function (response) {
+							      if (response && !response.error) {
+							        console.log(response);
+							      }
+							    }
+							);
+
+					// }, {scope: 'user_friends'});
+
 			});
 
 			// QUESTIONS:
 			// how do I store a user id? e.g. for GET /{user-id}/permissions. In session? How to work it between server side and front end?
 		</script>
 
-		<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+		<fb:login-button scope="public_profile, email, user_friends, read_stream" onlogin="checkLoginState();">
 		</fb:login-button>
 
 		<div id="status">
