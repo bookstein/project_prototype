@@ -39,14 +39,13 @@ def get_friends(uid):
 	friends_ids = api.friends_ids(uid)
 	return friends_ids
 
-def get_links(tweets):
+def get_links(id):
 	link_dictionary = {}
 	# a tweet is a status object <class 'tweepy.models.Status'>
-	for tweet in tweets:
-		#converts key to unicode
-		key = tweet.id_str.decode()
-		print type(tweet)
-		# print tweet[u"user"][u"entities"][u"urls"]
+	feed = tweepy.Cursor(api.user_timeline, id=id, include_entities=True).items(20)
+	for status in feed:
+		for url in status.entities.setdefault("urls", []):
+			print url['expanded_url']
 		# link_dictionary.setdefault(key, tweet["entities"]["urls"])
 	return link_dictionary
 
@@ -59,9 +58,9 @@ def main():
 	friends = get_friends("bookstein")
 	friend_id = get_user_by_id(friends[0]).id
 	# print friend_id
-	tweets = get_timeline(friend_id)
+	# tweets = get_timeline(friend_id)
 	# print tweets
-	print get_links(tweets)
+	print get_links(friend_id)
 
 
 if __name__ == "__main__":
