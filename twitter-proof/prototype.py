@@ -31,7 +31,14 @@ def get_user_by_id(uid):
 	return user
 
 def get_friends(uid):
+	print(__file__)
+	auth = tweepy.OAuthHandler(TWITTER_API_KEY, TWITTER_SECRET_KEY)
+	auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_SECRET_TOKEN)
+
+	api = tweepy.API(auth)
 	# returns list of integers (ids) of people user is following
+	print TWITTER_API_KEY, TWITTER_SECRET_KEY, TWITTER_ACCESS_TOKEN, TWITTER_SECRET_TOKEN
+	print repr(uid)
 	friends_ids = api.friends_ids(uid)
 	return friends_ids
 
