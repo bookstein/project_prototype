@@ -18,7 +18,15 @@ api = tweepy.API(auth)
 
 public_tweets = api.home_timeline() # returns 20 most recent statuses, equivalent to timeline/home
 for tweet in public_tweets:
-	print tweet.text
+	# print tweet.text
+	pass
 
-user = api.get_user('twitter')
-print user.screen_name
+# get_user can take screen_name or user_id
+# id is the generic case (could be either type)
+uid = "bookstein"
+user = api.get_user(uid)
+
+# returns list of integers (ids) of people user is following
+friends_ids = api.friends_ids(uid, cursor = -1)
+for friend_id in friends_ids:
+	print friend_id
