@@ -16,17 +16,31 @@ auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_SECRET_TOKEN)
 
 api = tweepy.API(auth)
 
-public_tweets = api.home_timeline() # returns 20 most recent statuses, equivalent to timeline/home
-for tweet in public_tweets:
-	# print tweet.text
-	pass
+def get_timeline():
+	public_tweets = api.home_timeline() # returns 20 most recent statuses, equivalent to timeline/home
+	for tweet in public_tweets:
+		# print tweet.text
+		pass
 
-# get_user can take screen_name or user_id
-# id is the generic case (could be either type)
-uid = "bookstein"
-user = api.get_user(uid)
+def get_user_by_id(uid):
+	# get_user can take screen_name or user_id
+	# id is the generic case (could be either type)
+	user = api.get_user(uid)
+	return user
 
-# returns list of integers (ids) of people user is following
-friends_ids = api.friends_ids(uid, cursor = -1)
-for friend_id in friends_ids:
-	print friend_id
+def get_friends(uid):
+	# returns list of integers (ids) of people user is following
+	friends_ids = api.friends_ids(uid)
+	return friends_ids
+
+def main():
+	friends = get_friends("bookstein")
+	print friends
+	print get_user_by_id(friends[0]).screen_name
+
+if __name__ == "__main__":
+	main()
+
+
+
+
