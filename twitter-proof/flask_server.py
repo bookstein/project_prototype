@@ -21,13 +21,13 @@ def login():
 		print screen_name
 		# me = prototype.get_user_by_id(screen_name)
 		# print me
-		# friends = prototype.get_friends(screen_name)
-		# print friends #errors!
+		friends = prototype.get_friends(screen_name)
+		print friends #errors!
 		# this worked in python interpreter: flask_server.prototype.get_friends("bookstein")
 
 		# scored_friends = prototype.assign_all_friend_scores(friends)
 		# print scored_friends
-		return redirect("/")
+		return render_template("index.html", friends = friends)
 	pass
 
 
