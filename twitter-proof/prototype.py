@@ -19,3 +19,6 @@ api = tweepy.API(auth)
 public_tweets = api.home_timeline() # returns 20 most recent statuses, equivalent to timeline/home
 for tweet in public_tweets:
 	print tweet.text
+
+user = api.get_user('twitter')
+print user.screen_name
