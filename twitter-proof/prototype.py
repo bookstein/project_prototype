@@ -1,5 +1,6 @@
 import tweepy
 import os
+import time
 
 TWITTER_API_KEY=os.environ.get('TWITTER_API_KEY')
 TWITTER_SECRET_KEY=os.environ.get('TWITTER_SECRET_KEY')
@@ -39,15 +40,29 @@ def get_friends(uid):
 	return friends_ids
 
 def get_links(tweets):
-	url = tweets[0]["expanded_url"]
-	return url
+	link_dictionary = {}
+	# a tweet is a status object <class 'tweepy.models.Status'>
+	for tweet in tweets:
+		#converts key to unicode
+		key = tweet.id_str.decode()
+		print type(tweet)
+		# print tweet[u"user"][u"entities"][u"urls"]
+		# link_dictionary.setdefault(key, tweet["entities"]["urls"])
+	return link_dictionary
+
+def timer():
+	time.sleep(900)
+	print "It's been 900 seconds"
 
 def main():
+	# timer()
 	friends = get_friends("bookstein")
 	friend_id = get_user_by_id(friends[0]).id
-	print friend_id
+	# print friend_id
 	tweets = get_timeline(friend_id)
-	print tweets
+	# print tweets
+	print get_links(tweets)
+
 
 if __name__ == "__main__":
 	main()
