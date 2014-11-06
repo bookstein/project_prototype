@@ -1,14 +1,14 @@
 # import model
-import prototype
+import tw_api
 import json
 
 USERS = ["bookstein", "maddow", "rushlimbaugh", "MatthewKeysLive", "iamjohnoliver",
 "SenRandPaul"]
 
 def make_feed_file(username):
-	prototype.init_api()
+	tw_api.init_api()
 	outfile = open("tweetfiles/"+username+".json", "a+")
-	feed = prototype.get_timeline(username, 400)
+	feed = tw_api.get_timeline(username, 400)
 	for status in feed:
 		outfile.write(json.dumps(status._json))
 	outfile.close()

@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, redirect
 import os
-import prototype
+import tw_api
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
@@ -18,14 +18,14 @@ def login():
 		print "posting"
 		screen_name = request.form.get("screenname")
 		print screen_name
-		# me = prototype.get_user_by_id(screen_name)
+		# me = tw_api.get_user_by_id(screen_name)
 		# print me
-		prototype.init_api()
-		friends = prototype.get_friends(screen_name)
+		tw_api.init_api()
+		friends = tw_api.get_friends(screen_name)
 		print friends
-		#error: this worked in python interpreter: flask_server.prototype.get_friends("bookstein")
+		#error: this worked in python interpreter: flask_server.tw_api.get_friends("bookstein")
 
-		# scored_friends = prototype.assign_all_friend_scores(friends)
+		# scored_friends = tw_api.assign_all_friend_scores(friends)
 		# print scored_friends
 		return render_template("index.html", friends = friends)
 	pass
