@@ -28,14 +28,12 @@ def get_feed():
 	for tweet in public_tweets:
 		pass
 
-# def get_timeline(uid):
-# 	#Returns the 20 most recent statuses posted from the authenticating user
-# 	tweets = api.user_timeline(uid)
-# 	return tweets
-
-def get_full_timeline(uid):
+def get_timeline(uid, count):
+	"""Get n number of tweets by passing in user id and number of statuses.
+		Passing 400 as count parameter to make initial files.
+	"""
 	# n = 1
-	feed = tweepy.Cursor(api.user_timeline, id=uid, include_rts=True).items(400)
+	feed = tweepy.Cursor(api.user_timeline, id=uid, include_rts=True).items(count)
 	return feed
 	# for status in feed:
 	# 	print n, "\n\n", status, "\n\n"
@@ -94,7 +92,7 @@ def main():
 	# print tweets
 	# print get_links(friend_id)
 	# print assign_all_friend_scores(friends)
-	get_full_timeline("maddow")
+	print get_timeline("maddow", 400)
 
 
 if __name__ == "__main__":
