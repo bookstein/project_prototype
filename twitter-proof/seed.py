@@ -8,7 +8,7 @@ USERS = ["bookstein", "maddow", "rushlimbaugh", "MatthewKeysLive", "iamjohnolive
 def make_feed_file(username):
 	prototype.init_api()
 	outfile = open("tweetfiles/"+username+".json", "a+")
-	feed = prototype.get_timeline(username)
+	feed = prototype.get_timeline(username, 400)
 	for status in feed:
 		outfile.write(json.dumps(status._json))
 	outfile.close()
