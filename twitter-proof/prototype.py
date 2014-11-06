@@ -8,10 +8,19 @@ TWITTER_SECRET_KEY=os.environ.get('TWITTER_SECRET_KEY')
 TWITTER_ACCESS_TOKEN=os.environ.get('TWITTER_ACCESS_TOKEN')
 TWITTER_SECRET_TOKEN=os.environ.get('TWITTER_SECRET_TOKEN')
 
-auth = tweepy.OAuthHandler(TWITTER_API_KEY, TWITTER_SECRET_KEY, secure=True)
-auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_SECRET_TOKEN)
+auth = None
+api = None
 
-api = tweepy.API(auth)
+def init_api():
+	"""
+	Create global tweepy API object with OAuth keys and tokens.
+	Call this function from flask server
+	"""
+	global api
+	auth = tweepy.OAuthHandler(TWITTER_API_KEY, TWITTER_SECRET_KEY, secure=True)
+	auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_SECRET_TOKEN)
+	api = tweepy.API(auth)
+	return auth, api
 
 def get_feed():
 	# returns 20 most recent statuses from authenticated user feed
@@ -25,17 +34,14 @@ def get_timeline(uid):
 	return tweets
 
 def get_user_by_id(uid):
-	# get_user can take screen_name or user_id
-	# id is the generic case (could be either type)
+	"""
+	get_user can take screen_name or user_id
+	id is the generic case (could be either type)
+	"""
 	user = api.get_user(uid)
 	return user
 
 def get_friends(uid):
-	print(__file__)
-	auth = tweepy.OAuthHandler(TWITTER_API_KEY, TWITTER_SECRET_KEY)
-	auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_SECRET_TOKEN)
-
-	api = tweepy.API(auth)
 	# returns list of integers (ids) of people user is following
 	print TWITTER_API_KEY, TWITTER_SECRET_KEY, TWITTER_ACCESS_TOKEN, TWITTER_SECRET_TOKEN
 	print repr(uid)
