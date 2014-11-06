@@ -28,10 +28,20 @@ def get_feed():
 	for tweet in public_tweets:
 		pass
 
-def get_timeline(uid):
-	#Returns the 20 most recent statuses posted from the authenticating user
-	tweets = api.user_timeline(uid)
-	return tweets
+# def get_timeline(uid):
+# 	#Returns the 20 most recent statuses posted from the authenticating user
+# 	tweets = api.user_timeline(uid)
+# 	return tweets
+
+def get_full_timeline(uid):
+	# n = 1
+	feed = tweepy.Cursor(api.user_timeline, id=uid, include_rts=True).items(400)
+	return feed
+	# for status in feed:
+	# 	print n, "\n\n", status, "\n\n"
+	# 	n +=1
+
+
 
 def get_user_by_id(uid):
 	"""
@@ -75,14 +85,16 @@ def timer():
 
 
 def main():
+	init_api()
 	# timer()
-	friends = get_friends("bookstein")
+	# friends = get_friends("bookstein")
 	# friend_id = get_user_by_id(friends[0]).id
 	# print friend_id
 	# tweets = get_timeline(friend_id)
 	# print tweets
 	# print get_links(friend_id)
-	print assign_all_friend_scores(friends)
+	# print assign_all_friend_scores(friends)
+	get_full_timeline("maddow")
 
 
 if __name__ == "__main__":
