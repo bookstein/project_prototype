@@ -7,7 +7,7 @@ USERS = ["bookstein", "maddow", "rushlimbaugh", "MatthewKeysLive", "iamjohnolive
 
 def make_feed_file(username):
 	tw_api.init_api()
-	outfile = open("tweetfiles/"+username+".json", "a+")
+	outfile = open("json/"+username+".json", "a+")
 	feed = tw_api.get_timeline(username, 400)
 	for status in feed:
 		outfile.write(json.dumps(status._json))
