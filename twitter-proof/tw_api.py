@@ -19,7 +19,7 @@ def init_api():
 	global api
 	auth = tweepy.OAuthHandler(TWITTER_API_KEY, TWITTER_SECRET_KEY, secure=True)
 	auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_SECRET_TOKEN)
-	api = tweepy.API(auth)
+	api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True, cache=None)
 	return auth, api
 
 def get_feed():
@@ -30,16 +30,15 @@ def get_feed():
 
 def get_timeline(uid, count):
 	"""Get n number of tweets by passing in user id and number of statuses.
-		Passing 400 as count parameter to make initial files.
+		If user has protected tweets, returns [] rather than break the program.
 	"""
-	# n = 1
-	feed = tweepy.Cursor(api.user_timeline, id=uid, include_rts=True).items(count)
-	return feed
-	# for status in feed:
-	# 	print n, "\n\n", status, "\n\n"
-	# 	n +=1
+	try:
+		feed = tweepy.Cursor(api.user_timeline, id=uid).items(count)
+		return feed
 
-
+	except tweepy.TweepError as e:
+		print e.message[0]["error"]
+		return []
 
 def get_user_by_id(uid):
 	"""
