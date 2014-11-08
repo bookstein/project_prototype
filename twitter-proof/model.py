@@ -37,8 +37,8 @@ class Status(Base):
 
 	id = Column(Integer, primary_key=True) #same as twitter status id?
 	user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-	content = Column(String(140), nullable=False) # tweet can't be empty
-	# etc etc
+	text = Column(String(140), nullable=False) # tweet can't be empty
+	url = Column(String(140))
 
 	#creates "statuses" attribute of user
 	user = relationship("User", backref = backref("statuses"), order_by=id)
