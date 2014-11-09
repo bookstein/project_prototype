@@ -19,7 +19,7 @@ def init_api():
 	global api
 	auth = tweepy.OAuthHandler(TWITTER_API_KEY, TWITTER_SECRET_KEY, secure=True)
 	auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_SECRET_TOKEN)
-	api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True, cache=None)
+	api = tweepy.API(auth, cache=None) #removed wait_on_rate_limit=True, wait_on_rate_limit_notify=True
 	return auth, api
 
 def get_feed():

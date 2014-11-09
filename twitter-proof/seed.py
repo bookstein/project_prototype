@@ -6,18 +6,30 @@ import time
 TEST = ["bookstein"]
 USERS = ["maddow", "rushlimbaugh", "MatthewKeysLive", "iamjohnoliver",
 "SenRandPaul"]
+TIME_TO_WAIT = 900 / 180
 
 def get_rate_limit_status():
 	"""
 	Logs "statuses" rate limit status to a log file.
 	Returns remaining number of API calls, per Twitter rate limits, for resource family of statuses.
+	Waits to re-check API limit for TIME_TO_WAIT seconds. (180 is max number of rate limit API calls per 15 mins)
 
 	See Twitter API docs: https://dev.twitter.com/rest/reference/get/application/rate_limit_status
 	"""
+
+
+	done = False
 	log = open("rate_limit_log.txt", "a+")
-	status = tw_api.api.rate_limit_status(resources="statuses")
-	remaining = status["resources"]["statuses"]["/statuses/user_timeline"]["remaining"]
-	log.write("STATUS \n\n" + str(status) + "\n\n")
+	while not done:
+		time.sleep(TIME_TO_WAIT)
+		# status = tw_api.api.rate_limit_status(resources="statuses")
+		rate_info = tw_api.api.rate_limit_status()['resources']
+		remaining_statuses = int(rate_info["statuses"]["/statuses/user_timeline"]["remaining"])
+		log.write("REMAINING USER_TIMELINE API CALLS \n\n" + str(remaining_statuses) + "\n\n")
+		if remaining_statuses < 5:
+			print remaining_statuses, " remaining status API calls. STOP"
+			done = True
+		elif
 	log.close()
 	return remaining
 
@@ -53,12 +65,9 @@ def write_to_file(filename, user):
 	feed = tw_api.get_timeline(user, 100)
 
 	for status in feed:
-		if get_rate_limit_status() > 0:
-			print n, "\n\n", status, "\n\n"
-			status_list.append(status._json)
-			n += 1
-		else:
-			print get_rate_limit_status(), "\n\nleft off at ", n
+		print n, "\n\n", status, "\n\n"
+		status_list.append(status._json)
+		n += 1
 
 	outfile.write(json.dumps(status_list))
 	outfile.close()
@@ -80,7 +89,8 @@ def write_to_file(filename, user):
 
 def main():
 	# make_feed_file("bookstein")
-	get_rate_limit_status()
+	remaining_status_req = get_rate_limit_status()
+
 	for username in TEST:
 		# make dir to hold all relevant files, add file for user
 		make_feed_file(username)
