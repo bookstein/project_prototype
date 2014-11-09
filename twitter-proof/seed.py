@@ -8,30 +8,22 @@ USERS = ["maddow", "rushlimbaugh", "MatthewKeysLive", "iamjohnoliver",
 "SenRandPaul"]
 TIME_TO_WAIT = 900 / 180
 
-def get_rate_limit_status():
+def check_rate_limit_status(resource_family, resource):
 	"""
-	Logs "statuses" rate limit status to a log file.
-	Returns remaining number of API calls, per Twitter rate limits, for resource family of statuses.
-	Waits to re-check API limit for TIME_TO_WAIT seconds. (180 is max number of rate limit API calls per 15 mins)
+	Returns initial number of allowed API calls, per Twitter rate limits, for a given resource family and resource.
+	Example: to check statuses (tweets), use resource family "statuses", resource "/statuses/user_timeline"
 
-	See Twitter API docs: https://dev.twitter.com/rest/reference/get/application/rate_limit_status
+	For other resources, see Twitter API docs: https://dev.twitter.com/rest/reference/get/application/rate_limit_status
 	"""
+	rate_info = tw_api.api.rate_limit_status()['resources']
+	initial_rate_limit = int(rate_info[resource_family][resource]["remaining"])
+	return initial_rate_limit
 
-
-	done = False
-	log = open("rate_limit_log.txt", "a+")
-	while not done:
-		time.sleep(TIME_TO_WAIT)
-		# status = tw_api.api.rate_limit_status(resources="statuses")
-		rate_info = tw_api.api.rate_limit_status()['resources']
-		remaining_statuses = int(rate_info["statuses"]["/statuses/user_timeline"]["remaining"])
-		log.write("REMAINING USER_TIMELINE API CALLS \n\n" + str(remaining_statuses) + "\n\n")
-		if remaining_statuses < 5:
-			print remaining_statuses, " remaining status API calls. STOP"
-			done = True
-		elif
-	log.close()
-	return remaining
+# def watch_rate_limit(rate_limit, n=0):
+# 	"""Use initial rate limit from check_rate_limit_status to count down until rate limit is exhausted
+# 		Returns remaining number of API calls for given resource
+# 	"""
+# 	return rate_limit - n
 
 def make_friends_list(username):
 	FRIENDS = tw_api.get_friends(username)
@@ -54,42 +46,36 @@ def make_feed_file(username, friend="self"):
 		print filename, " already exists"
 
 def write_to_file(filename, user):
+	"""
+	Write feed to file, one status at a time -- versus in a chunk?? Removed status_list list because if program errors, API calls would be in vain... WIP
+	"""
 	# for transferring chunks of data at a time to file
-	status_list = [] # this is the same concept as a "page"
-	# counter
+	# status_list = [] # this is the same concept as a "page"
+	rate_limit = check_rate_limit_status("statuses", "/statuses/user_timeline")
+	# initialize counter
 	n = 0
 
-	outfile = open(filename, "a+")
+	with open(filename, "a+") as outfile:
+		# gets most recent 100 tweets from user's timeline
+		feed = tw_api.get_timeline(user, 100)
 
-	# gets most recent 100 tweets from user's timeline
-	feed = tw_api.get_timeline(user, 100)
+		for status in feed:
+			if n < rate_limit:
+				print n, "\n\n", status, "\n\n"
+				# status_list.append(status._json)
+				outfile.write(json.dumps(status._json))
+				n += 1
 
-	for status in feed:
-		print n, "\n\n", status, "\n\n"
-		status_list.append(status._json)
-		n += 1
+			else:
+				print "left off at ", n, "\n\n", status, "\n\n"
 
-	outfile.write(json.dumps(status_list))
-	outfile.close()
-
-## IMITATE THIS? ##
-# c = tweepy.Cursor(api.search, <--- this goes into get_timeline
-#                        q=search,
-#                        include_entities=True).items()
-# while True:
-#     try:
-#         tweet = c.next()
-#         # Insert into db
-#     except tweepy.TweepError:
-#         time.sleep(60 * 15)
-#         continue
-#     except StopIteration:
-#         break
+	# outfile.write(json.dumps(status_list))
+	# outfile.close()
 
 
 def main():
 	# make_feed_file("bookstein")
-	remaining_status_req = get_rate_limit_status()
+
 
 	for username in TEST:
 		# make dir to hold all relevant files, add file for user
