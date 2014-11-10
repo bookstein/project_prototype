@@ -1,7 +1,7 @@
 """
 	API for getting friends and statuses from Twitter, scoring.
 """
-
+import os
 import pickle
 import tweepy
 import score
@@ -19,10 +19,12 @@ TIME_TO_WAIT = 900/180 # 15 minutes divided into 180 requests
 NUM_RETRIES = 2
 RATE_LIMITED_RESOURCES =[("statuses", "/statuses/user_timeline")]
 
-class User(Object):
+class User(object):
 	"""A user will be a node in the graph.
 	Every user will be initialized with an id_str. Users who are friends of the central user will be initialized with that user's id_str.
 	Other data: followers_count(influence), protected status (True/False), screen name, and statuses_count.
+
+	Try/except clauses in funcs that call on Twitter API, to handle errors.
 
 	Users whose tweets are protected will be thrown out unless user is logged in (login functionality is p2)"""
 	pass
@@ -32,13 +34,15 @@ class User(Object):
 		pass
 		# get friends ids
 		# return friends_ids for hydrate_users
-		try:
-			# get ids
-		except:
+		# try:
+		# 	# get ids
+		# except:
 			# print exception/error
 
 	def hydrate_users(self):
 		pass
+		# try:
+		# except:
 		# use output of get_friend_ids
 		# hydrate (create twitter user object)
 		# pickle dictionary
@@ -50,8 +54,11 @@ class User(Object):
 
 	def get_timeline(self):
 		pass
+		# try:
+		# except:
 		# get user's timeline
 		# statuses/user_timeline
+		# create Status object
 		# pickle dictionary
 
 	def score_user(self):
@@ -67,18 +74,12 @@ class User(Object):
 		# user name, user id
 		# get score
 
-class Status(Object):
+class Status(object):
 	pass
 	"""
 	Status initialized by id.
 	Statuses will contain entities (expanded url, hashtags), id_str, retweeted status, text, and user id
 	"""
-
-	def __init__(self, id, user_id):
-		# initialize tweet by tweet id??
-		# get links
-		# get score
-		pass
 
 	def get_links(self):
 		pass
@@ -89,6 +90,12 @@ class Status(Object):
 		#score tweet based on links, possibly keywords/hashtags
 		# use score module
 
+	def __init__(self, id, user_id):
+		# initialize tweet by tweet id??
+		# get links
+		# get score
+		pass
+
 def on_error():
 	pass
 	# handle errors here
@@ -97,9 +104,13 @@ def check_rate_limit():
 	pass
 	# check rate limit for a given resource instead of hardcoding
 
-# currentUser = User(currentId)
-# currentUser.get_friends()
-# currentUser.get_timeline()
+def main():
 
+	# currentUser = User(currentId)
+	# currentUser.get_friends()
+	# currentUser.get_timeline()
+
+if __name__ == "__main__":
+	main()
 
 
