@@ -19,82 +19,73 @@ TIME_TO_WAIT = 900/180 # 15 minutes divided into 180 requests
 NUM_RETRIES = 2
 RATE_LIMITED_RESOURCES =[("statuses", "/statuses/user_timeline")]
 
-class User(object):
-	"""A user will be a node in the graph.
-	Every user will be initialized with an id_str. Users who are friends of the central user will be initialized with that user's id_str.
-	Other data: followers_count(influence), protected status (True/False), screen name, and statuses_count.
+CURRENT_USER = ""
 
-	Try/except clauses in funcs that call on Twitter API, to handle errors.
+auth = None
+api = None
 
-	Users whose tweets are protected will be thrown out unless user is logged in (login functionality is p2)"""
-	pass
-	# pass in user id to initialize user
-
-	def get_friend_ids(self):
-		pass
-		# get friends ids
-		# return friends_ids for hydrate_users
-		# try:
-		# 	# get ids
-		# except:
-			# print exception/error
-
-	def hydrate_users(self):
-		pass
-		# try:
-		# except:
-		# use output of get_friend_ids
-		# hydrate (create twitter user object)
-		# pickle dictionary
-
-	def get_top_influencers(self):
-		pass
-		# friends_count attribute
-		# do this if user has more than 300 friends (180 friends w user auth)
-
-	def get_timeline(self):
-		pass
-		# try:
-		# except:
-		# get user's timeline
-		# statuses/user_timeline
-		# create Status object
-		# pickle dictionary
-
-	def score_user(self):
-		pass
-		# score user by tweets
-		# store (in DB???)
-
-	def __init__(self, user_id, followed_by="self"):
-		pass
-		# initializes any user by user id.
-		# followed_by (optional param) records the relationship of the User to the primary user account.
-		# must designate a "current user"/central user at some point
-		# user name, user id
-		# get score
-
-class Status(object):
-	pass
+def init_api():
 	"""
-	Status initialized by id.
-	Statuses will contain entities (expanded url, hashtags), id_str, retweeted status, text, and user id
+	Create global tweepy API object with OAuth keys and tokens.
+	Call this function from flask server
 	"""
+	global api
+	auth = tweepy.OAuthHandler(TWITTER_API_KEY, TWITTER_SECRET_KEY, secure=True)
+	auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_SECRET_TOKEN)
+	api = tweepy.API(auth, cache=None) #removed wait_on_rate_limit=True, wait_on_rate_limit_notify=True
+	return auth, api
 
-	def get_links(self):
-		pass
-		# get link url, cut to hostname, compare against database
+# def paginate(iterable, page_size):
 
-	def score_status(self):
-		pass
-		#score tweet based on links, possibly keywords/hashtags
-		# use score module
+def get_friend_ids(user_id):
+	try:
+		friends_ids = tweepy.Cursor(api.friends_ids, user_id = user_id).pages()
+		print friends_ids
+		return friends_ids
+	except tweepy.TweepError as e:
+		print e
 
-	def __init__(self, id, user_id):
-		# initialize tweet by tweet id??
-		# get links
-		# get score
-		pass
+def hydrate_users(ids):
+	# if len(ids) > 100:
+	try:
+		friends = api.lookup_users(ids)
+		print friends
+	except tweepy.TweepError as e:
+		print e
+
+	# use output of get_friend_ids
+	# hydrate (create twitter user object)
+	# pickle dictionary
+
+def get_top_influencers(self):
+	pass
+	# friends_count attribute
+	# do this if user has more than 300 friends (180 friends w user auth)
+
+def get_timeline(self):
+	pass
+	# try:
+	# except:
+	# get user's timeline
+	# statuses/user_timeline
+	# create Status object
+	# pickle dictionary
+
+def score_user(self):
+	pass
+	# score user by tweets
+	# store (in DB???)
+
+
+def get_links(self):
+	pass
+	# get link url, cut to hostname, compare against database
+
+def score_status(self):
+	pass
+	#score tweet based on links, possibly keywords/hashtags
+	# use score module
+
 
 def on_error():
 	pass
@@ -105,7 +96,7 @@ def check_rate_limit():
 	# check rate limit for a given resource instead of hardcoding
 
 def main():
-
+	pass
 	# currentUser = User(currentId)
 	# currentUser.get_friends()
 	# currentUser.get_timeline()
