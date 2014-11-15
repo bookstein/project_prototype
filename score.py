@@ -55,63 +55,61 @@ def extract_hashtags(statuses, hashtag_list):
 
 	# return hashtag_list
 
-
-# def get_hashtags_from_tweets(statuses):
-# 	"""
-# 	Return list of hashtags used throughout user timeline.
-
-# 	Given decoded json statuses for a given user, parses status, appends (hashtags, label) to a list of hashtags.
-
-# 	Parameters:
-# 	----------
-# 	Statuses: list of twitter status updates for 1 user. Each element is a JSON object from Twitter API converted to a Python object.
-
-# 	Output:
-# 	-------
-# 	List of all hashtags from user timeline.
-# 	"""
-# 	all_hashtags = []
-
-# 	for status in statuses:
-# 		new_hashtags = status["entities"]["hashtags"]
-# 		for hashtag_obj in new_hashtags:
-# 			hashtag = hashtag_obj["text"]
-# 			all_hashtags.append(hashtag)
-
-# 	print "ALL HASHTAGS", all_hashtags
-# 	return all_hashtags
-
-
-def get_features(hashtags):
+def get_unique_hashtags(labeled_hashtags):
 	"""
-	Order hashtags by frequency.
+	Take hashtags from list of labeled tuples and create list of unlabeled hashtags.
+
+	Parameters:
+	------------
+	A list of tuples containing hashtags and their associated labels
+
+	Output:
+	-------
+	A list of unlabeled hashtags.
+	"""
+
+	all_hashtags = []
+	for (hashtags, label) in labeled_hashtags:
+		all_hashtags.extend(hashtags)
+	return all_hashtags
+
+def get_hashtags_as_features(unlabeled_hashtags):
+	"""
+	Order hashtags by frequency and output a list of dictionary keys in order of
+	frequency.
 
 	Parameters:
 	----------
-	List of all hashtags.
+	List of all hashtags, both liberal and conservative, unlabelled.
 
 	Output:
 	------
-	Hashtag_features, the keys to a dictionary created by FreqDist.
+	Unique list of hashtags, hashtag_features, which are the keys to a dictionary
+	created by FreqDist.
 	"""
-	hashtags_dist = FreqDist(hashtags)
+	hashtags_dist = FreqDist(unlabeled_hashtags)
 	hashtag_features = hashtags_dist.keys()
 	return hashtag_features
 
-def extract_features(hashtags, HASHTAGS):
+def extract_features(hashtags, unlabeled_hashtags):
 	"""
-	Given a list of hashtags, create dictionary of (hashtag: True) pairs indicating
-	presence of absence of hashtag
+	Create dictionary of (hashtag: True) pairs indicating
+	presence or absence of hashtag
 
 	Parameters:
 	----------
-	Statuses as a python object.
+	Specific list of hashtags. ("document")
+
+	Output:
+	-------
+	Dictionary of true-false values showing which features were present in the
+	given list of hashtags.
 	"""
 
 	hashtag_set = set(hashtags)
 	features = {}
 	# look in global collection of hashtags for matches
-	for hashtag in HASHTAGS:
+	for hashtag in unlabeled_hashtags:
 		print hashtag
 		features['contains(%s)'% hashtag] = (hashtag in hashtag_set)
 	print features
@@ -126,69 +124,39 @@ def extract_features(hashtags, HASHTAGS):
 
 
 
-def features_from_hashtags(hashtags):
-	"""Given a list of hashtags, assign a political affiliation.
-	Return a dictionary with hashtags and frequency (FreqDist).
-	"""
-	# all_hashtags = []
 
-	# for hashtag_list in hashtags:
-	# 	all_hashtags.extend(hashtag_list)
+# def make_training_test_sets(feature_extractor):
+# 	"""Make training sets of data by adding a label of "lib" or "cons" to data.
+# 	Train algorithm using training sets."""
 
-	# features = all_hashtags
-	hashtags = FreqDist(hashtags)
-	features = hashtags.keys()
-	print features
-	return features
+# 	train_liberal = feature_extractor(get_hashtags(train_liberal_tweets), label="lib")
+# 	train_conservative = feature_extractor(get_hashtags(train_conservative_tweets), label="cons")
 
-	# features_list = []
-	# feature_set = defaultdict(list)
+# 	train_set = train_liberal + train_conservative
 
-	for hashtag_collection in hashtags:
-		# tuple contains (list of hashtags, political label)
-		features_list.append((hashtag_collection, label))
-		for hashtag in hashtag_collection:
-			feature_set[hashtag] = True
-			print hashtag
+# 	test_liberal = feature_extractor(get_hashtags(test_liberal_tweets), "lib")
+# 	test_conservative = feature_extractor(get_hashtags(test_conservative_tweets), "cons")
 
-	# print "FEATURE SET ", feature_set
-	# return feature_set
+# 	return train_set, test_liberal, test_conservative
 
+# def check_classifier(feature_extractor):
+# 	"""Trains classifier on the training data (lib and cons), checks accuracy on the test data."""
+# 	#Make the training and testing sets.
+# 	train_set, test_liberal, test_conservative = make_training_test_sets(feature_extractor)
 
+# 	print "TRAINING SET ", train_set
+# 	print "TEST LIB ", test_liberal
+# 	print "TEST CON ", test_conservative
 
+# 	#Train the classifer using the training set
+# 	classifier = NaiveBayesClassifier.train(train_set)
 
-def make_training_test_sets(feature_extractor):
-	"""Make training sets of data by adding a label of "lib" or "cons" to data.
-	Train algorithm using training sets."""
+# 	# How accurate is the classifier on the test sets?
+# 	# print ('Test Lib accuracy: {0:.2f}%'.format(100 * nltk.classify.accuracy(classifier, test_liberal)))
+# 	# print ('Test Cons accuracy: {0:.2f}%'.format(100 * nltk.classify.accuracy(classifier, test_conservative)))
 
-	train_liberal = feature_extractor(get_hashtags(train_liberal_tweets), label="lib")
-	train_conservative = feature_extractor(get_hashtags(train_conservative_tweets), label="cons")
-
-	train_set = train_liberal + train_conservative
-
-	test_liberal = feature_extractor(get_hashtags(test_liberal_tweets), "lib")
-	test_conservative = feature_extractor(get_hashtags(test_conservative_tweets), "cons")
-
-	return train_set, test_liberal, test_conservative
-
-def check_classifier(feature_extractor):
-	"""Trains classifier on the training data (lib and cons), checks accuracy on the test data."""
-	#Make the training and testing sets.
-	train_set, test_liberal, test_conservative = make_training_test_sets(feature_extractor)
-
-	print "TRAINING SET ", train_set
-	print "TEST LIB ", test_liberal
-	print "TEST CON ", test_conservative
-
-	#Train the classifer using the training set
-	classifier = NaiveBayesClassifier.train(train_set)
-
-	# How accurate is the classifier on the test sets?
-	# print ('Test Lib accuracy: {0:.2f}%'.format(100 * nltk.classify.accuracy(classifier, test_liberal)))
-	# print ('Test Cons accuracy: {0:.2f}%'.format(100 * nltk.classify.accuracy(classifier, test_conservative)))
-
- #    # Show the top 20 informative features
-	# print classifier.show_most_informative_features(2)
+#  #    # Show the top 20 informative features
+# 	# print classifier.show_most_informative_features(2)
 
 
 
@@ -202,9 +170,7 @@ def storage():
 
 def main():
 	lib_tweets = get_json_data(LIBERAL_TWEETS_PATH)
-
 	LIB_HASHTAGS = list()
-	CONS_HASHTAGS = list()
 	# adds to HASHTAGS list
 	extract_hashtags(lib_tweets, LIB_HASHTAGS)
 	# label can come last!!
@@ -212,6 +178,7 @@ def main():
 	# print classifier1
 
 	cons_tweets = get_json_data(CONSERVATIVE_TWEETS_PATH)
+	CONS_HASHTAGS = list()
 	extract_hashtags(cons_tweets, CONS_HASHTAGS)
 	classifier2 = ((CONS_HASHTAGS, "cons"))
 	# print classifier2
@@ -220,6 +187,10 @@ def main():
 	HASHTAGS.extend((classifier1, classifier2))
 	print HASHTAGS
 
+	unlabeled = get_unique_hashtags(HASHTAGS)
+	features = get_hashtags_as_features(unlabeled)
+	hits = extract_features(["Maddow", "tcot", "CookerPot"], features)
+	print hits
 
 	# loop through timelines, add to hashtags
 
