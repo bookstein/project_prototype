@@ -4,7 +4,7 @@ import json
 import time
 
 TEST = ["bookstein"]
-USERS = ["maddow", "rushlimbaugh"] #"MatthewKeysLive", "iamjohnoliver", "SenRandPaul"
+USERS = ["maddow", "rushlimbaugh", "iamjohnoliver", "SenRandPaul", ""]
 TIME_TO_WAIT = 900 / 180
 
 def check_rate_limit_status(resource_family, resource):

@@ -4,8 +4,7 @@
 import os
 import pickle
 import tweepy
-import score
-
+# import score
 
 class User(object):
 
@@ -114,7 +113,6 @@ def main():
 	# currentUser.get_timeline()
 
 if __name__ == "__main__":
-
 	# __init__ returns copy of Friends class, including api instance
 	user = User()
 	main()
