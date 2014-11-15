@@ -3,6 +3,7 @@
 	A user's score is an aggregate score based on individual tweet scores.
 	Compare link to entry in database, throw out if no corresponding data.
 """
+
 import simplejson as json
 import numpy as np
 import os

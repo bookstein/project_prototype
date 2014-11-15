@@ -4,8 +4,8 @@ import json
 import time
 
 TEST = ["bookstein"]
-
-USERS = ["maddow", "rushlimbaugh"] #"MatthewKeysLive", "iamjohnoliver", "SenRandPaul"
+USERS = ["maddow", "rushlimbaugh", "MatthewKeysLive", "iamjohnoliver",
+"SenRandPaul"]
 
 TIME_TO_WAIT = 900 / 180
 
@@ -33,11 +33,13 @@ def make_friends_list(username):
 
 def make_feed_file(username, friend="self"):
 
+
 	if not path.isdir("json2/"+username):
 		makedirs("json2/"+username)
 		print "directory made!"
 
 	filename = "json2/"+username+"/"+str(friend)+".json"
+
 
 
 	if not path.isfile(filename):
@@ -51,7 +53,9 @@ def make_feed_file(username, friend="self"):
 def write_to_file(filename, user):
 	"""
 
+
 	Write feed to file, one status at a time -- versus in a chunk?? Removed status_list list because if program errors, API calls would be in vain... WIP
+
 
 	"""
 	# for transferring chunks of data at a time to file
@@ -74,14 +78,12 @@ def write_to_file(filename, user):
 			else:
 				print "left off at ", n, "\n\n", status, "\n\n"
 
-
 	# outfile.write(json.dumps(status_list))
 	# outfile.close()
 
 
 def main():
 	# make_feed_file("bookstein")
-
 
 
 	for username in TEST:
@@ -99,7 +101,9 @@ def main():
 
 if __name__ == "__main__":
 	tw_api.init_api()
+
 	for username in USERS:
 		make_feed_file(username)
 	# main()
+
 

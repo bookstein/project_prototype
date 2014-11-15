@@ -107,7 +107,6 @@ class User(object):
 		# check rate limit for a given resource instead of hardcoding
 
 
-
 def main():
 	pass
 	# currentUser = User(currentId)
@@ -118,7 +117,6 @@ if __name__ == "__main__":
 
 	# __init__ returns copy of Friends class, including api instance
 	user = User()
-
 	main()
 
 
