@@ -120,6 +120,9 @@ def extract_features(hashtags, HASHTAGS):
 
 
 
+
+
+
 # TODO: clean up or rewrite code below this line - replace with Laurent Luce tutorial
 
 
@@ -191,17 +194,23 @@ def check_classifier(feature_extractor):
 
 
 # parsed_liberal_tweets = get_hashtags(train_liberal_tweets)
+def storage():
+	r = get_hashtags_from_tweets(lib)
+	dist = get_features(r)
+	feat = extract_features(["p2", "tcot", "Maddow"], r)
+	training_set = nltk.classify.apply_features(extract_features, HASHTAGS, r)
+	print training_set
 
 def main():
-	lib_tweets = get_json_data(LIBERAL_TWEETS_PATH)
-	cons_tweets = get_json_data(CONSERVATIVE_TWEETS_PATH)
+	tweets = get_json_data(LIBERAL_TWEETS_PATH)
 
 	HASHTAGS = set()
-	extract_hashtags(lib_tweets, HASHTAGS)
+	# adds to HASHTAGS set
+	extract_hashtags(tweets, HASHTAGS)
 	# label can come last!!
 	classifier = (list(HASHTAGS), "libs")
-	# print hashtags
 	print classifier
+
 	# loop through timelines, add to hashtags
 
 
