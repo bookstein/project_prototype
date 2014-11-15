@@ -18,6 +18,8 @@ from nltk.tokenize import wordpunct_tokenize, word_tokenize
 from nltk.corpus import stopwords
 
 LIBERAL_TWEETS_PATH = "./json/maddow/self.json"
+CONSERVATIVE_TWEETS_PATH = "./json/rushlimbaugh/self.json"
+
 
 def get_json_data(filename):
 	"""
@@ -32,8 +34,15 @@ def get_json_data(filename):
 
 def extract_hashtags(statuses, hashtag_set):
 	"""
-	Hashtag_set is the set of hashtags to which new hashtags will be added.
+	Extract hashtags from a given twitter user's timeline.
 
+	Parameters:
+	-----------
+	Hashtag_set is the set of hashtags to which new hashtags will be added.
+	Statuses refers to the new twitter user timeline, a python object containing status objects.
+
+	Output:
+	-------
 	Side-effect function, modifying hashtag_set.
 	"""
 	for status in statuses:
@@ -42,9 +51,13 @@ def extract_hashtags(statuses, hashtag_set):
 		for hashtag_obj in new_hashtags:
 			hashtag_set.add(hashtag_obj["text"])
 
-	# return hashtag_set
 
-def get_hashtags(statuses, label):
+
+	return hashtag_set
+
+
+
+def get_hashtags_from_tweets(statuses):
 	"""
 	Return list of hashtags used throughout user timeline.
 
@@ -53,56 +66,55 @@ def get_hashtags(statuses, label):
 	Parameters:
 	----------
 	Statuses: list of twitter status updates for 1 user. Each element is a JSON object from Twitter API converted to a Python object.
-	Label: political affiliation (lib or cons)
 
 	Output:
 	-------
-	List of all hashtags from user timeline, in the form of tuples (hashtags per tweet, label).
+	List of all hashtags from user timeline.
 	"""
-	hashtags_list = []
+	all_hashtags = []
 
 	for status in statuses:
-		hashtag_text_list = []
-		hashtags = status["entities"]["hashtags"]
-		if len(hashtags) > 0:
-			# create list for holding hashtag text within one tweet
-			for hashtag_obj in hashtags:
-				hashtag_text_list.append(hashtag_obj["text"])
+		new_hashtags = status["entities"]["hashtags"]
+		for hashtag_obj in new_hashtags:
+			hashtag = hashtag_obj["text"]
+			all_hashtags.append(hashtag)
 
-			# appends all hashtags per status, plus label, to list
-			hashtags_list.append((hashtag_text_list, label))
-
-
-	# print hashtags_list
-	return hashtags_list
-
-
-
-def get_all_hashtags(hashtags):
-	"""parallel to get_words_in_tweets(tweets) in tutorial"""
-	all_hashtags = []
-	for (hashtags, label) in hashtags:
-		all_hashtags.extend(hashtags)
+	print "ALL HASHTAGS", all_hashtags
 	return all_hashtags
 
 
-def get_features(all_hashtags):
-	"""parallel to get_word_features(wordlist)"""
-	all_hashtags = FreqDist(all_hashtags)
-	hashtag_features = all_hashtags.keys()
+def get_features(hashtags):
+	"""
+	Order hashtags by frequency.
+
+	Parameters:
+	----------
+	List of all hashtags.
+
+	Output:
+	------
+	Hashtag_features, a set of hashtags listed in order of frequency of appearance.
+	"""
+	hashtags_dist = FreqDist(hashtags)
+	hashtag_features = hashtags_dist.keys()
 	return hashtag_features
 
-def extract_features(hashtags):
+def extract_features(hashtags, HASHTAGS):
 	"""
-	Given a list of hashtags:
-	Create a dictionary of (hashtag: True) pairs for every hashtag."""
+	Given a list of hashtags, create dictionary of (hashtag: True) pairs indicating
+	presence of absence of hashtag
+
+	Parameters:
+	----------
+	Statuses as a python object.
+	"""
 
 	hashtag_set = set(hashtags)
 	features = {}
 	# look in global collection of hashtags for matches
 	for hashtag in HASHTAGS:
 		print hashtag
-		features['contains(%s)'%hashtag] = (hashtag in hashtag_set)
+		features['contains(%s)'% hashtag] = (hashtag in hashtag_set)
 	print features
 	return features
 
@@ -181,27 +193,27 @@ def check_classifier(feature_extractor):
 # parsed_liberal_tweets = get_hashtags(train_liberal_tweets)
 
 def main():
-	tweets = get_json_data(LIBERAL_TWEETS_PATH)
-	hashtags = set()
-	extract_hashtags(tweets, hashtags)
+	lib_tweets = get_json_data(LIBERAL_TWEETS_PATH)
+	cons_tweets = get_json_data(CONSERVATIVE_TWEETS_PATH)
+
+	HASHTAGS = set()
+	extract_hashtags(lib_tweets, HASHTAGS)
 	# label can come last!!
-	classifier = (list(hashtags), "libs")
+	classifier = (list(HASHTAGS), "libs")
 	# print hashtags
 	print classifier
 	# loop through timelines, add to hashtags
 
-LIBERAL_TWEETS = get_json_data("./json/maddow/self.json")
-CONSERVATIVE_TWEETS = get_json_data("./json/rushlimbaugh/self.json")
 
-#equivalent of pos_tweets
-LIB_HASHTAGS = get_hashtags(LIBERAL_TWEETS, "lib")
-#equivalent of neg_tweets
-CONS_HASHTAGS = get_hashtags(CONSERVATIVE_TWEETS, "cons")
+# #equivalent of pos_tweets
+# LIB_HASHTAGS = get_hashtags(LIBERAL_TWEETS, "lib")
+# #equivalent of neg_tweets
+# CONS_HASHTAGS = get_hashtags(CONSERVATIVE_TWEETS, "cons")
 
 # create a single list of tuples (equivalent of "tweets"), labeled
-HASHTAGS = []
-for (hashtag, affiliation) in LIB_HASHTAGS + CONS_HASHTAGS:
-	HASHTAGS.append((hashtag, affiliation))
+# HASHTAGS = []
+# for (hashtag, affiliation) in LIB_HASHTAGS + CONS_HASHTAGS:
+# 	HASHTAGS.append((hashtag, affiliation))
 
 # HASHTAGS is an unlabeled list when using get_all_hashtags to create
 # HASHTAGS = (get_all_hashtags(LIB_HASHTAGS) + get_all_hashtags(CONS_HASHTAGS))
@@ -215,7 +227,7 @@ for (hashtag, affiliation) in LIB_HASHTAGS + CONS_HASHTAGS:
 # WHAT IS THIS ACTUALLY DOING?
 # training set contains labeled feature sets.
 # so why does mine only contain liberal hashtags? something about the way I set this up? HASHTAGS was supposed to combine both the lists.
-training_set = nltk.classify.apply_features(extract_features, LIB_HASHTAGS)
+# training_set = nltk.classify.apply_features(extract_features, LIB_HASHTAGS)
 
 if __name__ == "__main__":
 	main()
