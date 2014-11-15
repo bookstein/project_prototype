@@ -32,55 +32,54 @@ def get_json_data(filename):
 		statuses_data = json.load(f)
 		return statuses_data
 
-def extract_hashtags(statuses, hashtag_set):
+def extract_hashtags(statuses, hashtag_list):
 	"""
-	Extract hashtags from a given twitter user's timeline.
+	Extract hashtags from a given twitter user's timeline and
+	append them to an existing list.
 
 	Parameters:
 	-----------
-	Hashtag_set is the set of hashtags to which new hashtags will be added.
-	Statuses refers to the new twitter user timeline, a python object containing status objects.
+	Hashtag_list is the list of hashtags to which new hashtags will be added.
+	Statuses refers to the new twitter user timeline, a python object
+	containing status objects.
 
 	Output:
 	-------
-	Side-effect function, modifying hashtag_set.
+	Side-effect, modifying hashtag_list. Does not return a value.
 	"""
 	for status in statuses:
 		new_hashtags = status["entities"]["hashtags"]
 		# will skip over empty lists - no obj inside
 		for hashtag_obj in new_hashtags:
-			hashtag_set.add(hashtag_obj["text"])
+			hashtag_list.append(hashtag_obj["text"])
+
+	# return hashtag_list
 
 
+# def get_hashtags_from_tweets(statuses):
+# 	"""
+# 	Return list of hashtags used throughout user timeline.
 
-	return hashtag_set
+# 	Given decoded json statuses for a given user, parses status, appends (hashtags, label) to a list of hashtags.
 
+# 	Parameters:
+# 	----------
+# 	Statuses: list of twitter status updates for 1 user. Each element is a JSON object from Twitter API converted to a Python object.
 
+# 	Output:
+# 	-------
+# 	List of all hashtags from user timeline.
+# 	"""
+# 	all_hashtags = []
 
-def get_hashtags_from_tweets(statuses):
-	"""
-	Return list of hashtags used throughout user timeline.
+# 	for status in statuses:
+# 		new_hashtags = status["entities"]["hashtags"]
+# 		for hashtag_obj in new_hashtags:
+# 			hashtag = hashtag_obj["text"]
+# 			all_hashtags.append(hashtag)
 
-	Given decoded json statuses for a given user, parses status, appends (hashtags, label) to a list of hashtags.
-
-	Parameters:
-	----------
-	Statuses: list of twitter status updates for 1 user. Each element is a JSON object from Twitter API converted to a Python object.
-
-	Output:
-	-------
-	List of all hashtags from user timeline.
-	"""
-	all_hashtags = []
-
-	for status in statuses:
-		new_hashtags = status["entities"]["hashtags"]
-		for hashtag_obj in new_hashtags:
-			hashtag = hashtag_obj["text"]
-			all_hashtags.append(hashtag)
-
-	print "ALL HASHTAGS", all_hashtags
-	return all_hashtags
+# 	print "ALL HASHTAGS", all_hashtags
+# 	return all_hashtags
 
 
 def get_features(hashtags):
@@ -93,7 +92,7 @@ def get_features(hashtags):
 
 	Output:
 	------
-	Hashtag_features, a set of hashtags listed in order of frequency of appearance.
+	Hashtag_features, the keys to a dictionary created by FreqDist.
 	"""
 	hashtags_dist = FreqDist(hashtags)
 	hashtag_features = hashtags_dist.keys()
@@ -202,14 +201,25 @@ def storage():
 	print training_set
 
 def main():
-	tweets = get_json_data(LIBERAL_TWEETS_PATH)
+	lib_tweets = get_json_data(LIBERAL_TWEETS_PATH)
 
-	HASHTAGS = set()
-	# adds to HASHTAGS set
-	extract_hashtags(tweets, HASHTAGS)
+	LIB_HASHTAGS = list()
+	CONS_HASHTAGS = list()
+	# adds to HASHTAGS list
+	extract_hashtags(lib_tweets, LIB_HASHTAGS)
 	# label can come last!!
-	classifier = (list(HASHTAGS), "libs")
-	print classifier
+	classifier1 = ((LIB_HASHTAGS, "libs"))
+	# print classifier1
+
+	cons_tweets = get_json_data(CONSERVATIVE_TWEETS_PATH)
+	extract_hashtags(cons_tweets, CONS_HASHTAGS)
+	classifier2 = ((CONS_HASHTAGS, "cons"))
+	# print classifier2
+
+	HASHTAGS = list()
+	HASHTAGS.extend((classifier1, classifier2))
+	print HASHTAGS
+
 
 	# loop through timelines, add to hashtags
 
