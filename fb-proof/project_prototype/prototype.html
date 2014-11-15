@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" type="text/css">
+</head>
+<body>
+
+<a href="">Get friend info</a>
+
+<div id="main"></div>
+
+<script>
+    // callback looks at status field of response object to see current login status
+      function statusChangeCallback(response) {
+        console.log(response)
+        if (response.status === 'connected') {
+            console.log(response.status);
+            testAPI();
+            // var u_id = response.authResponse.userID;
+            // var accessToken = response.authResponse.accessToken;
+        }
+
+        else if (response.status === 'not_authorized') {
+            console.log(response.status);
+            document.getElementById("status").innerHTML = "Please log into this app";
+        }
+
+        else {
+            console.log(response.status);
+            document.getElementById("status").innerHTML = "Please log into Facebook";
+        }
+      }
+
+    // checks Login State after user finishes with Login button. (onlogin handler, attached to button)
+    function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+            statusChangeCallback(response); // call statusChangeCallback with results of getLoginStatus
+        });
+    }
+
+    // load and initialize Facebook Javascript SDK
+    window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '705507309556479', //VoterMob app id
+          xfbml      : true, //improves load time if set to false; if set to true, finds social plugins
+          version    : 'v2.1',
+          cookie     : true, // enable cookies --> server access to session
+          status     : true // gets info about current user immediately after init
+        });
+
+        // Get the state of the person visiting the page and return one of these states to the callback -- INSIDE INIT
+        // WHAT EXACTLY DOES THIS DO?
+        FB.getLoginStatus(function(response)
+        {
+            statusChangeCallback(response)
+        });
+
+        alert("load complete!");
+    };
+
+    // asynchronous load of SDK -- why do we need both inits (see fbAsyncInit above)???
+    // DONT WORRY ABOUT IT :)
+    (function(d, s, id) {
+        alert("LOADING");
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+// RESPONSE OBJECT
+// {
+//     status: 'connected',
+//     authResponse: {
+//         accessToken: '...',
+//         expiresIn:'...',
+//         signedRequest:'...',
+//         userID:'...'
+//     }
+// }
+
+    // API test function, called inside statusChangeCallback
+    function testAPI() {
+        console.log('Welcome!  Fetching your information.... ');
+        FB.api('/me', function(response) {
+          console.log('Successful login for: ' + response.name);
+          document.getElementById('status').innerHTML =
+            'Thanks for logging in, ' + response.name + '!';
+        });
+      }
+</script>
+<script>
+document.getElementById("get_friends").addEventListener("click", function(e) {
+                    e.preventDefault();
+                    console.log("clicked");
+                    FB.login(function(response) {
+                        console.log(response);
+                    };
+                });
+</script>
+
+<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+</fb:login-button>
+
+<div id="status"></div>
+
+</body>
+</html>

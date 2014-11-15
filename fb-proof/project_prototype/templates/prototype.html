@@ -1,0 +1,52 @@
+<html>
+<head>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" type="text/css"
+</head>
+<body>
+
+    <script>
+    // loads and initializes Facebook Javascript SDK
+    // function below runs as soon as SDK has finished loading
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : 705507309556479, //VoterMob app id
+          xfbml      : true, //improves load time if set to false; if set to true, finds social plugins
+          version    : 'v2.1',
+          status     : true // gets info about current user immediately after init
+        });
+      };
+
+      FB.getLoginStatus(function(response) {
+        if (response.status === 'connected') {
+            console.log("Logged in");
+        }
+
+        else {
+            FB.login();
+        }
+      });
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk/debug.js"; // debugger version
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=705507309556479&version=v2.0";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <div class="fb-login-button" data-max-rows="1" data-size="xlarge" data-scope="read_stream, user_likes, user_friends" data-show-faces="false" data-auto-logout-link="false"></div>
+
+</body>
+</html>
