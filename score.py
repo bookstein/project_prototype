@@ -1,7 +1,8 @@
 """
-	Score tweet using this algorithm.
-	A user's score is an aggregate score based on individual tweet scores.
-	Compare link to entry in database, throw out if no corresponding data.
+	Score twitter timelines using Naive Bayes classifier.
+	A user's score is an aggregate score based on twitter timeline.
+
+	Tutorial: http://www.laurentluce.com/posts/twitter-sentiment-analysis-using-python-and-nltk/
 """
 
 import simplejson as json
@@ -118,55 +119,10 @@ def extract_features(hashtags, unlabeled_hashtags):
 
 
 
-
-
-# TODO: clean up or rewrite code below this line - replace with Laurent Luce tutorial
-
+# TODO: make training sets and test sets, check classifier
 
 
 
-# def make_training_test_sets(feature_extractor):
-# 	"""Make training sets of data by adding a label of "lib" or "cons" to data.
-# 	Train algorithm using training sets."""
-
-# 	train_liberal = feature_extractor(get_hashtags(train_liberal_tweets), label="lib")
-# 	train_conservative = feature_extractor(get_hashtags(train_conservative_tweets), label="cons")
-
-# 	train_set = train_liberal + train_conservative
-
-# 	test_liberal = feature_extractor(get_hashtags(test_liberal_tweets), "lib")
-# 	test_conservative = feature_extractor(get_hashtags(test_conservative_tweets), "cons")
-
-# 	return train_set, test_liberal, test_conservative
-
-# def check_classifier(feature_extractor):
-# 	"""Trains classifier on the training data (lib and cons), checks accuracy on the test data."""
-# 	#Make the training and testing sets.
-# 	train_set, test_liberal, test_conservative = make_training_test_sets(feature_extractor)
-
-# 	print "TRAINING SET ", train_set
-# 	print "TEST LIB ", test_liberal
-# 	print "TEST CON ", test_conservative
-
-# 	#Train the classifer using the training set
-# 	classifier = NaiveBayesClassifier.train(train_set)
-
-# 	# How accurate is the classifier on the test sets?
-# 	# print ('Test Lib accuracy: {0:.2f}%'.format(100 * nltk.classify.accuracy(classifier, test_liberal)))
-# 	# print ('Test Cons accuracy: {0:.2f}%'.format(100 * nltk.classify.accuracy(classifier, test_conservative)))
-
-#  #    # Show the top 20 informative features
-# 	# print classifier.show_most_informative_features(2)
-
-
-
-# parsed_liberal_tweets = get_hashtags(train_liberal_tweets)
-def storage():
-	r = get_hashtags_from_tweets(lib)
-	dist = get_features(r)
-	feat = extract_features(["p2", "tcot", "Maddow"], r)
-	training_set = nltk.classify.apply_features(extract_features, HASHTAGS, r)
-	print training_set
 
 def main():
 	lib_tweets = get_json_data(LIBERAL_TWEETS_PATH)
@@ -192,32 +148,8 @@ def main():
 	hits = extract_features(["Maddow", "tcot", "CookerPot"], features)
 	print hits
 
-	# loop through timelines, add to hashtags
+	# loop through timelines, add to HASHTAGS
 
-
-# #equivalent of pos_tweets
-# LIB_HASHTAGS = get_hashtags(LIBERAL_TWEETS, "lib")
-# #equivalent of neg_tweets
-# CONS_HASHTAGS = get_hashtags(CONSERVATIVE_TWEETS, "cons")
-
-# create a single list of tuples (equivalent of "tweets"), labeled
-# HASHTAGS = []
-# for (hashtag, affiliation) in LIB_HASHTAGS + CONS_HASHTAGS:
-# 	HASHTAGS.append((hashtag, affiliation))
-
-# HASHTAGS is an unlabeled list when using get_all_hashtags to create
-# HASHTAGS = (get_all_hashtags(LIB_HASHTAGS) + get_all_hashtags(CONS_HASHTAGS))
-# print HASHTAGS
-# if I set HASHTAGS = LIB_HASHTAGS + CONS_HASHTAGS, then I get an error from extract_features saying it cannot hash a list!!!
-
-# test = extract_features(("tomcat", "p2", "CookerPot"))
-# print test
-
-# apply features to the classifier, passing into it the labeled data
-# WHAT IS THIS ACTUALLY DOING?
-# training set contains labeled feature sets.
-# so why does mine only contain liberal hashtags? something about the way I set this up? HASHTAGS was supposed to combine both the lists.
-# training_set = nltk.classify.apply_features(extract_features, LIB_HASHTAGS)
 
 if __name__ == "__main__":
 	main()
