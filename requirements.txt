@@ -1,0 +1,11 @@
+Flask==0.10.1
+Flask-SQLAlchemy==0.16
+Flask-WTF==0.8
+Jinja2==2.7.3
+SQLAlchemy==0.7.9
+WTForms==1.0.2
+Werkzeug==0.9.6
+itsdangerous==0.24
+wsgiref==0.1.2
+nltk==3.0.0
+numpy==1.9.1
