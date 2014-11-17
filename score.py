@@ -6,17 +6,16 @@
 """
 
 import simplejson as json
-import numpy as np
 import os
 import re
-from collections import defaultdict
-from string import punctuation
 
-from nltk import NaiveBayesClassifier
-import nltk.classify
-from nltk import FreqDist
-from nltk.tokenize import wordpunct_tokenize, word_tokenize
-from nltk.corpus import stopwords
+import numpy as np
+
+from sklearn.linear_model import LogisticRegression
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB, BernoulliNB
+from sklearn import cross_validation
+from sklearn import metrics
 
 LIBERAL_TWEETS_PATH = "./json/maddow/self.json"
 CONSERVATIVE_TWEETS_PATH = "./json/rushlimbaugh/self.json"
