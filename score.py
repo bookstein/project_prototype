@@ -70,7 +70,7 @@ def get_fraction_cons(hashtag_list, label_list):
 	label.
 	"""
 	total_length = len(hashtag_list)
-	cons_fraction = len([lbl for lbl in labels if lbl == 'cons'])/total_length
+	cons_fraction = len([lbl for lbl in label_list if lbl == 'cons'])/total_length
 	print "fraction of data that is conservative: ", cons_fraction
 	return cons_fraction
 
@@ -156,7 +156,6 @@ def main():
 
 	cons_tweets = get_json_data(CONSERVATIVE_TWEETS_PATH)
 	extract_hashtags(cons_tweets, HASHTAGS, LABELS, "cons")
-
 
 
 	# loop through timelines, add to HASHTAGS
