@@ -130,14 +130,15 @@ def init_and_train_classifier(X, y, Kfolds):
 
         y_hat = clf.predict(X_test)
 
-    # TODO: double-check that I understand r and p (why are they appended to array?)!
         p,r,f1_score,support = metrics.precision_recall_fscore_support(y_test, y_hat)
+
+        # which label's precision does p[1] represent - lib or cons?
         precision.append(p[1])
         recall.append(r[1])
 
-    print 'precision:',np.average(precision), '+/-', np.std(precision)
-    print 'recall:', np.average(recall), '+/-', np.std(recall)
-
+    print 'avg precision:',np.average(precision), '+/-', np.std(precision)
+    print 'avg recall:', np.average(recall), '+/-', np.std(recall)
+    print 'f1 measure', f1_score
 
     print "clf: ", clf
     print "cv: ", cv
