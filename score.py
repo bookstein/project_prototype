@@ -104,6 +104,7 @@ def init_and_train_classifier(X, y, Kfolds):
 
     Parameters:
     ----------
+    Matrix of features and documents
     List of labels (as numpy array)
     Number of stratified folds into which to divide all labelled data.
 
