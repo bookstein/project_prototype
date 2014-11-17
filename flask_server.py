@@ -24,13 +24,28 @@ def display_friends():
 		user.CURRENT_USER = screen_name
 		user.USER_SCORE = user.score_user()
 
-		friendlist = user.get_friend_ids(screen_name)
-		print friendlist
+		try:
+			friend_ids = user.get_friend_ids(screen_name)
+			print friends_ids, len(friends_ids)
+
+			# if len(friends_ids) > 100:
+			# 	user.get_top_influencers(friends_ids)
 
 
+			friendlist = []
 
-		return render_template("index.html", friends = friendlist)
+			for friend in friend_ids:
+				friend = User()
+				friend.USER_SCORE = friend.score_user()
+				friendlist.append(friend)
 
+			print friendlist
+
+			return render_template("index.html", friendlist = friendlist)
+
+
+		except Exception as e:
+			return render_template("index.html", friends = e)
 
 
 

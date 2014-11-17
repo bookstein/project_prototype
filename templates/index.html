@@ -14,7 +14,9 @@
 		</form>
 
 		<div id="result">
-			{{ friends }}
+			{% for friend in friendlist %}
+				{{ friend }}
+			{% endfor %}
 		</div>
 
 		<script>
