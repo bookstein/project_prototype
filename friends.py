@@ -4,7 +4,7 @@
 import os
 import pickle
 import tweepy
-# import score
+import dummyscore
 
 class User(object):
 
@@ -82,19 +82,13 @@ class User(object):
 		# pickle dictionary
 
 	def score_user(self):
-		pass
-		# score user by tweets
-		# store (in DB???)
+		score = dummyscore.score()
+		return score
 
 
 	def get_links(self):
 		pass
 		# get link url, cut to hostname, compare against database
-
-	def score_status(self):
-		pass
-		#score tweet based on links, possibly keywords/hashtags
-		# use score module
 
 
 	def on_error(self):
