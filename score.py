@@ -60,10 +60,9 @@ def extract_hashtags(statuses, hashtag_list, label_list, label):
 		# will skip over empty lists - no obj inside
 		for hashtag_obj in new_hashtags:
 			hashtag_list.append(hashtag_obj["text"])
+			label_list.append(label)
 
-	label_list.append(label)
 
-	# return hashtag_list
 
 def get_fraction_cons(hashtag_list, label_list):
 	"""
@@ -147,28 +146,18 @@ def init_and_train_classifier(y, Kfolds):
 
 
 def main():
+	HASHTAGS = list()
+	LABELS = list()
+
+	# extract_hashtags: statuses, hashtag_list, label_list, label
+
 	lib_tweets = get_json_data(LIBERAL_TWEETS_PATH)
-	LIB_HASHTAGS = list()
-	# adds to HASHTAGS list
-	extract_hashtags(lib_tweets, LIB_HASHTAGS)
-	# label can come last!!
-	classifier1 = ((LIB_HASHTAGS, "libs"))
-	# print classifier1
+	extract_hashtags(lib_tweets, HASHTAGS, LABELS, "lib")
 
 	cons_tweets = get_json_data(CONSERVATIVE_TWEETS_PATH)
-	CONS_HASHTAGS = list()
-	extract_hashtags(cons_tweets, CONS_HASHTAGS)
-	classifier2 = ((CONS_HASHTAGS, "cons"))
-	# print classifier2
+	extract_hashtags(cons_tweets, HASHTAGS, LABELS, "cons")
 
-	HASHTAGS = list()
-	HASHTAGS.extend((classifier1, classifier2))
-	print HASHTAGS
 
-	unlabeled = get_unique_hashtags(HASHTAGS)
-	features = get_hashtags_as_features(unlabeled)
-	hits = extract_features(["Maddow", "tcot", "CookerPot"], features)
-	print hits
 
 	# loop through timelines, add to HASHTAGS
 
