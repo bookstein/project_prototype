@@ -22,6 +22,8 @@ def display_friends():
 		# print me
 		user = User()
 		user.CURRENT_USER = screen_name
+		user.USER_SCORE = user.score_user()
+
 		friendlist = user.get_friend_ids(screen_name)
 		print friendlist
 

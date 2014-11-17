@@ -22,6 +22,7 @@ class User(object):
 	RATE_LIMITED_RESOURCES =[("statuses", "/statuses/user_timeline")]
 
 	CURRENT_USER = ""
+	USER_SCORE = None
 
 	# tweepy api instance
 	api = None
@@ -84,7 +85,6 @@ class User(object):
 	def score_user(self):
 		score = dummyscore.score()
 		return score
-
 
 	def get_links(self):
 		pass
