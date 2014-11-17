@@ -26,26 +26,34 @@ def get_json_data(filename):
 	Input filename containing array of JSON-format statuses.
 	Output is list of dictionaries representing Twitter
 	timeline from one user.
+
+	#TODO: get data from database, not json, for training data
+	This affects extract_hashtags function as well.
+
 	"""
 	with open(filename) as f:
 		# decodes all file data from json
 		statuses_data = json.load(f)
 		return statuses_data
 
-def extract_hashtags(statuses, hashtag_list):
+def extract_hashtags(statuses, hashtag_list, label_list, label):
 	"""
 	Extract hashtags from a given twitter user's timeline and
 	append them to an existing list.
+	Add corresponding label to a list of labels.
 
 	Parameters:
 	-----------
 	Hashtag_list is the list of hashtags to which new hashtags will be added.
 	Statuses refers to the new twitter user timeline, a python object
 	containing status objects.
+	Label_list is the corresponding list of labels for hashtags added in batches
+	to hashtag_list.
+	Label is the label that is appended to label_list (either "lib" or "cons")
 
 	Output:
 	-------
-	Side-effect, modifying hashtag_list. Does not return a value.
+	Side-effect, modifying hashtag_list and label_list. Does not return a value.
 	"""
 	for status in statuses:
 		new_hashtags = status["entities"]["hashtags"]
