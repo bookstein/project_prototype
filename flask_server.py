@@ -35,11 +35,14 @@ def display_friends():
 			friendlist = []
 
 			for friend in friend_ids:
-				friend = User()
-				friend.USER_SCORE = friend.score_user()
-				friendlist.append(friend)
+			    friend = User()
+			    friend.USER_SCORE = friend.score_user()
+			    friendlist.append(friend)
 
-			print friendlist
+			# print "friendlist", friendlist
+
+			for friend in friendlist:
+			    print "friend=", friend
 
 			return render_template("index.html", friendlist = friendlist)
 

@@ -40,7 +40,7 @@ class User(object):
 	def get_friend_ids(self,user_id):
 		"""returns list of integers (friends_ids) of people that user (uid) is following"""
 		try:
-			friends_ids = tweepy.Cursor(self.api.friends_ids, user_id = user_id).pages()
+			friends_ids = tweepy.Cursor(self.api.friends_ids, user_id = user_id).items()
 			# print friends_ids
 			return friends_ids
 		except tweepy.TweepError as e:
