@@ -61,73 +61,88 @@ def extract_hashtags(statuses, hashtag_list, label_list, label):
 		for hashtag_obj in new_hashtags:
 			hashtag_list.append(hashtag_obj["text"])
 
+	label_list.append(label)
+
 	# return hashtag_list
 
-def get_unique_hashtags(labeled_hashtags):
+def get_fraction_cons(hashtag_list, label_list):
 	"""
-	Take hashtags from list of labeled tuples and create list of unlabeled hashtags.
+	Get fraction of training data that is associated with "cons" (conservative)
+	label.
+	"""
+	total_length = len(hashtag_list)
+	cons_fraction = len([lbl for lbl in labels if lbl == 'cons'])/total_length
+	print "fraction of data that is conservative: ", cons_fraction
+	return cons_fraction
+
+def vectorize(hashtag_list, label_list):
+	"""
+	"Vectorize" hashtag list and labels list into a matrix of token counts.
 
 	Parameters:
-	------------
-	A list of tuples containing hashtags and their associated labels
+	-----------
+	List of all hashtags in dataset as strings, list of all associated labels
+	as strings.
 
 	Output:
 	-------
-	A list of unlabeled hashtags.
-	"""
+	Matrix of token counts (hashtags, by occurrence)
 
-	all_hashtags = []
-	for (hashtags, label) in labeled_hashtags:
-		all_hashtags.extend(hashtags)
-	return all_hashtags
-
-def get_hashtags_as_features(unlabeled_hashtags):
+	Note: CountVectorizer can also look at ngrams - useful for examining entire
+	tweet text instead of hashtags.
 	"""
-	Order hashtags by frequency and output a list of dictionary keys in order of
-	frequency.
+	makeVector = CountVectorizer()
+
+	X = makeVector.fit_transform(hashtag_list)
+	# why?? (y)
+	y = np.array(labels)
+
+	return X, y
+
+def init_and_train_classifier(y, Kfolds):
+	"""
+	Instantiates and trains a classifier.
 
 	Parameters:
 	----------
-	List of all hashtags, both liberal and conservative, unlabelled.
-
-	Output:
-	------
-	Unique list of hashtags, hashtag_features, which are the keys to a dictionary
-	created by FreqDist.
-	"""
-	hashtags_dist = FreqDist(unlabeled_hashtags)
-	hashtag_features = hashtags_dist.keys()
-	return hashtag_features
-
-def extract_features(hashtags, unlabeled_hashtags):
-	"""
-	Create dictionary of (hashtag: True) pairs indicating
-	presence or absence of hashtag
-
-	Parameters:
-	----------
-	Specific list of hashtags. ("document")
+	List of labels (as numpy array)
+	Number of stratified folds into which to divide all labelled data.
 
 	Output:
 	-------
-	Dictionary of true-false values showing which features were present in the
-	given list of hashtags.
+	Trained classifier
 	"""
 
-	hashtag_set = set(hashtags)
-	features = {}
-	# look in global collection of hashtags for matches
-	for hashtag in unlabeled_hashtags:
-		print hashtag
-		features['contains(%s)'% hashtag] = (hashtag in hashtag_set)
-	print features
-	return features
+	clf = BernoulliNB()
+
+	cv = cross_validation.StratifiedKFold(y, Kfolds)
+
+	precision = []
+	recall = []
+
+	for train, test in cv:
+		X_train = X[train]
+		X_test = X[test]
+		y_train = y[train]
+		y_test = y[test]
+
+		clf.fit(X_train, y_train)
+
+		y_hat = clf.predict(X_test)
+
+# TODO: double-check that I understand r and p (why are they appended to array?)!
+		p = metrics.precision_score(y_test, y_hat)
+		r = metrics.recall_score(y_test,y_hat)
+		precision.append(p[1])
+		recall.append(r[1])
 
 
+	print "clf: ", clf
+	print "cv: ", cv
+	print "precision: ", np.average(precision)
+	print "recall: ", np.average(recall)
 
-
-# TODO: make training sets and test sets, check classifier
-
+	return clf
 
 
 
