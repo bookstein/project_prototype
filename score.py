@@ -37,111 +37,112 @@ def get_json_data(filename):
 		return statuses_data
 
 def extract_hashtags(statuses, hashtag_list, label_list, label):
-	"""
-	Extract hashtags from a given twitter user's timeline and
-	append them to an existing list.
-	Add corresponding label to a list of labels.
-
-	Parameters:
-	-----------
-	Hashtag_list is the list of hashtags to which new hashtags will be added.
-	Statuses refers to the new twitter user timeline, a python object
-	containing status objects.
-	Label_list is the corresponding list of labels for hashtags added in batches
-	to hashtag_list.
-	Label is the label that is appended to label_list (either "lib" or "cons")
-
-	Output:
-	-------
-	Side-effect, modifying hashtag_list and label_list. Does not return a value.
-	"""
-	for status in statuses:
-		new_hashtags = status["entities"]["hashtags"]
-		# will skip over empty lists - no obj inside
-		for hashtag_obj in new_hashtags:
-			hashtag_list.append(hashtag_obj["text"])
-			label_list.append(label)
+    """
+    Extract hashtags from a given twitter user's timeline and
+    append them to an existing list.
+    Add corresponding label to a list of labels.
+    Parameters:
+    -----------
+    Hashtag_list is the list of hashtags to which new hashtags will be added.
+    Statuses refers to the new twitter user timeline, a python object
+    containing status objects.
+    Label_list is the corresponding list of labels for hashtags added in batches
+    to hashtag_list.
+    Label is the label that is appended to label_list (either "lib" or "cons")
+    Output:
+    -------
+    Side-effect, modifying hashtag_list and label_list. Does not return a value.
+    """
+    for status in statuses:
+        new_hashtags = status["entities"]["hashtags"]
+        # will skip over empty lists - no obj inside
+        for hashtag_obj in new_hashtags:
+            hashtag_list.append(hashtag_obj["text"])
+            label_list.append(label)
 
 
 
 def get_fraction_cons(hashtag_list, label_list):
-	"""
-	Get fraction of training data that is associated with "cons" (conservative)
-	label.
-	"""
-	total_length = len(hashtag_list)
-	cons_fraction = len([lbl for lbl in label_list if lbl == 'cons'])/total_length
-	print "fraction of data that is conservative: ", cons_fraction
-	return cons_fraction
+    """
+    Get fraction of training data that is associated with "cons" (conservative)
+    label.
+    """
+    total_length = len(hashtag_list)
+    print "total length", total_length
+    cons_list = [label for label in label_list if label == 'cons']
+    print cons_list
+    cons_fraction = len([label for label in label_list if label == 'cons'])
+    print "fraction of data that is conservative: ", cons_fraction, " out of ", total_length
+    return cons_fraction
 
 def vectorize(hashtag_list, label_list):
-	"""
-	"Vectorize" hashtag list and labels list into a matrix of token counts.
+    """
+    "Vectorize" hashtag list and labels list into a matrix of token counts.
 
-	Parameters:
-	-----------
-	List of all hashtags in dataset as strings, list of all associated labels
-	as strings.
+    Parameters:
+    -----------
+    List of all hashtags in dataset as strings, list of all associated labels
+    as strings.
 
-	Output:
-	-------
-	Matrix of token counts (hashtags, by occurrence)
+    Output:
+    -------
+    Matrix of token counts (hashtags, by occurrence)
 
-	Note: CountVectorizer can also look at ngrams - useful for examining entire
-	tweet text instead of hashtags.
-	"""
-	makeVector = CountVectorizer()
+    Note: CountVectorizer can also look at ngrams - useful for examining entire
+    tweet text instead of hashtags.
+    """
+    makeVector = CountVectorizer()
 
-	X = makeVector.fit_transform(hashtag_list)
-	# why?? (y)
-	y = np.array(labels)
+    X = makeVector.fit_transform(hashtag_list)
+    y = np.array(label_list)
 
-	return X, y
+    return X, y
 
-def init_and_train_classifier(y, Kfolds):
-	"""
-	Instantiates and trains a classifier.
+def init_and_train_classifier(X, y, Kfolds):
+    """
+    Instantiates and trains a classifier.
 
-	Parameters:
-	----------
-	List of labels (as numpy array)
-	Number of stratified folds into which to divide all labelled data.
+    Parameters:
+    ----------
+    List of labels (as numpy array)
+    Number of stratified folds into which to divide all labelled data.
 
-	Output:
-	-------
-	Trained classifier
-	"""
+    Output:
+    -------
+    Trained classifier
+    """
 
-	clf = BernoulliNB()
+    clf = BernoulliNB()
 
-	cv = cross_validation.StratifiedKFold(y, Kfolds)
+    cv = cross_validation.StratifiedKFold(y, Kfolds)
 
-	precision = []
-	recall = []
+    precision = []
+    recall = []
 
-	for train, test in cv:
-		X_train = X[train]
-		X_test = X[test]
-		y_train = y[train]
-		y_test = y[test]
+    for train, test in cv:
+        X_train = X[train]
+        X_test = X[test]
+        y_train = y[train]
+        y_test = y[test]
 
-		clf.fit(X_train, y_train)
+        clf.fit(X_train, y_train)
 
-		y_hat = clf.predict(X_test)
+        y_hat = clf.predict(X_test)
 
-# TODO: double-check that I understand r and p (why are they appended to array?)!
-		p = metrics.precision_score(y_test, y_hat)
-		r = metrics.recall_score(y_test,y_hat)
-		precision.append(p[1])
-		recall.append(r[1])
+    # TODO: double-check that I understand r and p (why are they appended to array?)!
+        p,r,f1_score,support = metrics.precision_recall_fscore_support(y_test, y_hat)
+        precision.append(p[1])
+        recall.append(r[1])
+
+    print 'precision:',np.average(precision), '+/-', np.std(precision)
+    print 'recall:', np.average(recall), '+/-', np.std(recall)
 
 
-	print "clf: ", clf
-	print "cv: ", cv
-	print "precision: ", np.average(precision)
-	print "recall: ", np.average(recall)
+    print "clf: ", clf
+    print "cv: ", cv
 
-	return clf
+
+    return clf
 
 
 
@@ -152,13 +153,17 @@ def main():
 	# extract_hashtags: statuses, hashtag_list, label_list, label
 
 	lib_tweets = get_json_data(LIBERAL_TWEETS_PATH)
-	extract_hashtags(lib_tweets, HASHTAGS, LABELS, "lib")
-
 	cons_tweets = get_json_data(CONSERVATIVE_TWEETS_PATH)
-	extract_hashtags(cons_tweets, HASHTAGS, LABELS, "cons")
 
+	for i in range(10):
+		extract_hashtags(lib_tweets, HASHTAGS, LABELS, "lib")
+		extract_hashtags(cons_tweets, HASHTAGS, LABELS, "cons")
 
 	# loop through timelines, add to HASHTAGS
+
+	get_fraction_cons(HASHTAGS, LABELS)
+	X, y = vectorize(HASHTAGS, LABELS)
+	init_and_train_classifier(X, y, 3)
 
 
 if __name__ == "__main__":
