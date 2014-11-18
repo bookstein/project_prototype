@@ -5,6 +5,7 @@ import os
 import pickle
 import tweepy
 import dummyscore
+import itertools
 
 class User(object):
 
@@ -58,8 +59,22 @@ class User(object):
 		# hydrate (create twitter user object)
 		# pickle dictionary
 
+	def paginate_friends(self, f_ids, page_size):
+	    print "working!"
+	    while True:
+	        iterable1, iterable2 = itertools.tee(f_ids)
+	        f_ids, page = (itertools.islice(iterable1, page_size, None),
+	                list(itertools.islice(iterable2, page_size)))
+	        if len(page) == 0:
+	            break
+	        # yield is a generator keyword
+	        yield page
+
 	def get_top_influencers(self):
 		pass
+		"""
+		Using paginated friends
+		"""
 		# friends_count attribute
 		# do this if user has more than 300 friends (180 friends w user auth)
 

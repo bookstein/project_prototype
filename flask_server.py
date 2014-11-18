@@ -2,7 +2,6 @@ from flask import Flask, request, render_template, redirect
 import os
 from friends import User
 import logging
-import itertools
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -40,7 +39,7 @@ def display_friends():
 			#     friend.USER_SCORE = friend.score_user()
 			#     friendlist.append(friend)
 
-			for page in paginate_friends(friends_ids, 100):
+			for page in user.paginate_friends(friends_ids, 100):
 				print page
 				for friend in page:
 					friendlist.append(friend)
@@ -58,16 +57,6 @@ def display_friends():
 			print "ERROR!!!!!", e
 			return render_template("index.html", display = e)
 
-def paginate_friends(ids, page_size):
-    print "working!"
-    while True:
-        iterable1, iterable2 = itertools.tee(ids)
-        ids, page = (itertools.islice(iterable1, page_size, None),
-                list(itertools.islice(iterable2, page_size)))
-        if len(page) == 0:
-            break
-        # yield is a generator keyword
-        yield page
 
 
 if __name__ == "__main__":
