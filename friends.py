@@ -1,19 +1,12 @@
 """
 	API for getting friends and statuses from Twitter, scoring.
 """
-import os
 import pickle
 import tweepy
 import dummyscore
 import itertools
 
 class User(object):
-
-	# initialize tweepy api object with auth, OAuth
-	TWITTER_API_KEY=os.environ.get('TWITTER_API_KEY')
-	TWITTER_SECRET_KEY=os.environ.get('TWITTER_SECRET_KEY')
-	TWITTER_ACCESS_TOKEN=os.environ.get('TWITTER_ACCESS_TOKEN')
-	TWITTER_SECRET_TOKEN=os.environ.get('TWITTER_SECRET_TOKEN')
 
 	# important variables
 	MAX_NUM_TWEETS = 100
@@ -28,15 +21,18 @@ class User(object):
 	# tweepy api instance
 	api = None
 
-	def __init__(self):
+	def __init__(self, api=api, screen_name=CURRENT_USER):
 		"""
-		Create instance of tweepy API class with OAuth keys and tokens.
-		"""
-		auth = tweepy.OAuthHandler(self.TWITTER_API_KEY, self.TWITTER_SECRET_KEY, secure=True)
-		auth.set_access_token(self.TWITTER_ACCESS_TOKEN, self.TWITTER_SECRET_TOKEN)
-		self.api = tweepy.API(auth, cache=None) #removed wait_on_rate_limit=True, wait_on_rate_limit_notify=True
+		Initialize new user object.
 
-	# def paginate(iterable, page_size):
+		Parameters:
+		----------
+		Twitter API object (optional)
+		Username (optional)
+		"""
+		self.api = api
+		self.CURRENT_USER = screen_name
+
 
 	def get_friends_ids(self, user_id):
 		"""
