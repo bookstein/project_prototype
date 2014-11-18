@@ -28,27 +28,14 @@ def display_friends():
 			friends_ids = user.get_friends_ids(screen_name)
 			print friends_ids
 
-			# if len(friends_ids) > 100:
-			# 	user.get_top_influencers(friends_ids)
-
-
 			friendlist = []
 
-			# for friend in friends_ids:
-			#     friend = User()
-			#     friend.USER_SCORE = friend.score_user()
-			#     friendlist.append(friend)
-
 			for page in user.paginate_friends(friends_ids, 100):
-				print page
+				# print page
 				for friend in page:
-					friendlist.append(friend)
-
-
-			# print "friendlist", friendlist
-
-			# for friend in friendlist:
-			#     print "friend=", friend
+					friend = User()
+					friend.USER_SCORE = friend.score_user()
+					friendlist.append(friend.USER_SCORE)
 
 			return render_template("index.html", display = friendlist)
 
