@@ -38,8 +38,15 @@ class User(object):
 
 	# def paginate(iterable, page_size):
 
-	def get_friends_ids(self,user_id):
-		"""returns list of integers (friends_ids) of people that user (uid) is following"""
+	def get_friends_ids(self, user_id):
+		"""
+		Request ids of all user's friends.
+
+		Parameters:
+		-----------
+		A given user's id (screen name or id)
+		"""
+		print "HI THIS IS THE REAL COPY"
 		try:
 			friends_ids = tweepy.Cursor(self.api.friends_ids, user_id = user_id).items()
 			# print friends_ids
@@ -65,15 +72,15 @@ class User(object):
 		Lists of {page_size} number of friend ids, to pass to lookup_friends
 
 		"""
-	    print "working!"
-	    while True:
-	        iterable1, iterable2 = itertools.tee(f_ids)
-	        f_ids, page = (itertools.islice(iterable1, page_size, None),
-	                list(itertools.islice(iterable2, page_size)))
-	        if len(page) == 0:
-	            break
-	        # yield is a generator keyword
-	        yield page
+		print "working!"
+		while True:
+			iterable1, iterable2 = itertools.tee(f_ids)
+			f_ids, page = (itertools.islice(iterable1, page_size, None),
+			        list(itertools.islice(iterable2, page_size)))
+			if len(page) == 0:
+			    break
+			# yield is a generator keyword
+			yield page
 
 	def lookup_friends(self,f_ids):
 		"""
@@ -85,7 +92,7 @@ class User(object):
 
 		Parameters:
 		----------
-		Page of friend_ids, the output of paginate_friends
+		Page of friends_ids, the output of paginate_friends
 
 		Output:
 		------
@@ -98,7 +105,7 @@ class User(object):
 		except tweepy.TweepError as e:
 			print e
 
-		# use output of get_friend_ids
+		# use output of get_friends_ids
 		# hydrate (create twitter user object)
 		# pickle dictionary
 
