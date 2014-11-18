@@ -47,19 +47,24 @@ class User(object):
 		except tweepy.TweepError as e:
 			print e
 
-	def lookup_friends(self,f_ids):
-		# if len(ids) > 100:
-		try:
-			friends = self.api.lookup_users(f_ids)
-			return friends
-		except tweepy.TweepError as e:
-			print e
-
-		# use output of get_friend_ids
-		# hydrate (create twitter user object)
-		# pickle dictionary
-
 	def paginate_friends(self, f_ids, page_size):
+		"""
+		Paginate friend ids.
+
+		Parameters:
+		----------
+		List of friend ids (list of integers)
+		Page size (number of friend ids to include per page)
+
+		Note:
+		----
+		Page_size maximum value is 100 due to Twitter API limits for users/lookup
+
+		Output:
+		-------
+		Lists of {page_size} number of friend ids, to pass to lookup_friends
+
+		"""
 	    print "working!"
 	    while True:
 	        iterable1, iterable2 = itertools.tee(f_ids)
@@ -70,11 +75,57 @@ class User(object):
 	        # yield is a generator keyword
 	        yield page
 
-	def get_top_influencers(self):
+	def lookup_friends(self,f_ids):
+		"""
+		Hydrates friend ids into complete user objects.
+
+		Note:
+		-----
+		Takes only up to 100 ids per request.
+
+		Parameters:
+		----------
+		Page of friend_ids, the output of paginate_friends
+
+		Output:
+		------
+		List of user objects for the corresponding ids.
+
+		"""
+		try:
+			friends = self.api.lookup_users(f_ids)
+			return friends
+		except tweepy.TweepError as e:
+			print e
+
+		# use output of get_friend_ids
+		# hydrate (create twitter user object)
+		# pickle dictionary
+
+	def get_top_influencers(self, count):
 		pass
 		"""
-		Using paginated friends
+		Get top influencers from user friends, as measured by # of followers.
+
+		After requesting paginated friends, check "followers_count" attribute of
+		each friend.
+
+		Note:
+		-----
+		Run this function only if user has more than {count} friends.
+		Currently, Twitter limits user timeline requests to 300
+		(application auth) or 180 requests (user auth).
+
+		Parameters:
+		----------
+		Number of top influencers to output.
+
+		Output:
+		-------
+		List of {count} most influential friends
+
 		"""
+
 		# friends_count attribute
 		# do this if user has more than 300 friends (180 friends w user auth)
 
