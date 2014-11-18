@@ -37,7 +37,7 @@ class User(object):
 
 	# def paginate(iterable, page_size):
 
-	def get_friend_ids(self,user_id):
+	def get_friends_ids(self,user_id):
 		"""returns list of integers (friends_ids) of people that user (uid) is following"""
 		try:
 			friends_ids = tweepy.Cursor(self.api.friends_ids, user_id = user_id).items()
@@ -46,11 +46,11 @@ class User(object):
 		except tweepy.TweepError as e:
 			print e
 
-	def hydrate_friends(self,ids):
+	def lookup_friends(self,f_ids):
 		# if len(ids) > 100:
 		try:
-			friends = self.api.lookup_users(ids)
-			print friends
+			friends = self.api.lookup_users(f_ids)
+			return friends
 		except tweepy.TweepError as e:
 			print e
 

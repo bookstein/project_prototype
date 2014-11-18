@@ -26,8 +26,8 @@ def display_friends():
 		user.USER_SCORE = user.score_user()
 
 		try:
-			friend_ids = user.get_friend_ids(screen_name)
-			print friends_ids, len(friends_ids)
+			friends_ids = user.get_friends_ids(screen_name)
+			print friends_ids
 
 			# if len(friends_ids) > 100:
 			# 	user.get_top_influencers(friends_ids)
