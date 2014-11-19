@@ -63,20 +63,20 @@ def extract_hashtags(statuses, hashtag_list, label_list, label):
 
 
 
-def get_fraction_cons(hashtag_list, label_list):
+def get_fraction_cons(text_list, label_list):
     """
     Get fraction of training data that is associated with "cons" (conservative)
     label.
     """
-    total_length = len(hashtag_list)
-    print "total length", total_length
+    total_length = len(text_list)
+    # print "total length", total_length
     cons_list = [label for label in label_list if label == 'cons']
-    print cons_list
+    # print cons_list
     cons_fraction = len([label for label in label_list if label == 'cons'])
-    print "fraction of data that is conservative: ", cons_fraction, " out of ", total_length
+    # print "fraction of data that is conservative: ", cons_fraction, " out of ", total_length
     return cons_fraction
 
-def vectorize(hashtag_list, label_list):
+def vectorize(text_list, label_list):
     """
     "Vectorize" hashtag list and labels list into a matrix of token counts.
 
