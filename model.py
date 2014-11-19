@@ -39,6 +39,7 @@ class Status(Base):
 	url = Column(String(140), nullable=True)
 	retweeted_from = Column(Integer, nullable=True)
 	created_at = Column(Date)
+	label = Column(String(20), nullable=False)
 
 	#creates "statuses" attribute of user
 	user = relationship("User", backref = backref("statuses"), order_by=id)
