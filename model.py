@@ -48,6 +48,16 @@ class Status(Base):
 	#creates "statuses" attribute of user
 	user = relationship("User", backref = backref("statuses"), order_by=id)
 
+	@classmethod
+	def get_all_statuses(cls):
+		"""
+		Return all rows from statuses table.
+
+		Parameter 'cls' references the Status class.
+		"""
+		statuses = cls.query.all()
+		return statuses
+
 class Hashtag(Base):
 	__tablename__ = "hashtags"
 
@@ -64,6 +74,7 @@ class PoliticalHashtag(Base):
 	id = Column(Integer, primary_key=True)
 	text = Column(String(60))
 	score = Column(Integer, nullable=True)
+
 
 def connect():
     global ENGINE
