@@ -58,6 +58,13 @@ class Status(Base):
 		statuses = cls.query.all()
 		return statuses
 
+	@classmethod
+	def update_a_duplicate(cls):
+		"""
+		If a tweet is already in the database, update the existing tweet.
+		"""
+		pass
+
 class Hashtag(Base):
 	__tablename__ = "hashtags"
 

@@ -8,6 +8,7 @@ import itertools
 import os
 import model
 from datetime import datetime
+from sqlalchemy.exc import IntegrityError
 
 
 CURRENT_USER = ""
@@ -125,12 +126,6 @@ def load_tweets(session, statuses, label):
 		tweet.text = status["text"]
 		# print "TEXT", tweet.text
 		tweet.label = label
-
-		# this code for some reason would only print "retweeted_status" and did not create a tweet object
-		# if status["retweeted_status"]:
-		# 	tweet.retweeted_from = status["retweeted_status"]["user"]["id"]
-		# print "RETWEETED", tweet.retweeted_from
-
 		created_at = status["created_at"][:10] + status["created_at"][25:]
 		created_at = datetime.strptime(created_at, "%a %b %d %Y")
 		tweet.created_at = created_at
@@ -139,15 +134,30 @@ def load_tweets(session, statuses, label):
 
 		session.add(tweet)
 
-	session.commit()
+	# try:
+	# 	session.commit()
+
+	# except IntegrityError as e:
+	# 	print e.message
+	# 	session.rollback()
+	# 	pass
+
+	# finally:
+	# 	session.close()
+
 
 def main(session):
 	api = connect_to_API()
-	# tcot = get_tweets_by_query(api, "#tcot -#p2", 1000)
-	# load_tweets(session, tcot, "cons")
+	tcot = get_tweets_by_query(api, "#tcot -#p2", 1000)
 	p2 = get_tweets_by_query(api, "#p2 -#tcot", 1000)
-	load_tweets(session, p2, "libs")
-
+	try:
+		load_tweets(session, tcot, "cons")
+		load_tweets(session, p2, "libs")
+		session.commit()
+	except IntegrityError as e:
+		session.rollback()
+	finally:
+		session.close()
 
 if __name__ == "__main__":
 	s = model.connect()
