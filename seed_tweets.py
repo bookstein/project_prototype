@@ -7,7 +7,7 @@ import dummyscore
 import itertools
 import os
 import model
-
+from datetime import datetime
 
 
 CURRENT_USER = ""
@@ -66,32 +66,53 @@ def connect_to_API():
 	return api
 
 
-def get_tweets_by_query(api, query, count):
+def get_tweets_by_query(api, query, max_tweets):
 	"""
-	search for {count} tweets labeled by a particular hashtag {query}
+	search for {max_tweets} tweets labeled by a particular hashtag {query}
 
 	Parameters:
 	----------
-	Count: the number of tweets per page. Maximum is 100.
-
-	For use in my function:
-	include_entities
+	Api: the Tweepy API instance.
+	Query: hashtag to search for, as a string, prefixed by "#"
+	Max_tweets: the total number of tweets requested.
 
 	Output:
 	------
-	JSON object containing a list of statuses ["statuses"]
+	List of JSON statuses
+
+	Note:
+	----
+	Per 15 minutes, app can make 450 requests.
+	Number of tweets per page defaults to 15. "Count" maximum is 100.
 
 	"""
+	searched_tweets = []
 
+	max_id = -1
 
-	try:
-		search_results = tweepy.Cursor(api.search, q=query, lang="en").items(count)
+	while len(searched_tweets) < max_tweets:
+	    count = max_tweets - len(searched_tweets)
+	    try:
+	        new_tweets = api.search(q=query, count=count, include_entities=True,
+	         max_id=str(max_id - 1))
+	        if not new_tweets:
+	            break
 
+	        for tweet in new_tweets:
+	        	tweet = tweet._json
+	        	searched_tweets.append(tweet)
 
-	except tweepy.TweepError as e:
-		pass
+	        max_id = new_tweets[-1].id
+	        since_id = new_tweets[0].id
 
-	return search_results
+	        print "max_id:", max_id
+	        print "since_id", since_id
+
+	    except tweepy.TweepError as e:
+	        # depending on TweepError.code, one may want to retry or wait
+        	# to keep things simple, we will give up on an error
+        	break
+	return searched_tweets
 
 def load_tweets(session, statuses, label):
 	"""loads search results into database"""
@@ -118,12 +139,14 @@ def load_tweets(session, statuses, label):
 
 		session.add(tweet)
 
-	# session.commit()
+	session.commit()
 
 def main(session):
 	api = connect_to_API()
-	tcot = get_tweets_by_query(api, "#tcot", 10)
+	# tcot = get_tweets_by_query(api, "#tcot -#p2", 1000)
 	# load_tweets(session, tcot, "cons")
+	p2 = get_tweets_by_query(api, "#p2 -#tcot", 1000)
+	load_tweets(session, p2, "libs")
 
 
 if __name__ == "__main__":
