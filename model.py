@@ -17,6 +17,10 @@ Base.query = db_session.query_property()
 # engine = create_engine("sqlite:///tweets.db", echo=True)
 # Base.metadata.create_all(engine)
 
+#add single table
+# engine = create_engine("sqlite:///tweets.db", echo=True)
+# Base.metadata.tables["statuses"].create(bind=engine)
+
 ######################
 # class declarations #
 ######################
@@ -33,7 +37,7 @@ class User(Base):
 class Status(Base):
 	__tablename__ = "statuses"
 
-	id = Column(Integer, primary_key=True) #same as twitter status id?
+	id = Column(Integer, primary_key=True)
 	user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 	text = Column(String(140), nullable=False) # tweet can't be empty
 	url = Column(String(140), nullable=True)
