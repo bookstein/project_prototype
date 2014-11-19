@@ -8,6 +8,7 @@
 import simplejson as json
 import os
 import re
+import model
 
 import numpy as np
 
@@ -152,20 +153,13 @@ def main():
 	HASHTAGS = list()
 	LABELS = list()
 
-	# extract_hashtags: statuses, hashtag_list, label_list, label
+	data = model.Status.get_all_statuses()
+	print data[0]
 
-	lib_tweets = get_json_data(LIBERAL_TWEETS_PATH)
-	cons_tweets = get_json_data(CONSERVATIVE_TWEETS_PATH)
 
-	for i in range(10):
-		extract_hashtags(lib_tweets, HASHTAGS, LABELS, "lib")
-		extract_hashtags(cons_tweets, HASHTAGS, LABELS, "cons")
-
-	# loop through timelines, add to HASHTAGS
-
-	get_fraction_cons(HASHTAGS, LABELS)
-	X, y = vectorize(HASHTAGS, LABELS)
-	init_and_train_classifier(X, y, 3)
+	# get_fraction_cons(HASHTAGS, LABELS)
+	# X, y = vectorize(HASHTAGS, LABELS)
+	# init_and_train_classifier(X, y, 3)
 
 
 if __name__ == "__main__":
