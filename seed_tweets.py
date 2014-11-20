@@ -8,7 +8,7 @@ import itertools
 import os
 import model
 from datetime import datetime
-from sqlalchemy.exc import IntegrityError
+import sqlalchemy.exc
 
 
 CURRENT_USER = ""
@@ -115,8 +115,23 @@ def get_tweets_by_query(api, query, max_tweets):
         	break
 	return searched_tweets
 
-def load_hashtags(session, status, label):
-	"""get hashtags from entities object in a tweet, add to session"""
+def load_hashtags(session, status):
+	"""
+	Get hashtags from entities object in a tweet, add to session.
+
+	Parameters:
+	-----------
+	SQLA session object
+	A single twitter status
+
+	Output:
+	------
+	Adds each hashtag (may be multiple per tweet) to session.
+
+	Note:
+	----
+	Called inside load_tweets.
+	"""
 
 	hashtags_obj = status["entities"]["hashtags"]
 
@@ -128,7 +143,21 @@ def load_hashtags(session, status, label):
 			session.add(hashtag)
 
 def load_tweets(session, statuses, label):
-	"""loads search results into database"""
+	"""
+	Loads search results into database, eliminating duplicates.
+
+	Parameters:
+	-----------
+	SQLA session instance
+	List of statuses from query
+	Label associated with hashtag stream (manually assigned)
+
+	Output:
+	-------
+	Tweets and hashtags committed to database, one transaction per tweet.
+	This eliminates duplicates by rolling back commits of dupes and continuing.
+
+	"""
 	for status in statuses:
 
 		load_hashtags(session, status, label)
@@ -147,22 +176,25 @@ def load_tweets(session, statuses, label):
 
 		print "TWEET TO ADD", tweet
 
-		session.add(tweet)
+		try:
+			session.add(tweet)
+			session.commit()
+		except sqlalchemy.exc:
+			session.rollback()
+			pass
+		finally:
+			session.close()
+
 
 
 def main(session):
 	api = connect_to_API()
-	tcot = get_tweets_by_query(api, "#tcot -#p2", 3000)
-	p2 = get_tweets_by_query(api, "#p2 -#tcot", 3000)
+	tcot = get_tweets_by_query(api, "#tcot -#p2", 100)
+	p2 = get_tweets_by_query(api, "#p2 -#tcot", 100)
 
-	try:
-		load_tweets(session, tcot, "cons")
-		load_tweets(session, p2, "libs")
-		session.commit()
-	except IntegrityError as e:
-		session.rollback()
-	finally:
-		session.close()
+	load_tweets(session, tcot, "cons")
+	load_tweets(session, p2, "libs")
+
 
 if __name__ == "__main__":
 	s = model.connect()
