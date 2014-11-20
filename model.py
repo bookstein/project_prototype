@@ -38,8 +38,10 @@ class Status(Base):
 	__tablename__ = "statuses"
 
 	id = Column(Integer, primary_key=True)
-	tweet_id = Column(Integer, nullable=False)
-	user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+	user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
+	# the following ids reference ids from Twitter API
+	tw_tweet_id = Column(Integer, nullable=False, unique=True)
+	tw_user_id = Column(Integer, nullable=False)
 	text = Column(String(140), nullable=False) # tweet can't be empty
 	url = Column(String(140), nullable=True)
 	retweeted_from = Column(Integer, nullable=True)
@@ -47,7 +49,7 @@ class Status(Base):
 	label = Column(String(20), nullable=False)
 
 	#creates "statuses" attribute of user
-	user = relationship("User", backref = backref("statuses"), order_by=id)
+	user = relationship("User", backref = backref("statuses"))
 
 	@classmethod
 	def get_all_statuses(cls):
@@ -80,29 +82,17 @@ class Status(Base):
 		statuses = cls.query.filter_by(label="cons").all()
 		return statuses
 
-	@classmethod
-	def update_a_duplicate(cls):
-		"""
-		If a tweet is already in the database, update the existing tweet.
-		"""
-		pass
 
 class Hashtag(Base):
 	__tablename__ = "hashtags"
 
 	id = Column(Integer, primary_key=True)
-	tweet_id = Column(Integer, ForeignKey('statuses.id'), nullable=False)
+	status_id = Column(Integer, ForeignKey('statuses.id'), nullable=False)
 	text = Column(String(60))
+	# status_label = Column(String(20), ForeignKey('statuses.label'), nullable=False)
 
-	# creates "hashtags" atribute of tweet
+	# creates "hashtags" atribute of tweet, with list of related hashtags
 	status = relationship("Status", backref = backref("hashtags"))
-
-class PoliticalHashtag(Base):
-	__tablename__ = "hashtag_features"
-
-	id = Column(Integer, primary_key=True)
-	text = Column(String(60))
-	score = Column(Integer, nullable=True)
 
 
 def connect():
