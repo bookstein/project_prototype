@@ -61,6 +61,7 @@ def extract_hashtags(statuses, hashtag_list, label_list, label):
             hashtag_list.append(hashtag_obj["text"])
             label_list.append(label)
 
+
 def extract_text(statuses):
     """
     Extract text from a given twitter user's timeline and
@@ -170,25 +171,17 @@ def main():
 	TEXT = list()
 	LABELS = list()
 
-	# data = model.Status.get_all_statuses()
-	# for status in data:
-	# 	TEXT.append(status.text)
-	# 	LABELS.append(status.label)
+	data = model.Status.get_all_statuses()
+	for status in data:
+		TEXT.append(status.text)
+		LABELS.append(status.label)
 
-	# print TEXT[:10]
-	# print LABELS[:10]
+	print TEXT[:10]
+	print LABELS[:10]
 
-	# get_fraction_cons(TEXT, LABELS)
-	# X, y = vectorize(TEXT, LABELS)
-	# init_and_train_classifier(X, y, 3)
-
-	json_data = get_json_data(LIBERAL_TWEETS_PATH)
-	sample = extract_text(json_data)
-	print sample
-	makeVector = TfidfVectorizer(analyzer="word", stop_words="english")
-	print len(sample)
-	# sample = makeVector.transform(sample)
-	# print sample
+	get_fraction_cons(TEXT, LABELS)
+	X, y = vectorize(TEXT, LABELS)
+	init_and_train_classifier(X, y, 3)
 
 if __name__ == "__main__":
 	main()

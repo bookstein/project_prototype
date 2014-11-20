@@ -134,22 +134,11 @@ def load_tweets(session, statuses, label):
 
 		session.add(tweet)
 
-	# try:
-	# 	session.commit()
-
-	# except IntegrityError as e:
-	# 	print e.message
-	# 	session.rollback()
-	# 	pass
-
-	# finally:
-	# 	session.close()
-
 
 def main(session):
 	api = connect_to_API()
-	tcot = get_tweets_by_query(api, "#tcot -#p2", 1000)
-	p2 = get_tweets_by_query(api, "#p2 -#tcot", 1000)
+	tcot = get_tweets_by_query(api, "#tcot -#p2", 3000)
+	p2 = get_tweets_by_query(api, "#p2 -#tcot", 3000)
 	try:
 		load_tweets(session, tcot, "cons")
 		load_tweets(session, p2, "libs")
