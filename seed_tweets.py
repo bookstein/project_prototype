@@ -119,7 +119,7 @@ def load_tweets(session, statuses, label):
 	"""loads search results into database"""
 	for status in statuses:
 		tweet = model.Status()
-		tweet.id = status["id"]
+		tweet.tweet_id = status["id"]
 		# print "TWEET_ID", tweet.id
 		tweet.user_id = status["user"]["id"]
 		# print "USER", tweet.user_id

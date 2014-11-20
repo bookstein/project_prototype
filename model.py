@@ -38,6 +38,7 @@ class Status(Base):
 	__tablename__ = "statuses"
 
 	id = Column(Integer, primary_key=True)
+	tweet_id = Column(Integer, nullable=False)
 	user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 	text = Column(String(140), nullable=False) # tweet can't be empty
 	url = Column(String(140), nullable=True)
@@ -53,9 +54,30 @@ class Status(Base):
 		"""
 		Return all rows from statuses table.
 
-		Parameter 'cls' references the Status class.
+		Parameters:
+		-----------
+		'cls' references the Status class.
+
+		Output:
+		------
+		List of status objects
 		"""
 		statuses = cls.query.all()
+		return statuses
+
+	@classmethod
+	def get_cons_statuses(cls):
+		"""Return all conservative statuses
+
+		Parameters:
+		-----------
+		'cls' references the Status class.
+
+		Output:
+		------
+		List of status objects
+		"""
+		statuses = cls.query.filter_by(label="cons").all()
 		return statuses
 
 	@classmethod
