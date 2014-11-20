@@ -138,8 +138,11 @@ def load_hashtags(session, status):
 	if hashtags_obj:
 		for tag in hashtags_obj:
 			hashtag = model.Hashtag()
-			hashtag.status_id = status["id"]
+			hashtag.status_tw_id = status["id"]
 			hashtag.text = tag["text"]
+
+			print "HASHTAG TO ADD: ", hashtag
+
 			session.add(hashtag)
 
 def load_tweets(session, statuses, label):
@@ -160,8 +163,6 @@ def load_tweets(session, statuses, label):
 	"""
 	for status in statuses:
 
-		load_hashtags(session, status, label)
-
 		tweet = model.Status()
 		tweet.tw_tweet_id = status["id"]
 		# print "TWEET_ID", tweet.id
@@ -176,6 +177,8 @@ def load_tweets(session, statuses, label):
 
 		print "TWEET TO ADD", tweet
 
+		load_hashtags(session, status)
+
 		try:
 			session.add(tweet)
 			session.commit()
@@ -189,8 +192,8 @@ def load_tweets(session, statuses, label):
 
 def main(session):
 	api = connect_to_API()
-	tcot = get_tweets_by_query(api, "#tcot -#p2", 100)
-	p2 = get_tweets_by_query(api, "#p2 -#tcot", 100)
+	tcot = get_tweets_by_query(api, "#tcot -#p2", 3000)
+	p2 = get_tweets_by_query(api, "#p2 -#tcot", 3000)
 
 	load_tweets(session, tcot, "cons")
 	load_tweets(session, p2, "libs")

@@ -51,6 +51,7 @@ class Status(Base):
 	#creates "statuses" attribute of user
 	user = relationship("User", backref = backref("statuses"))
 
+
 	@classmethod
 	def get_all_statuses(cls):
 		"""
@@ -87,12 +88,20 @@ class Hashtag(Base):
 	__tablename__ = "hashtags"
 
 	id = Column(Integer, primary_key=True)
-	status_id = Column(Integer, ForeignKey('statuses.id'), nullable=False)
+	# status_id = Column(Integer, ForeignKey('statuses.id'), nullable=False)
+	status_tw_id = Column(Integer, ForeignKey('statuses.tw_tweet_id'), nullable=False)
 	text = Column(String(60))
 	# status_label = Column(String(20), ForeignKey('statuses.label'), nullable=False)
 
 	# creates "hashtags" atribute of tweet, with list of related hashtags
-	status = relationship("Status", backref = backref("hashtags"))
+	status = relationship("Status", foreign_keys=[Status.tw_tweet_id], backref = "hashtags")
+
+	@classmethod
+	def get_co_occurrences(cls, hashtag):
+		"""find hashtags that co-occur in a given tweet"""
+		pass
+
+# select tw_tweet_id from statuses inner join hashtags ON (hashtags.status_id = statuses.tw_tweet_id) WHERE (hashtags.text = "tcot") limit(10);
 
 
 def connect():
