@@ -83,7 +83,6 @@ class Status(Base):
 		statuses = cls.query.filter_by(label="cons").all()
 		return statuses
 
-
 class Hashtag(Base):
 	__tablename__ = "hashtags"
 
@@ -99,22 +98,7 @@ class Hashtag(Base):
 	@classmethod
 	def get_co_occurrences(cls, hashtag):
 		"""find hashtags that co-occur in a given tweet"""
-		pass
-		matching_hashtags = cls.query.filter(Hashtag.text == hashtag).all()
-
-		matching_tweet_ids = []
-		for match in matching_hashtags:
-			matching_tweet_ids.append(match.status_tw_id)
-
-		related_hashtags = []
-		for t_id in matching_tweet_ids:
-			t = db_session.query(Status).filter(Hashtag.status_tw_id==t_id).all()
-			for hashtag in t:
-				related_hashtags.append(hashtag)
-		print related_hashtags
-
-
-# select tw_tweet_id from statuses inner join hashtags ON (hashtags.status_id = statuses.tw_tweet_id) WHERE (hashtags.text = "tcot") limit(10);
+		# select tw_tweet_id from statuses inner join hashtags ON (hashtags.status_id = statuses.tw_tweet_id) WHERE (hashtags.text = "tcot") limit(10);
 
 
 def connect():
