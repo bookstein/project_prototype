@@ -18,37 +18,6 @@ USER_SCORE = None
 api = None
 
 
-
-def paginate_friends(self, f_ids, page_size):
-	"""
-	Paginate friend ids.
-
-	Parameters:
-	----------
-	List of friend ids (list of integers)
-	Page size (number of friend ids to include per page)
-
-	Note:
-	----
-	Page_size maximum value is 100 due to Twitter API limits for users/lookup
-
-	Output:
-	-------
-	Lists of {page_size} number of friend ids, to pass to lookup_friends
-
-	"""
-	print "working!"
-	while True:
-		iterable1, iterable2 = itertools.tee(f_ids)
-		f_ids, page = (itertools.islice(iterable1, page_size, None),
-		        list(itertools.islice(iterable2, page_size)))
-		if len(page) == 0:
-		    break
-		# yield is a generator keyword
-		yield page
-
-
-
 def connect_to_API():
 	"""
 	Create instance of tweepy API class with OAuth keys and tokens.
@@ -115,35 +84,7 @@ def get_tweets_by_query(api, query, max_tweets):
         	break
 	return searched_tweets
 
-def load_hashtags(session, status):
-	"""
-	Get hashtags from entities object in a tweet, add to session.
 
-	Parameters:
-	-----------
-	SQLA session object
-	A single twitter status
-
-	Output:
-	------
-	Adds each hashtag (may be multiple per tweet) to session.
-
-	Note:
-	----
-	Called inside load_tweets.
-	"""
-
-	hashtags_obj = status["entities"]["hashtags"]
-
-	if hashtags_obj:
-		for tag in hashtags_obj:
-			hashtag = model.Hashtag()
-			hashtag.status_tw_id = status["id"]
-			hashtag.text = tag["text"]
-
-			print "HASHTAG TO ADD: ", hashtag
-
-			session.add(hashtag)
 
 def load_tweets(session, statuses, label):
 	"""
