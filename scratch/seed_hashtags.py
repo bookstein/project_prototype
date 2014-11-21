@@ -1,3 +1,5 @@
+"""Get hashtags from existing dataset - polarization study - 8000 political hashtags"""
+
 import csv
 import model
 
