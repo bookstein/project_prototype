@@ -102,6 +102,8 @@ def load_tweets(session, statuses, label):
 	This eliminates duplicates by rolling back commits of dupes and continuing.
 
 	"""
+	hashtags_seen = {}
+
 	for status in statuses:
 
 		tweet = model.Status()
@@ -118,7 +120,14 @@ def load_tweets(session, statuses, label):
 
 		print "TWEET TO ADD", tweet
 
-		load_hashtags(session, status)
+		hashtags_from_tw = status["entities"]['hashtags']
+		for hashtag_obj in hashtags_from_tw:
+			hashtag = hashtag_obj["text"].lower()
+			tag_in_db = hashtags_seen.get(hashtag)
+			if not tag_in_db:
+				tag_in_db = model.Hashtag(text=hashtag)
+				hashtags_seen[hashtag] = tag_in_db
+			tweet.hashtags.append(tag_in_db)
 
 		try:
 			session.add(tweet)
