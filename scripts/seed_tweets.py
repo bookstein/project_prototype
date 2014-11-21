@@ -1,14 +1,16 @@
 """
 	API for getting tweets from Twitter hashtag feeds, scoring.
 """
-import pickle
-import tweepy
-import dummyscore
 import itertools
 import os
-import model
 from datetime import datetime
+
+import tweepy
 import sqlalchemy.exc
+
+import dummyscore
+import model
+import politwit.score
 
 
 CURRENT_USER = ""
@@ -141,12 +143,13 @@ def load_tweets(session, statuses, label):
 
 
 def main(session):
-	api = connect_to_API()
-	tcot = get_tweets_by_query(api, "#tcot -#p2", 3000)
-	p2 = get_tweets_by_query(api, "#p2 -#tcot", 3000)
+	print "hi"
+	# api = connect_to_API()
+	# tcot = get_tweets_by_query(api, "#tcot -#p2", 3000)
+	# p2 = get_tweets_by_query(api, "#p2 -#tcot", 3000)
 
-	load_tweets(session, tcot, "cons")
-	load_tweets(session, p2, "libs")
+	# load_tweets(session, tcot, "cons")
+	# load_tweets(session, p2, "libs")
 
 
 if __name__ == "__main__":
