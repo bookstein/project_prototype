@@ -9,39 +9,69 @@
     stroke-linecap: round;
   }
 
+  .bubble {
+  fill: brown;
+  fill-opacity: .5;
+  stroke: #fff;
+  stroke-width: .5px;
+  }
+
+  .bubble :hover {
+  stroke: #000;
+  }
+
+  .legend circle {
+  fill: none;
+  stroke: #ccc;
+}
+
+.legend text {
+  fill: #777;
+  font: 10px sans-serif;
+  text-anchor: middle;
+  }
+
 </style>
 <body>
 <script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="part_3/libs/d3.js"></script>
 <script>
 
 var width = 960,
     height = 600;
 
-// var path = d3.geo.path()
-//     .projection(null);
+var formatNumber = d3.format(",.0f");
+
+var scale = d3.scale.linear()
+              .domain([200, 500])
+              .range([20, 50])
+
+var radius = d3.scale.linear()
+              .domain([200, 500])
+              .range([20, 50])
 
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
-// d3.json("build/counties.json", function(error, us) {
-//   if (error) return console.error(error);
+console.log("w" + width)
+console.log("h" + height)
 
-//   svg.append("path")
-//       .datum(topojson.mesh(us))
-//       .attr("d", path);
-// });
+var legend = svg.append("g")
+    .attr("class", "legend")
+    .attr("transform", "translate(" + (width - 50) + "," + (height - 20) + ")")
+  .selectAll("g")
+    .data(["10", "20", "30", "40"])
+  .enter().append("g");
 
+legend.append("circle")
+    .attr("cy", function(d) { return -radius(d); })
+    .attr("r", radius);
 
-
-// var scale = d3.scale.linear()
-// scale.domain([200, 500])
-// scale.range([20, 50])
-
-var scale = d3.scale.linear()
-              .domain([200, 500])
-              .range([20, 50])
+legend.append("text")
+    .attr("y", function(d) { return -2 * radius(d); })
+    .attr("dy", "3em")
+    .text(d3.format(".1s"));
 
 svg.append("g")
     .attr("class", "bubble")
@@ -55,10 +85,7 @@ svg.append("g")
       return d;
     })
     .attr("r", function(d) {
-      return scale(d);
+      return radius(d);
     });
-
-
-
 
 </script>
