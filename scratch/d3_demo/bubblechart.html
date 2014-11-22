@@ -33,6 +33,16 @@ var svg = d3.select("body").append("svg")
 //       .attr("d", path);
 // });
 
+
+
+// var scale = d3.scale.linear()
+// scale.domain([200, 500])
+// scale.range([20, 50])
+
+var scale = d3.scale.linear()
+              .domain([200, 500])
+              .range([20, 50])
+
 svg.append("g")
     .attr("class", "bubble")
   .selectAll("circle")
@@ -45,13 +55,10 @@ svg.append("g")
       return d;
     })
     .attr("r", function(d) {
-      return 10;
+      return scale(d);
     });
 
 
-// var radius = d3.scale.sqrt()
-//     .domain([20, 50])
-//     .range([200, 500]);
 
 
 </script>
