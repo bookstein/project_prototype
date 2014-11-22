@@ -1,0 +1,9 @@
+[
+		{% for obj in obj_list %}
+{
+		"handle: {{ obj.handle }}
+		"score": {{ obj.score }}
+},
+		{% endfor %}
+
+]
