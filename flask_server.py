@@ -1,5 +1,6 @@
 import os
 import logging
+import time, threading
 
 from flask import Flask, request, render_template, redirect
 import tweepy
@@ -9,6 +10,10 @@ from friends import User
 logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
+
+TIME_TO_WAIT = 900/180 # 15 minutes divided into 180 requests
+NUM_RETRIES = 2
+RATE_LIMITED_RESOURCES =[("statuses", "/statuses/user_timeline")]
 
 @app.route("/")
 def index():
@@ -28,6 +33,8 @@ def display_friends():
 		# me = tw_api.get_user_by_id(screen_name)
 		# print me
 		api = connect_to_API()
+		check_rate_limit(api)
+
 		user = User(user_id=screen_name, api=api)
 		print user.SCORE
 
@@ -38,19 +45,35 @@ def display_friends():
 			friendlist = []
 
 			for page in user.paginate_friends(friends_ids, 100):
-				friend_objs = user.lookup_friends(f_ids=page)
-				for f in friend_objs:
-					friend = User(user_id=f.id, api=api)
-					print friend.SCORE
+				process_friend_batch(user, page, api)
 
 			return render_template("index.html", display = friendlist)
 
 
-		except Exception as e:
+		except tweepy.TweepError as e:
 			print "ERROR!!!!!", e
+			# if e.message[0]["code"] == 88:
+			# # {"errors":[{"message":"Rate limit exceeded","code":88}]}
+			# 	print "EXCEEDED RATE LIMIT", e
+
 			return render_template("index.html", display = e)
 
+def process_friend_batch(user, page, api):
+	friend_objs = user.lookup_friends(f_ids=page)
+	for f in friend_objs:
+		friend = User(user_id=f.id, api=api)
+		print friend.SCORE
 
+def check_rate_limit(api):
+		limits = api.rate_limit_status()
+		stats = limits["resources"]["statuses"]
+		for resource in stats.keys():
+			if stats[resource]["remaining"] < 2:
+				print "EXPIRED:", resource
+			else:
+				print resource, ": rate limit not exceeded"
+		threading.Timer(self.TIME_TO_WAIT, self.check_rate_limit).start()
+		# check rate limit for a given resource instead of hardcoding
 
 def connect_to_API():
 	"""

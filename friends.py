@@ -209,14 +209,6 @@ class User(object):
 		# get link url, cut to hostname, compare against database
 
 
-	def on_error(self):
-		pass
-		# handle errors here
-
-	def check_rate_limit(self):
-		pass
-		# check rate limit for a given resource instead of hardcoding
-
 def connect_to_API():
 	"""
 	Create instance of tweepy API class with OAuth keys and tokens.
