@@ -15,9 +15,6 @@ class User(object):
 	# important variables
 	MAX_NUM_TWEETS = 100
 	MAX_NUM_FRIENDS = 300
-	TIME_TO_WAIT = 900/180 # 15 minutes divided into 180 requests
-	NUM_RETRIES = 2
-	RATE_LIMITED_RESOURCES =[("statuses", "/statuses/user_timeline")]
 
 	USER_ID = None
 	SCORE = None
@@ -44,7 +41,6 @@ class User(object):
 			timeline = self.get_timeline(self.USER_ID, self.MAX_NUM_TWEETS)
 			hashtag_count = self.count_hashtags(timeline)
 			self.score(hashtag_count)
-
 
 	def get_friends_ids(self, user_id):
 		"""
@@ -231,7 +227,7 @@ def main():
 if __name__ == "__main__":
 	# __init__ returns copy of Friends class, including api instance
 	api = connect_to_API()
-	user = User(api=api)
+	# user = User(user_id="bookstein", api=api)
 
 
 
