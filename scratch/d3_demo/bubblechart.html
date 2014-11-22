@@ -59,19 +59,31 @@ console.log("h" + height)
 
 var legend = svg.append("g")
     .attr("class", "legend")
-    .attr("transform", "translate(" + (width - 50) + "," + (height - 20) + ")")
+    .attr("font-size", 12)
   .selectAll("g")
-    .data(["10", "20", "30", "40"])
+    .data(["50", "100", "150", "200"])
   .enter().append("g");
 
 legend.append("circle")
-    .attr("cy", function(d) { return -radius(d); })
-    .attr("r", radius);
+    .attr("cy", function(d) {
+      return d;
+    })
+    .attr("cx", function(d) {
+      return d;
+    })
+    .attr("r", 10);
 
 legend.append("text")
-    .attr("y", function(d) { return -2 * radius(d); })
+    .attr("y", function(d) {
+      return d;
+    })
+    .attr("x", function(d) {
+      return d;
+    })
     .attr("dy", "3em")
-    .text(d3.format(".1s"));
+    .text(function(d) {
+      return d;
+    });
 
 svg.append("g")
     .attr("class", "bubble")
