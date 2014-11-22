@@ -103,7 +103,12 @@ class Hashtag(Base):
 		"""find hashtags that co-occur in a given tweet"""
 		pass
 		# select tw_tweet_id from statuses inner join hashtags ON (hashtags.status_id = statuses.tw_tweet_id) WHERE (hashtags.text = "tcot") limit(10);
-
+	@classmethod
+	def get_all_political_hashtags(cls):
+		"""return all political hashtags"""
+		hashtags = cls.query.all()
+		hashtags_text = [tag.text for tag in hashtags]
+		return hashtags_text
 
 def connect():
     global ENGINE
