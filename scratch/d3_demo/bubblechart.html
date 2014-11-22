@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+  path {
+    fill: none;
+    stroke: #000;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script>
+
+var width = 960,
+    height = 600;
+
+// var path = d3.geo.path()
+//     .projection(null);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+// d3.json("build/counties.json", function(error, us) {
+//   if (error) return console.error(error);
+
+//   svg.append("path")
+//       .datum(topojson.mesh(us))
+//       .attr("d", path);
+// });
+
+svg.append("g")
+    .attr("class", "bubble")
+  .selectAll("circle")
+    .data([200, 300, 400, 500])
+  .enter().append("circle")
+    .attr("cx", function(d) {
+      return d;
+    })
+    .attr("cy", function(d) {
+      return d;
+    })
+    .attr("r", function(d) {
+      return 10;
+    });
+
+
+// var radius = d3.scale.sqrt()
+//     .domain([20, 50])
+//     .range([200, 500]);
+
+
+</script>

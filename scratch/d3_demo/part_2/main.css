@@ -1,0 +1,38 @@
+.xAxis path, .xAxis line, .yAxis path, .yAxis line{
+    stroke: darkgray;
+    stroke-width: 1px;
+    fill: none;
+}
+
+text {
+    font-family: helvetica, sans-serif;
+    font-size: 10px;
+}
+
+.title {
+    font-size: 15px;
+}
+
+.san-francisco {
+    fill: orange;
+}
+
+.new-york {
+    fill: blue;
+}
+
+.austin {
+    fill: red;
+}
+
+.portland {
+    fill: green;
+}
+
+.miami {
+    fill: yellow;
+}
+
+.boston {
+    fill: purple
+}

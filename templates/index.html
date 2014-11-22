@@ -2,7 +2,6 @@
 	<head>
 		<title>Twitter Test</title>
 		<meta charset="UTF-8">
-		<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap-theme.min.css">
 	</head>
 	<body>
@@ -13,12 +12,18 @@
 			<input type="submit" value="Get visualization">
 		</form>
 
+		<div class="chart">
+		</div>
+
 		<div id="result">
 			{% for friend in display %}
 				{{ friend }}
 			{% endfor %}
 		</div>
 
+		<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript" src="libs/d3/d3.js" charset="utf-8"></script>
+    	<script type="text/javascript" src="static/data_vis.js"></script>
 		<script>
 			// $("#login").click(function(e){
 			// 	e.preventDefault();
