@@ -19,23 +19,31 @@ class User(object):
 	NUM_RETRIES = 2
 	RATE_LIMITED_RESOURCES =[("statuses", "/statuses/user_timeline")]
 
-	CURRENT_USER = ""
-	USER_SCORE = None
+	USER_ID = ""
+	SCORE = None
 
 	# tweepy api instance
 	api = None
 
-	def __init__(self, api=api, screen_name=CURRENT_USER):
+	def __init__(self, api=api, user_id=USER_ID):
 		"""
 		Initialize new user object.
 
 		Parameters:
 		----------
-		Twitter API object (optional)
-		Username (optional)
+		Twitter API object
+		User Id (Screen name or ID number)
+
+		Output:
+		------
+		Assigns value to self.api, self.USER_ID, and self.SCORE
 		"""
 		self.api = api
-		self.CURRENT_USER = screen_name
+		self.USER_ID = user_id
+		if len(self.USER_ID) > 1:
+			timeline = self.get_timeline(self.USER_ID, self.MAX_NUM_TWEETS)
+			hashtag_count = self.count_hashtags(timeline)
+			self.score(hashtag_count)
 
 
 	def get_friends_ids(self, user_id):
@@ -46,7 +54,7 @@ class User(object):
 		-----------
 		A given user's id (screen name or id)
 		"""
-		print "HI THIS IS THE REAL COPY"
+
 		try:
 			friends_ids = tweepy.Cursor(self.api.friends_ids, user_id = user_id).items()
 			# print friends_ids
@@ -178,11 +186,23 @@ class User(object):
 		return hashtags_dict
 
 
-	def score_user(self):
-		"""score user based on number of politically-relevant hashtags found
-		in last X tweets"""
-		score = simplescore.score()
-		return score
+	def score(self, hashtags_dict):
+		"""
+		Score user based on number of politically-relevant hashtags.
+
+		Paramters:
+		---------
+		Dictionary of hashtags and their counts found in recent timeline,
+		created in count_hashtags() function.
+
+		Output:
+		-------
+		A score between 0 and 1, representing the percentage of political
+		hashtags out of all hashtags used.
+
+		"""
+		score = simplescore.Score(hashtags_dict)
+		self.SCORE = score.score
 
 	def get_links(self):
 		pass
