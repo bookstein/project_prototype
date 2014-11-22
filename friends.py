@@ -155,7 +155,32 @@ class User(object):
 		# create Status object
 		# pickle dictionary
 
+	def count_hashtags(self, timeline):
+		"""
+		Store hashtags from a given timeline in a dictionary.
+
+		Parameters:
+		----------
+		Takes a tweepy cursor object corresponding to a user's timeline.
+
+		Output:
+		------
+		A dictionary of all hashtags (lowercased) used and number of times used.
+
+		"""
+		hashtags_dict = {}
+
+		for tweet in timeline:
+			hashtags_in_tweet = tweet.entities["hashtags"]
+			for hashtag_obj in hashtags_in_tweet:
+				hashtag = hashtag_obj["text"].lower()
+				hashtags_dict[hashtag] = hashtags_dict.get(hashtag, 0) + 1
+		return hashtags_dict
+
+
 	def score_user(self):
+		"""score user based on number of politically-relevant hashtags found
+		in last X tweets"""
 		score = simplescore.score()
 		return score
 

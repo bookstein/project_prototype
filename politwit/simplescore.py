@@ -2,10 +2,12 @@
 
 import model
 
-def score():
+
+def score_timeline():
 	pass
 
-
+def main():
+	pass
 
 if __name__ == "__main__":
 	main()
