@@ -1,8 +1,10 @@
-from flask import Flask, request, render_template, redirect
 import os
-import tweepy
-from friends import User
 import logging
+
+from flask import Flask, request, render_template, redirect
+import tweepy
+
+from friends import User
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -31,11 +33,13 @@ def display_friends():
 			friendlist = []
 
 			for page in user.paginate_friends(friends_ids, 100):
-				# print page
-				for friend in page:
-					friend = User()
-					friend.USER_SCORE = friend.score_user()
-					friendlist.append(friend.USER_SCORE)
+				friend_objs = user.lookup_friends(f_ids=page)
+				for f in friend_objs:
+					friend = User(api=api, screen_name=f.id)
+					friend_timeline = friend.get_timeline(f.id, 100)
+					print friend_timeline
+					# friend.USER_SCORE = friend.score_user()
+					# friendlist.append(friend.USER_SCORE)
 
 			return render_template("index.html", display = friendlist)
 
@@ -43,6 +47,8 @@ def display_friends():
 		except Exception as e:
 			print "ERROR!!!!!", e
 			return render_template("index.html", display = e)
+
+
 
 def connect_to_API():
 	"""
