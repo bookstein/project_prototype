@@ -9,7 +9,7 @@ import tweepy
 import sqlalchemy.exc
 
 import dummyscore
-import model
+import politwit.model
 import politwit.score
 
 
