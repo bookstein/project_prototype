@@ -19,20 +19,20 @@ class User(object):
 	NUM_RETRIES = 2
 	RATE_LIMITED_RESOURCES =[("statuses", "/statuses/user_timeline")]
 
-	USER_ID = ""
+	USER_ID = None
 	SCORE = None
 
 	# tweepy api instance
 	api = None
 
-	def __init__(self, api=api, user_id=USER_ID):
+	def __init__(self, user_id, api=api):
 		"""
 		Initialize new user object.
 
 		Parameters:
 		----------
-		Twitter API object
 		User Id (Screen name or ID number)
+		Tweepy API object
 
 		Output:
 		------
@@ -40,7 +40,7 @@ class User(object):
 		"""
 		self.api = api
 		self.USER_ID = user_id
-		if len(self.USER_ID) > 1:
+		if self.USER_ID:
 			timeline = self.get_timeline(self.USER_ID, self.MAX_NUM_TWEETS)
 			hashtag_count = self.count_hashtags(timeline)
 			self.score(hashtag_count)

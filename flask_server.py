@@ -28,8 +28,8 @@ def display_friends():
 		# me = tw_api.get_user_by_id(screen_name)
 		# print me
 		api = connect_to_API()
-		user = User(api=api, screen_name=screen_name)
-		user.USER_SCORE = user.score_user()
+		user = User(user_id=screen_name, api=api)
+		print user.SCORE
 
 		try:
 			friends_ids = user.get_friends_ids(screen_name)
@@ -40,11 +40,8 @@ def display_friends():
 			for page in user.paginate_friends(friends_ids, 100):
 				friend_objs = user.lookup_friends(f_ids=page)
 				for f in friend_objs:
-					friend = User(api=api, screen_name=f.id)
-					friend_timeline = friend.get_timeline(f.id, 100)
-					print friend_timeline
-					# friend.USER_SCORE = friend.score_user()
-					# friendlist.append(friend.USER_SCORE)
+					friend = User(user_id=f.id, api=api)
+					print friend.SCORE
 
 			return render_template("index.html", display = friendlist)
 
