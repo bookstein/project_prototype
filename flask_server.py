@@ -14,6 +14,11 @@ app = Flask(__name__)
 def index():
 	return render_template("index.html")
 
+@app.route("/test.json")
+def test_json():
+	# Or - just do an object2json function of some sort and there's a shortcut to return that
+	return render_template("test.json", obj_list = [{'handle': '@whoever', 'score': 10}, {'handle': '@blah', 'score': 20}])
+
 @app.route("/display", methods=["GET", "POST"])
 def display_friends():
 	if request.method == "POST":
