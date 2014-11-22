@@ -1,10 +1,14 @@
 """
 	API for getting friends and statuses from Twitter, scoring.
 """
-import pickle
-import tweepy
-import dummyscore
+
 import itertools
+import os
+
+import tweepy
+
+import politwit.simplescore as simplescore
+
 
 class User(object):
 
@@ -68,7 +72,6 @@ class User(object):
 		Lists of {page_size} number of friend ids, to pass to lookup_friends
 
 		"""
-		print "working!"
 		while True:
 			iterable1, iterable2 = itertools.tee(f_ids)
 			f_ids, page = (itertools.islice(iterable1, page_size, None),
@@ -76,9 +79,10 @@ class User(object):
 			if len(page) == 0:
 			    break
 			# yield is a generator keyword
+			print "PRINTING ", page
 			yield page
 
-	def lookup_friends(self,f_ids):
+	def lookup_friends(self, f_ids):
 		"""
 		Hydrates friend ids into complete user objects.
 
@@ -152,7 +156,7 @@ class User(object):
 		# pickle dictionary
 
 	def score_user(self):
-		score = dummyscore.score()
+		score = simplescore.score()
 		return score
 
 	def get_links(self):
@@ -168,16 +172,29 @@ class User(object):
 		pass
 		# check rate limit for a given resource instead of hardcoding
 
+def connect_to_API():
+	"""
+	Create instance of tweepy API class with OAuth keys and tokens.
+	"""
+	# initialize tweepy api object with auth, OAuth
+	TWITTER_API_KEY=os.environ.get('TWITTER_API_KEY')
+	TWITTER_SECRET_KEY=os.environ.get('TWITTER_SECRET_KEY')
+	TWITTER_ACCESS_TOKEN=os.environ.get('TWITTER_ACCESS_TOKEN')
+	TWITTER_SECRET_TOKEN=os.environ.get('TWITTER_SECRET_TOKEN')
+
+	auth = tweepy.OAuthHandler(TWITTER_API_KEY, TWITTER_SECRET_KEY, secure=True)
+	auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_SECRET_TOKEN)
+	api = tweepy.API(auth, cache=None) #removed wait_on_rate_limit=True, wait_on_rate_limit_notify=True
+
+	return api
 
 def main():
 	pass
-	# currentUser = User(currentId)
-	# currentUser.get_friends()
-	# currentUser.get_timeline()
 
 if __name__ == "__main__":
 	# __init__ returns copy of Friends class, including api instance
-	user = User()
-	main()
+	api = connect_to_API()
+	user = User(api=api)
+
 
 
