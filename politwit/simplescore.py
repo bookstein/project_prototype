@@ -49,9 +49,12 @@ class Score(object):
 		for hashtag in matches:
 			political_count += matches[hashtag]
 
-		score = float(political_count)/float(total_num_hashtags)
+		if total_num_hashtags > 0:
+			score = float(political_count)/float(total_num_hashtags)
+			return score
 
-		return score
+		else:
+			return 0
 
 
 def main():
