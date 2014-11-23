@@ -3,6 +3,8 @@
 		<title>Twitter Test</title>
 		<meta charset="UTF-8">
 		<link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap-theme.min.css">
+		<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript" src={{ url_for('static', filename='d3.js') }} charset="utf-8"></script>
 	</head>
 	<body>
 		<h1>HELLO WORLD!</h1>
@@ -21,9 +23,8 @@
 			{% endfor %}
 		</div>
 
-		<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-		<script type="text/javascript" src="libs/d3/d3.js" charset="utf-8"></script>
-    	<script type="text/javascript" src="static/data_vis.js"></script>
+
+		<script type="text/javascript" src={{ url_for('static', filename='data_vis.js') }}></script>
 		<script>
 			// $("#login").click(function(e){
 			// 	e.preventDefault();

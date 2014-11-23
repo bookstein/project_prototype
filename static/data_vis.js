@@ -1,36 +1,24 @@
-<!DOCTYPE html>
-    <head>
-        <title>Twitter Test</title>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap-theme.min.css">
+(function () {
 
-     <style>
+  var scores = [20, 30, 40, 50]
 
-        .chart div {
-          font: 10px sans-serif;
-          background-color: steelblue;
-          text-align: right;
-          padding: 3px;
-          margin: 1px;
-          color: white;
-        }
+  var w = 960,
+    h = 600
 
-        </style>
-    </head>
-    <body>
-        <div class="chart">
-        </div>
+  // set radius proportional to num of followers
 
-        <script>
-        var data = [4, 8, 15, 16, 23, 42];
+  // create SVG elem
+  var svg = d3.select("body")
+              .append("svg")
+              .attr("width", w)
+              .attr("height", h);
 
-        d3.select(".chart")
-          .selectAll("div")
-            .data(data)
-          .enter().append("div")
-            .style("width", function(d) { return d * 10 + "px"; })
-            .text(function(d) { return d; });
+  svg.selectAll("circle")
+    .data(scores)
+    .enter()
+    .append("circle")
+    .attr("cx", 200)
+    .attr("cy", 200)
+    .attr("r", 10)
 
-        </script>
-    </body>
-</html>
+})();

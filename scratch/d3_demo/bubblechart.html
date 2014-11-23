@@ -2,12 +2,19 @@
 <meta charset="utf-8">
 <style>
 
-  path {
-    fill: none;
-    stroke: #000;
-    stroke-linejoin: round;
-    stroke-linecap: round;
-  }
+/*
+
+The CSS approach has a few obvious benefits:
+
+You can specify a style once and have it be applied to multiple elements.
+CSS code is generally easier to read than inline attributes.
+For those reasons, the CSS approach may be more maintainable and make design changes faster to implement.
+
+If it helps you remember which rules in your stylesheet are SVG-specific, consider including svg in those selectors:
+
+svg .pumpkin {
+    ...
+ }*/
 
   .bubble {
   fill: brown;
@@ -37,8 +44,8 @@
 <script src="part_3/libs/d3.js"></script>
 <script>
 
-var width = 960,
-    height = 600;
+var w = 960,
+    h = 600;
 
 var formatNumber = d3.format(",.0f");
 
@@ -51,11 +58,11 @@ var radius = d3.scale.linear()
               .range([20, 50])
 
 var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height);
+    .attr("width", w)
+    .attr("height", h);
 
-console.log("w" + width)
-console.log("h" + height)
+console.log("w" + w)
+console.log("h" + h)
 
 var legend = svg.append("g")
     .attr("class", "legend")
