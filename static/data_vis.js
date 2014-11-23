@@ -17,8 +17,13 @@
     .data(scores)
     .enter()
     .append("circle")
-    .attr("cx", 200)
-    .attr("cy", 200)
+    .attr("cx", function(d, i) {
+      // assign a dynamic value that corresponds to i, or each value’s position in the data set
+      return i * (w / scores.length);
+    })
+    .attr("cy", function(d) {
+      return d;
+    })
     .attr("r", 10)
 
 })();
