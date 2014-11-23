@@ -1,0 +1,5 @@
+#to ignore on scikitlearn branch:
+twitter-proof/*
+json/*
+tcplog.txt
+scratch/*
