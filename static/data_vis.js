@@ -5,7 +5,6 @@
   var w = 960,
     h = 600;
 
-  var padding = 5;
 
   // set radius proportional to num of followers
 
@@ -30,5 +29,23 @@
     .attr("fill", function(d) {
       return "rgb(0, 0, " + (d * 5) + ")";
     });
+
+  // add svg "text" elements
+  svg.selectAll("text")
+   .data(scores)
+   .enter()
+   .append("text")
+   .text(function(d) {
+        return d;
+   })
+   .attr("x", function(d, i) {
+        return i * (w / scores.length);
+   })
+   .attr("y", 100)
+   .attr("font-family", "sans-serif")
+   .attr("font-size", "11px")
+   .attr("fill", "white")
+   // center the text horizontally at the assigned x value
+   .attr("text-anchor", "middle");
 
 })();
