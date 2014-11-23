@@ -1,9 +1,11 @@
 (function () {
 
-  var scores = [20, 30, 40, 50]
+  var scores = [20, 30, 40, 50, 60, 70, 80, 90, 20, 30, 40, 50, 60,];
 
   var w = 960,
-    h = 600
+    h = 600;
+
+  var padding = 5;
 
   // set radius proportional to num of followers
 
@@ -21,9 +23,9 @@
       // assign a dynamic value that corresponds to i, or each value’s position in the data set
       return i * (w / scores.length);
     })
-    .attr("cy", function(d) {
+    .attr("cy", 100)
+    .attr("r", function(d) {
       return d;
-    })
-    .attr("r", 10)
+    });
 
 })();
