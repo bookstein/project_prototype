@@ -61,21 +61,66 @@ def display_friends():
 			return render_template("index.html", display = e)
 
 def process_friend_batch(user, page, api):
+	"""
+	Create User object for each friend in batch of 100 (based on pagination)
+	"""
+	batch = []
 	friend_objs = user.lookup_friends(f_ids=page)
 	for f in friend_objs:
-		friend = User(user_id=f.id, api=api)
-		print friend.SCORE
+		friend = User(api, central_user=user.CENTRAL_USER, user_id=f.id)
+		friend.NUM_FOLLOWERS = f.followers_count
+		print friend.NUM_FOLLOWERS
+		# print "friend created"
+		batch.append(friend)
+	return batch
+
+def get_top_influencers(count):
+		"""
+		Get top influencers from user friends, as measured by # of followers.
+
+		After requesting paginated friends, check "followers_count" attribute of
+		each friend.
+
+		Note:
+		-----
+		Run this function only if user has more than {count} friends.
+		Currently, Twitter limits user timeline requests to 300
+		(application auth) or 180 requests (user auth).
+
+		Parameters:
+		----------
+		Number of top influencers to output.
+
+		Output:
+		-------
+		List of {count} most influential friends
+
+		"""
+		pass
+		# friends_count attribute
+		# do this if user has more than 300 friends (180 friends w user auth)
 
 def check_rate_limit(api):
-		limits = api.rate_limit_status()
-		stats = limits["resources"]["statuses"]
-		for resource in stats.keys():
-			if stats[resource]["remaining"] < 2:
-				print "EXPIRED:", resource
-			else:
-				print resource, ": rate limit not exceeded"
-		threading.Timer(self.TIME_TO_WAIT, self.check_rate_limit).start()
-		# check rate limit for a given resource instead of hardcoding
+	"""
+	Check Twitter API rate limit status for "statuses" (timeline) requests
+	Print number of requests remaining per time period
+	"""
+	limits = api.rate_limit_status()
+	stats = limits["resources"]["statuses"]
+	for resource in stats.keys():
+		if stats[resource]["remaining"] == 0:
+			print "EXPIRED:", resource
+		else:
+			print resource, ":", stats[resource]["remaining"], "\n"
+
+	# users = limits["resources"]["users"]
+	# for resource in users.keys():
+	# 	if stats[resource]["remaining"] == 0:
+	# 		print "EXPIRED:", resource
+	# 	else:
+	# 		print resource, ":", stats[resource]["remaining"], "\n"
+
+	# threading.Timer(self.TIME_TO_WAIT, self.check_rate_limit).start()
 
 def connect_to_API():
 	"""

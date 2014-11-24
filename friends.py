@@ -56,7 +56,7 @@ class User(object):
 
 		try:
 			friends_ids = tweepy.Cursor(self.api.friends_ids, user_id = user_id).items()
-			# print friends_ids
+			print "get friends ids api call"
 			return friends_ids
 		except tweepy.TweepError as e:
 			print e
@@ -86,7 +86,7 @@ class User(object):
 			if len(page) == 0:
 			    break
 			# yield is a generator keyword
-			print "PRINTING ", page
+			print "PRINTING PAGE ", page
 			yield page
 
 	def lookup_friends(self, f_ids):
@@ -108,6 +108,7 @@ class User(object):
 		"""
 		try:
 			friends = self.api.lookup_users(f_ids)
+			print "lookup users api call"
 			return friends
 		except tweepy.TweepError as e:
 			print e
@@ -116,39 +117,13 @@ class User(object):
 		# hydrate (create twitter user object)
 		# pickle dictionary
 
-	def get_top_influencers(self, count):
-		pass
-		"""
-		Get top influencers from user friends, as measured by # of followers.
-
-		After requesting paginated friends, check "followers_count" attribute of
-		each friend.
-
-		Note:
-		-----
-		Run this function only if user has more than {count} friends.
-		Currently, Twitter limits user timeline requests to 300
-		(application auth) or 180 requests (user auth).
-
-		Parameters:
-		----------
-		Number of top influencers to output.
-
-		Output:
-		-------
-		List of {count} most influential friends
-
-		"""
-
-		# friends_count attribute
-		# do this if user has more than 300 friends (180 friends w user auth)
-
 	def get_timeline(self, uid, count):
 		"""Get n number of tweets by passing in user id and number of statuses.
 			If user has protected tweets, returns [] rather than break the program.
 		"""
 		try:
 			feed = tweepy.Cursor(self.api.user_timeline, id=uid).items(count)
+			print "get timeline api call"
 			return feed
 
 		except tweepy.TweepError as e:
@@ -178,8 +153,10 @@ class User(object):
 		hashtags_dict = {}
 
 		for tweet in timeline:
+			print "processing tweet"
 			hashtags_in_tweet = tweet.entities["hashtags"]
 			for hashtag_obj in hashtags_in_tweet:
+				print "counting hashtags"
 				hashtag = hashtag_obj["text"].lower()
 				hashtags_dict[hashtag] = hashtags_dict.get(hashtag, 0) + 1
 		return hashtags_dict
@@ -201,6 +178,7 @@ class User(object):
 
 		"""
 		score = simplescore.Score(hashtags_dict)
+		print "Scoring"
 		self.SCORE = score.score
 
 	def get_links(self):
