@@ -1,6 +1,7 @@
 import os
 import logging
 import time#, threading
+import json
 
 from flask import Flask, request, render_template, redirect
 import tweepy
@@ -20,10 +21,13 @@ RATE_LIMITED_RESOURCES =[("statuses", "/statuses/user_timeline")]
 def index():
 	return render_template("index.html")
 
-@app.route("/test.json")
-def test_json():
+@app.route("/json")
+def test_json(scores_dictionary):
+	json_scores = json.dumps(scores_dictionary)
+
+	return render_template("index.html", display=json_scores)
 	# Or - just do an object2json function of some sort and there's a shortcut to return that
-	return render_template("test.json", obj_list = [{'handle': '@whoever', 'score': 10}, {'handle': '@blah', 'score': 20}])
+	# return render_template("test.json", obj_list = [{'handle': '@whoever', 'score': 10}, {'handle': '@blah', 'score': 20}])
 
 @app.route("/display", methods=["GET", "POST"])
 def display_friends():
@@ -49,7 +53,15 @@ def display_friends():
 			if len(friendlist) > user.MAX_NUM_FRIENDS:
 				friendlist = get_top_influencers(user.MAX_NUM_FRIENDS)
 
-			return render_template("index.html", display = friendlist)
+			friend_scores = {}
+
+			for friend in friendlist:
+				timeline = friend.get_timeline(friend.USER_ID, friend.MAX_NUM_TWEETS)
+				hashtag_count = friend.count_hashtags(timeline)
+				friend.SCORE = friend.score(hashtag_count)
+				friend_scores[friend.SCREEN_NAME] = friend.SCORE
+
+			return render_template("index.html", display=friend_scores)
 
 
 		except tweepy.TweepError as e:
@@ -69,7 +81,8 @@ def process_friend_batch(user, page, api):
 	for f in friend_objs:
 		friend = User(api, central_user=user.CENTRAL_USER, user_id=f.id)
 		friend.NUM_FOLLOWERS = f.followers_count
-		print friend.NUM_FOLLOWERS
+		friend.SCREEN_NAME = f.screen_name
+		print friend.SCREEN_NAME, friend.NUM_FOLLOWERS
 		# print "friend created"
 		batch.append(friend)
 	return batch

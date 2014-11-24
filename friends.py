@@ -17,6 +17,7 @@ class User(object):
 
 	CENTRAL_USER = None
 	USER_ID = None
+	SCREEN_NAME = None
 	NUM_FOLLOWERS = None
 	SCORE = None
 
