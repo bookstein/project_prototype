@@ -41,7 +41,13 @@ def display_friends():
 			friendlist = []
 
 			for page in user.paginate_friends(friends_ids, 100):
-				process_friend_batch(user, page, api)
+				friends = process_friend_batch(user, page, api)
+				print check_rate_limit(api)
+				friendlist.extend(friends)
+
+			if len(friendlist) > 299:
+				pass
+
 
 			return render_template("index.html", display = friendlist)
 
