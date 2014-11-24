@@ -1,6 +1,6 @@
 import os
 import logging
-import time, threading
+import time#, threading
 
 from flask import Flask, request, render_template, redirect
 import tweepy
@@ -10,6 +10,7 @@ from friends import User
 logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
+
 
 TIME_TO_WAIT = 900/180 # 15 minutes divided into 180 requests
 NUM_RETRIES = 2
