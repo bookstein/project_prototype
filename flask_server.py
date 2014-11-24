@@ -46,9 +46,8 @@ def display_friends():
 				print check_rate_limit(api)
 				friendlist.extend(friends)
 
-			if len(friendlist) > 299:
-				pass
-
+			if len(friendlist) > user.MAX_NUM_FRIENDS:
+				friendlist = get_top_influencers(user.MAX_NUM_FRIENDS)
 
 			return render_template("index.html", display = friendlist)
 
@@ -76,30 +75,32 @@ def process_friend_batch(user, page, api):
 	return batch
 
 def get_top_influencers(count):
-		"""
-		Get top influencers from user friends, as measured by # of followers.
+	"""
+	Get top influencers from user friends, as measured by # of followers.
 
-		After requesting paginated friends, check "followers_count" attribute of
-		each friend.
+	After requesting paginated friends, check "followers_count" attribute of
+	each friend.
 
-		Note:
-		-----
-		Run this function only if user has more than {count} friends.
-		Currently, Twitter limits user timeline requests to 300
-		(application auth) or 180 requests (user auth).
+	Note:
+	-----
+	Run this function only if user has more than {count} friends.
+	Currently, Twitter limits user timeline requests to 300
+	(application auth) or 180 requests (user auth).
 
-		Parameters:
-		----------
-		Number of top influencers to output.
+	Parameters:
+	----------
+	Number of top influencers to output.
 
-		Output:
-		-------
-		List of {count} most influential friends
+	Output:
+	-------
+	List of {count} most influential friends
 
-		"""
-		pass
-		# friends_count attribute
-		# do this if user has more than 300 friends (180 friends w user auth)
+	"""
+
+	sorted_by_influence = sorted(friendlist, key=lambda x: x.NUM_FOLLOWERS)
+	friendlist = sorted_by_influence[:count]
+
+	return friendlist
 
 def check_rate_limit(api):
 	"""
