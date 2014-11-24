@@ -9,35 +9,38 @@ import tweepy
 
 import politwit.simplescore as simplescore
 
-
 class User(object):
 
 	# important variables
 	MAX_NUM_TWEETS = 100
 	MAX_NUM_FRIENDS = 300
 
+	CENTRAL_USER = None
 	USER_ID = None
+	NUM_FOLLOWERS = None
 	SCORE = None
 
 	# tweepy api instance
 	api = None
 
-	def __init__(self, user_id, api=api):
+	def __init__(self, api, central_user=None, user_id=None):
 		"""
 		Initialize new user object.
 
 		Parameters:
 		----------
-		User Id (Screen name or ID number)
+		ID for the user whose friends will be analyzed.
 		Tweepy API object
+		User Id (Screen name or ID number) of friend
 
 		Output:
 		------
 		Assigns value to self.api, self.USER_ID, and self.SCORE
 		"""
 		self.api = api
+		self.CENTRAL_USER = central_user
 		self.USER_ID = user_id
-		if self.USER_ID:
+		if self.CENTRAL_USER == self.USER_ID:
 			timeline = self.get_timeline(self.USER_ID, self.MAX_NUM_TWEETS)
 			hashtag_count = self.count_hashtags(timeline)
 			self.score(hashtag_count)

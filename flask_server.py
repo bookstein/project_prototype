@@ -27,15 +27,11 @@ def test_json():
 @app.route("/display", methods=["GET", "POST"])
 def display_friends():
 	if request.method == "POST":
-		print "posting"
 		screen_name = request.form.get("screenname")
 		print screen_name
-		# me = tw_api.get_user_by_id(screen_name)
-		# print me
 		api = connect_to_API()
-		check_rate_limit(api)
 
-		user = User(user_id=screen_name, api=api)
+		user = User(api, central_user=screen_name, user_id=screen_name)
 		print user.SCORE
 
 		try:
