@@ -10,27 +10,24 @@
 	</head>
 	<body>
 		<div class="row">
-	      <div class="large-12 columns">
+	      <div class="large-12 text-left columns">
 	        <h1>Political Twitter</h1>
 	      </div>
     	</div>
 
 		<div class="large-12 columns">
         	<div class="panel">
-        		<h5 class="text-center">Enter any existing Twitter handle</h5>
+        		<h5 class="text-left">Enter any existing Twitter handle</h5>
 				<form role="form" action="/display" method="POST">
-					<div class="small-4 small-centered columns">
+					<div class="small-4 columns">
 						<input name="screenname" type="text" placeholder="@">
 					</div>
 					<!-- <input type="submit" value="Get visualization"> -->
 				</form>
-				<div class="text-center">
-					<a href="#" class="medium round button">Visualize</a><br/>
+				<div class="text-left">
+					<a id="visualize" href="#" class="medium round button">Visualize</a><br/>
 				</div>
 			</div>
-		</div>
-
-		<div class="chart">
 		</div>
 
 		<div id="result">
@@ -39,17 +36,22 @@
 			{% endfor %}
 		</div>
 
+		<div class="chart">
+		</div>
+
+
+
 
 		<script type="text/javascript" src={{ url_for('static', filename='data_vis.js') }}></script>
 		<script>
-			// $("#login").click(function(e){
-			// 	e.preventDefault();
-				// $.post(
-				// 	"https://api.twitter.com/1.1/statuses/home_timeline.json", {},
-				// 	function(response) {
-				// 		console.log(response);
-				// 	});
-			// });
+			$("#visualize").click(function(e){
+				e.preventDefault();
+				$.post(
+					"/display", {},
+					function(response) {
+						console.log(response);
+					});
+			});
 		</script>
 	</body>
 </html>
