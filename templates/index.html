@@ -47,8 +47,12 @@
 					url: "/display",
 					data: {screenname: screen_name},
 					type: "POST",
+					dataType: 'json',
 					success: function(response) {
 						$("#result").text(response);
+						var jsonScores = response;
+						// call d3 viz here!
+
 					},
 					error: function(error) {
 						console.log(error)
