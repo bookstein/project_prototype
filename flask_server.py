@@ -40,6 +40,7 @@ def display_friends():
 		print user.SCORE
 
 		try:
+
 			friends_ids = user.get_friends_ids(screen_name)
 			print friends_ids
 
@@ -53,24 +54,25 @@ def display_friends():
 			if len(friendlist) > user.MAX_NUM_FRIENDS:
 				friendlist = get_top_influencers(user.MAX_NUM_FRIENDS)
 
-			friend_scores = {}
+		except tweepy.TweepError as e:
+			print "ERROR!!!!!", e
 
+		friend_scores = {}
+
+		try:
 			for friend in friendlist:
 				timeline = friend.get_timeline(friend.USER_ID, friend.MAX_NUM_TWEETS)
 				hashtag_count = friend.count_hashtags(timeline)
 				friend.SCORE = friend.score(hashtag_count)
 				friend_scores[friend.SCREEN_NAME] = friend.SCORE
 
-			return render_template("index.html", display=friend_scores)
-
-
 		except tweepy.TweepError as e:
 			print "ERROR!!!!!", e
-			# if e.message[0]["code"] == 88:
-			# # {"errors":[{"message":"Rate limit exceeded","code":88}]}
-			# 	print "EXCEEDED RATE LIMIT", e
 
-			return render_template("index.html", display = e)
+		if len(friend_scores.keys()) > 0:
+			return render_template("index.html", display=friend_scores)
+		else:
+			return redirect("/")#, add flash --> errormessage="Unable to get friends")
 
 def process_friend_batch(user, page, api):
 	"""

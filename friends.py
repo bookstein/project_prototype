@@ -12,8 +12,8 @@ import politwit.simplescore as simplescore
 class User(object):
 
 	# important variables
-	MAX_NUM_TWEETS = 100
-	MAX_NUM_FRIENDS = 300
+	MAX_NUM_TWEETS = 200
+	MAX_NUM_FRIENDS = 50
 
 	CENTRAL_USER = None
 	USER_ID = None
@@ -56,7 +56,14 @@ class User(object):
 		"""
 
 		try:
-			friends_ids = tweepy.Cursor(self.api.friends_ids, user_id = user_id).items()
+			# IF USING MEMCACHE: wrap it around API calls
+			# key = derive_key(obj)
+   			# obj = mc.get(key)
+   			#if not obj:
+   				#obj = backend_api.get(...) <-- friends_ids = api.get(...)
+   				#mc.set(key, obj)
+
+       		friends_ids = tweepy.Cursor(self.api.friends_ids, user_id = user_id).items()
 			print "get friends ids api call"
 			return friends_ids
 		except tweepy.TweepError as e:
@@ -108,6 +115,8 @@ class User(object):
 
 		"""
 		try:
+
+
 			friends = self.api.lookup_users(f_ids)
 			print "lookup users api call"
 			return friends
