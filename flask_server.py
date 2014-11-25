@@ -67,7 +67,7 @@ def display_friends():
 	except tweepy.TweepError as e:
 		print "ERROR!!!!!", e
 
-	friend_scores = {}
+	friend_scores = list()
 
 	try:
 		for friend in friendlist:
@@ -78,17 +78,21 @@ def display_friends():
 
 			hashtag_count = friend.count_hashtags(timeline)
 			friend.SCORE = friend.score(hashtag_count, political_hashtags_dict)
-			friend_scores[friend.SCREEN_NAME] = {"followers": friend.NUM_FOLLOWERS, "score": friend.SCORE}
+
+			friend_scores.append({"screen_name": friend.SCREEN_NAME, "followers": friend.NUM_FOLLOWERS, "score": friend.SCORE})
+
+			# friend_scores[friend.SCREEN_NAME] = {"followers": friend.NUM_FOLLOWERS, "score": friend.SCORE}
 
 	except tweepy.TweepError as e:
 		print "ERROR!!!!!", e
 		# logging.warning("ERROR: \n", check_rate_limit(api))
 
-	if len(friend_scores.keys()) > 0:
+	if len(friend_scores) > 0:
 		print "FRIEND SCORES", friend_scores
 		json_scores = json.dumps(friend_scores)
-
+		# json_scores = [json.dumps(score_obj) for score_obj in friend_scores]
 		return json_scores
+
 	else:
 		return redirect("/")#, add flash --> errormessage="Unable to get friends")
 
