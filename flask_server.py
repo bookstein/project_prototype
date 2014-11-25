@@ -131,7 +131,7 @@ def get_top_influencers(friendlist, count):
 
 	"""
 
-	sorted_by_influence = sorted(friendlist, key=lambda x: x.NUM_FOLLOWERS)
+	sorted_by_influence = sorted(friendlist, key=lambda x: x.NUM_FOLLOWERS, reverse=True)
 	friendlist = sorted_by_influence[:count]
 
 	return friendlist
