@@ -39,15 +39,17 @@ class Score(object):
 	def score_by_hashtags(self, matches):
 		"""
 		Calculate score given matching hashtags.
+
+		Parameters:
+		-----------
+		Dictionary from output of matching_hashtags - showing all political hashtags, with matching political hashtags counted.
+
+		Output:
+		-------
+		A score based on percentage of political hashtags out of all hashtags used.
 		"""
-		political_count = 0
-		total_num_hashtags = 0
-
-		for hashtag in self.hashtags_dict:
-			total_num_hashtags += self.hashtags_dict[hashtag]
-
-		for hashtag in matches:
-			political_count += matches[hashtag]
+		political_count = sum(matches.itervalues())
+		total_num_hashtags = sum(self.hashtags_dict.itervalues())
 
 		if total_num_hashtags > 0:
 			score = float(political_count)/float(total_num_hashtags)
@@ -58,10 +60,9 @@ class Score(object):
 
 
 def main():
-	h = {"tcot": 5, "banana": 10}
-	m = matching_hashtags(h)
-	s = score_by_hashtags(m, h)
-	print s
+	hashtags_dict = {"tcot": 5, "banana": 10}
+	s = Score(hashtags_dict)
+	print s.score
 
 if __name__ == "__main__":
 	main()
