@@ -4,15 +4,18 @@
 
 import itertools
 import os
+import logging
 
 import tweepy
 
 import politwit.simplescore as simplescore
 
+# logging.basicConfig(filename='api_requests.log',level=logging.DEBUG)
+
 class User(object):
 
 	# important variables
-	MAX_NUM_TWEETS = 200
+	MAX_NUM_TWEETS = 20
 	MAX_NUM_FRIENDS = 50
 
 	CENTRAL_USER = None
@@ -36,15 +39,11 @@ class User(object):
 
 		Output:
 		------
-		Assigns value to self.api, self.USER_ID, and self.SCORE
+		Assigns value to self.api, self.USER_ID
 		"""
 		self.api = api
 		self.CENTRAL_USER = central_user
 		self.USER_ID = user_id
-		if self.CENTRAL_USER == self.USER_ID:
-			timeline = self.get_timeline(self.USER_ID, self.MAX_NUM_TWEETS)
-			hashtag_count = self.count_hashtags(timeline)
-			self.score(hashtag_count)
 
 	def get_friends_ids(self, user_id):
 		"""
@@ -62,9 +61,11 @@ class User(object):
    			#if not obj:
    				#obj = backend_api.get(...) <-- friends_ids = api.get(...)
    				#mc.set(key, obj)
+			friends_ids = tweepy.Cursor(self.api.friends_ids, user_id = user_id).items()
 
-       		friends_ids = tweepy.Cursor(self.api.friends_ids, user_id = user_id).items()
-			print "get friends ids api call"
+			# logging.info("Api request: ", friends_ids,
+				# "\n")
+			print "get request friend ids"
 			return friends_ids
 		except tweepy.TweepError as e:
 			print e
@@ -116,9 +117,9 @@ class User(object):
 		"""
 		try:
 
-
 			friends = self.api.lookup_users(f_ids)
-			print "lookup users api call"
+			# logging.info("Lookup users: ", friends, "\n")
+			print "get request friends hydrated"
 			return friends
 		except tweepy.TweepError as e:
 			print e
@@ -133,7 +134,8 @@ class User(object):
 		"""
 		try:
 			feed = tweepy.Cursor(self.api.user_timeline, id=uid).items(count)
-			print "get timeline api call"
+			# logging.info("\n\n\n", "Get timeline: ", feed, "\n\n\n")
+			print "get request timeline"
 			return feed
 
 		except tweepy.TweepError as e:

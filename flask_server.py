@@ -2,13 +2,13 @@ import os
 import logging
 import time#, threading
 import json
+import datetime
 
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, render_template, redirect, flash
 import tweepy
 
 from friends import User
-
-logging.basicConfig(level=logging.DEBUG)
+import model
 
 app = Flask(__name__)
 
@@ -16,6 +16,9 @@ app = Flask(__name__)
 TIME_TO_WAIT = 900/180 # 15 minutes divided into 180 requests
 NUM_RETRIES = 2
 RATE_LIMITED_RESOURCES =[("statuses", "/statuses/user_timeline")]
+
+# logging.basicConfig(filename='rate_limits.log',level=logging.DEBUG)
+
 
 @app.route("/")
 def index():
@@ -29,50 +32,64 @@ def test_json(scores_dictionary):
 	# Or - just do an object2json function of some sort and there's a shortcut to return that
 	# return render_template("test.json", obj_list = [{'handle': '@whoever', 'score': 10}, {'handle': '@blah', 'score': 20}])
 
-@app.route("/display", methods=["GET", "POST"])
+@app.route("/display", methods=["POST"])
 def display_friends():
-	if request.method == "POST":
-		screen_name = request.form.get("screenname")
-		print screen_name
-		api = connect_to_API()
+	screen_name = request.form.get("screenname")
+	print screen_name
+	api = connect_to_API()
 
-		user = User(api, central_user=screen_name, user_id=screen_name)
-		print user.SCORE
+	print check_rate_limit(api)
+	# print retrieve_remaining_requests(api)
 
-		try:
+	political_hashtags_dict = model.Hashtag.get_all_political_hashtags()
 
-			friends_ids = user.get_friends_ids(screen_name)
-			print friends_ids
+	user = User(api, central_user=screen_name, user_id=screen_name)
+	timeline = user.get_timeline(user.USER_ID, user.MAX_NUM_TWEETS)
+	# logging.info("Initial timeline request: \n", check_rate_limit(api))
+	hashtag_count = user.count_hashtags(timeline)
+	user.SCORE = user.score(hashtag_count, political_hashtags_dict)
+	print user.SCORE
 
-			friendlist = []
+	try:
 
-			for page in user.paginate_friends(friends_ids, 100):
-				friends = process_friend_batch(user, page, api)
-				print check_rate_limit(api)
-				friendlist.extend(friends)
+		friends_ids = user.get_friends_ids(screen_name)
+		print friends_ids
 
-			if len(friendlist) > user.MAX_NUM_FRIENDS:
-				friendlist = get_top_influencers(user.MAX_NUM_FRIENDS)
+		friendlist = []
 
-		except tweepy.TweepError as e:
-			print "ERROR!!!!!", e
+		for page in user.paginate_friends(friends_ids, 100):
+			friends = process_friend_batch(user, page, api)
+			friendlist.extend(friends)
 
-		friend_scores = {}
+		if len(friendlist) > user.MAX_NUM_FRIENDS:
+			print "ORIGINAL LEN", len(friendlist)
+			friendlist = get_top_influencers(friendlist, user.MAX_NUM_FRIENDS)
+			print "NEW LEN", len(friendlist)
 
-		try:
-			for friend in friendlist:
-				timeline = friend.get_timeline(friend.USER_ID, friend.MAX_NUM_TWEETS)
-				hashtag_count = friend.count_hashtags(timeline)
-				friend.SCORE = friend.score(hashtag_count)
-				friend_scores[friend.SCREEN_NAME] = friend.SCORE
+	except tweepy.TweepError as e:
+		print "ERROR!!!!!", e
 
-		except tweepy.TweepError as e:
-			print "ERROR!!!!!", e
+	friend_scores = {}
 
-		if len(friend_scores.keys()) > 0:
-			return render_template("index.html", display=friend_scores)
-		else:
-			return redirect("/")#, add flash --> errormessage="Unable to get friends")
+	try:
+		for friend in friendlist:
+			timeline = friend.get_timeline(friend.USER_ID, friend.MAX_NUM_TWEETS)
+			# logging.info("Friend timeline request: \n", check_rate_limit(api))
+			print check_rate_limit(api)
+			# print retrieve_remaining_requests(api)
+
+			hashtag_count = friend.count_hashtags(timeline)
+			friend.SCORE = friend.score(hashtag_count, political_hashtags_dict)
+			friend_scores[friend.SCREEN_NAME] = friend.SCORE
+
+	except tweepy.TweepError as e:
+		print "ERROR!!!!!", e
+		# logging.warning("ERROR: \n", check_rate_limit(api))
+
+	if len(friend_scores.keys()) > 0:
+		return render_template("index.html", display=friend_scores)
+	else:
+		return redirect("/")#, add flash --> errormessage="Unable to get friends")
 
 def process_friend_batch(user, page, api):
 	"""
@@ -89,7 +106,7 @@ def process_friend_batch(user, page, api):
 		batch.append(friend)
 	return batch
 
-def get_top_influencers(count):
+def get_top_influencers(friendlist, count):
 	"""
 	Get top influencers from user friends, as measured by # of followers.
 
@@ -104,6 +121,7 @@ def get_top_influencers(count):
 
 	Parameters:
 	----------
+	List of all friend objects.
 	Number of top influencers to output.
 
 	Output:
@@ -127,17 +145,9 @@ def check_rate_limit(api):
 	for resource in stats.keys():
 		if stats[resource]["remaining"] == 0:
 			print "EXPIRED:", resource
+
 		else:
 			print resource, ":", stats[resource]["remaining"], "\n"
-
-	# users = limits["resources"]["users"]
-	# for resource in users.keys():
-	# 	if stats[resource]["remaining"] == 0:
-	# 		print "EXPIRED:", resource
-	# 	else:
-	# 		print resource, ":", stats[resource]["remaining"], "\n"
-
-	# threading.Timer(self.TIME_TO_WAIT, self.check_rate_limit).start()
 
 def connect_to_API():
 	"""
@@ -151,7 +161,7 @@ def connect_to_API():
 
 	auth = tweepy.OAuthHandler(TWITTER_API_KEY, TWITTER_SECRET_KEY, secure=True)
 	auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_SECRET_TOKEN)
-	api = tweepy.API(auth, cache=None) #removed wait_on_rate_limit=True, wait_on_rate_limit_notify=True
+	api = tweepy.API(auth, cache=None)
 
 	return api
 
