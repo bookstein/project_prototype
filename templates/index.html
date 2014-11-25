@@ -49,9 +49,9 @@
 					type: "POST",
 					dataType: 'json',
 					success: function(response) {
-						$("#result").text(response);
-						var jsonScores = response;
 						// call d3 viz here!
+						VIZ.test(response)
+						VIZ.createVisualization(response);
 
 					},
 					error: function(error) {

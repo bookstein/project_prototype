@@ -1,18 +1,12 @@
 var VIZ = VIZ || (function () {
 
-  var _args = {}; // private
 
   return {
-      init : function(args) {
-          _args = args;
-          // some other initialising
-      },
-      helloWorld : function() {
-          alert('Hello World!');
+      test : function(scores_json) {
+          console.log(scores_json);
       },
 
-      createVisualization: function() {
-        var scores = [20, 30, 40, 50, 60, 70, 80, 90, 20, 30, 40, 50, 60,];
+      createVisualization: function(scores) {
 
         var w = 960,
           h = 600;
@@ -26,20 +20,34 @@ var VIZ = VIZ || (function () {
                     .attr("width", w)
                     .attr("height", h);
 
-        svg.selectAll("circle")
+        var max_followers = d3.max(scores, function(d) {
+          // references "followers" property of each object in scores
+          return d.followers
+        });
+
+        //
+        var rScale = d3.scale.linear()
+                      .domain([0, max_followers])
+                      .range([2, 30])
+
+        var circles = svg.selectAll("circle")
           .data(scores)
           .enter()
-          .append("circle")
-          .attr("cx", function(d, i) {
+          .append("circle");
+
+
+        circles.attr("cx", function(d, i) {
             // assign a dynamic value that corresponds to i, or each value’s position in the data set
             return i * (w / scores.length);
           })
-          .attr("cy", 100)
-          .attr("r", function(d) {
-            return d;
+          .attr("cy", function(d) {
+            return d.score * h;
           })
-          .attr("fill", function(d) {
-            return "rgb(0, 0, " + (d * 5) + ")";
+          .attr("r", function(d) {
+            return rScale(d.followers);
+          })
+          .attr("fill", function(d, i) {
+            return "rgb(0, 0, " + (d.score * 50) + ")";
           });
 
         // add svg "text" elements
