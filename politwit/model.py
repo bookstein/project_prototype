@@ -106,9 +106,12 @@ class Hashtag(Base):
 
 	@classmethod
 	def get_all_political_hashtags(cls):
-		"""return all political hashtags"""
+		"""
+		Return all political hashtags from database as dictionary.
+
+		"""
 		hashtags = cls.query.all()
-		hashtags_text = [tag.text for tag in hashtags]
+		hashtags_text = {tag.text: 1 for tag in hashtags}
 		return hashtags_text
 
 def connect():
