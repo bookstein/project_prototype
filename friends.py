@@ -174,7 +174,7 @@ class User(object):
 		return hashtags_dict
 
 
-	def score(self, hashtags_dict):
+	def score(self, hashtags_dict, political_hashtags_dict):
 		"""
 		Score user based on number of politically-relevant hashtags.
 
@@ -189,7 +189,7 @@ class User(object):
 		hashtags out of all hashtags used.
 
 		"""
-		score = simplescore.Score(hashtags_dict)
+		score = simplescore.Score(hashtags_dict, political_hashtags_dict)
 		print "Scoring"
 		self.SCORE = score.score
 

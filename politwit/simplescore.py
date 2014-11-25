@@ -4,12 +4,15 @@ import model
 
 class Score(object):
 
+	POLITICAL_HASHTAGS = {}
+
 	hashtags_dict = {}
 	matches = {}
 	score = 0
 
-	def __init__(self, hashtags_dict):
+	def __init__(self, hashtags_dict, political_hashtags):
 		self.hashtags_dict = hashtags_dict
+		self.POLITICAL_HASHTAGS = political_hashtags
 		self.matches = self.matching_hashtags()
 		self.score = self.score_by_hashtags(self.matches)
 
@@ -29,9 +32,7 @@ class Score(object):
 		"""
 		matches = {}
 
-		political_hashtags = model.Hashtag.get_all_political_hashtags()
-
-		for hashtag in political_hashtags:
+		for hashtag in self.POLITICAL_HASHTAGS:
 			matches[hashtag] = self.hashtags_dict.get(hashtag, 0)
 
 		return matches
@@ -60,9 +61,7 @@ class Score(object):
 
 
 def main():
-	hashtags_dict = {"tcot": 5, "banana": 10}
-	s = Score(hashtags_dict)
-	print s.score
+	pass
 
 if __name__ == "__main__":
 	main()
