@@ -4,7 +4,7 @@ import time#, threading
 import json
 import datetime
 
-from flask import Flask, request, render_template, redirect, flash
+from flask import Flask, url_for, request, render_template, redirect, flash
 import tweepy
 
 from friends import User
@@ -25,10 +25,8 @@ def index():
 	return render_template("index.html")
 
 @app.route("/json")
-def test_json(scores_dictionary):
-	json_scores = json.dumps(scores_dictionary)
-
-	return render_template("index.html", display=json_scores)
+def return_json(scores_dictionary):
+	pass
 	# Or - just do an object2json function of some sort and there's a shortcut to return that
 	# return render_template("test.json", obj_list = [{'handle': '@whoever', 'score': 10}, {'handle': '@blah', 'score': 20}])
 
@@ -80,14 +78,17 @@ def display_friends():
 
 			hashtag_count = friend.count_hashtags(timeline)
 			friend.SCORE = friend.score(hashtag_count, political_hashtags_dict)
-			friend_scores[friend.SCREEN_NAME] = friend.SCORE
+			friend_scores[friend.SCREEN_NAME] = {"followers": friend.NUM_FOLLOWERS, "score": friend.SCORE}
 
 	except tweepy.TweepError as e:
 		print "ERROR!!!!!", e
 		# logging.warning("ERROR: \n", check_rate_limit(api))
 
 	if len(friend_scores.keys()) > 0:
-		return render_template("index.html", display=friend_scores)
+		print "FRIEND SCORES", friend_scores
+		json_scores = json.dumps(friend_scores)
+
+		return json_scores
 	else:
 		return redirect("/")#, add flash --> errormessage="Unable to get friends")
 
