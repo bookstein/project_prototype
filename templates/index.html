@@ -22,7 +22,6 @@
 					<div class="small-4 columns">
 						<input name="screenname" type="text" placeholder="@">
 					</div>
-					<!-- <input type="submit" value="Get visualization"> -->
 				</form>
 				<div class="text-left">
 					<a id="visualize" href="#" class="medium round button">Visualize</a><br/>
@@ -31,9 +30,6 @@
 		</div>
 
 		<div id="result">
-			{% for friend in display %}
-				{{ friend }} {{ display[friend] }}
-			{% endfor %}
 		</div>
 
 		<div class="chart">
@@ -46,11 +42,18 @@
 		<script>
 			$("#visualize").click(function(e){
 				e.preventDefault();
-				$.post(
-					"/display", {},
-					function(response) {
-						console.log(response);
-					});
+				var screen_name = $("input[name=screenname]").val()
+				$.ajax({
+					url: "/display",
+					data: {screenname: screen_name},
+					type: "POST",
+					success: function(response) {
+						$("#result").text(response);
+					},
+					error: function(error) {
+						console.log(error)
+					}
+				});
 			});
 		</script>
 	</body>
