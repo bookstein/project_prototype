@@ -191,7 +191,7 @@ class User(object):
 		"""
 		score = simplescore.Score(hashtags_dict, political_hashtags_dict)
 		print "Scoring"
-		self.SCORE = score.score
+		return score.score
 
 	def get_links(self):
 		pass
