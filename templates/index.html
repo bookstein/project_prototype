@@ -15,25 +15,38 @@
 	        <h1>Political Twitter</h1>
 	      </div>
     	</div>
-
-		<div class="large-12 columns">
-        	<div class="panel">
-        		<h5 class="text-left">Enter any existing Twitter handle</h5>
-				<form role="form" action="/display" method="POST">
-					<div class="small-4 columns">
-						<input name="screenname" type="text" placeholder="@">
+		<div class="row">
+			<div class="large-12 columns">
+	        	<div class="panel">
+	        		<h5 class="text-left">Enter any existing Twitter handle</h5>
+					<form role="form" action="/display" method="POST">
+						<div class="small-4 columns">
+							<input name="screen_name" type="text" placeholder="@">
+						</div>
+					</form>
+					<div class="text-left">
+						<a id="visualize" href="#" class="medium round button">Visualize</a><br/>
 					</div>
-				</form>
-				<div class="text-left">
-					<a id="visualize" href="#" class="medium round button">Visualize</a><br/>
 				</div>
 			</div>
 		</div>
 
-		<div id="result">
+		<div class="row">
+			<div class="small-12 large-12 columns" id="messages">
+				<h5>Error messages will go here </h5>
+			</div>
 		</div>
 
-		<div class="large-12 columns" id="viz">
+		<div class="row">
+			<div class="small-6 large-8 columns" id="viz">
+				<h5>Viz will go here </h5>
+			</div>
+
+			<div class="small-4 large-4 columns" id="detail">
+				<div class="panel">
+					<h5>Detail will go here </h5>
+				</div>
+			</div>
 		</div>
 
 
