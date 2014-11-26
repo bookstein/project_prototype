@@ -45,13 +45,13 @@ class User(object):
 		self.CENTRAL_USER = central_user
 		self.USER_ID = user_id
 
-	def get_friends_ids(self, user_id):
+	def get_friends_ids(self, screen_name):
 		"""
 		Request ids of all user's friends.
 
 		Parameters:
 		-----------
-		A given user's id (screen name or id)
+		A given user's screen name
 		"""
 
 		try:
@@ -61,11 +61,16 @@ class User(object):
    			#if not obj:
    				#obj = backend_api.get(...) <-- friends_ids = api.get(...)
    				#mc.set(key, obj)
-			friends_ids = tweepy.Cursor(self.api.friends_ids, user_id = user_id).items()
+			print "User id for which we're requesting friends", screen_name
+			friends_ids = self.api.friends_ids(screen_name = screen_name)
 
 			# logging.info("Api request: ", friends_ids,
 				# "\n")
 			print "get request friend ids"
+
+			# for friend in friends_ids:
+			# 	print friend
+
 			return friends_ids
 		except tweepy.TweepError as e:
 			print e
@@ -120,6 +125,10 @@ class User(object):
 			friends = self.api.lookup_users(f_ids)
 			# logging.info("Lookup users: ", friends, "\n")
 			print "get request friends hydrated"
+
+			# for friend in friends:
+			# 	print friend
+
 			return friends
 		except tweepy.TweepError as e:
 			print e
@@ -165,10 +174,10 @@ class User(object):
 		hashtags_dict = {}
 
 		for tweet in timeline:
-			print "processing tweet"
+			# print "processing tweet"
 			hashtags_in_tweet = tweet.entities["hashtags"]
 			for hashtag_obj in hashtags_in_tweet:
-				print "counting hashtags"
+				# print "counting hashtags"
 				hashtag = hashtag_obj["text"].lower()
 				hashtags_dict[hashtag] = hashtags_dict.get(hashtag, 0) + 1
 		return hashtags_dict

@@ -32,8 +32,8 @@ def return_json(scores_dictionary):
 
 @app.route("/display", methods=["POST"])
 def display_friends():
-	screen_name = request.form.get("screenname")
-	print screen_name
+	screen_name = request.json["screen_name"]
+	print "SCREEN NAME FROM JSON: ", screen_name
 	api = connect_to_API()
 
 	print check_rate_limit(api)
@@ -46,12 +46,12 @@ def display_friends():
 	# logging.info("Initial timeline request: \n", check_rate_limit(api))
 	hashtag_count = user.count_hashtags(timeline)
 	user.SCORE = user.score(hashtag_count, political_hashtags_dict)
+	print "USER SCREEN NAME FROM USER OBJ: ", user.SCREEN_NAME
 	print user.SCORE
 
 	try:
 
 		friends_ids = user.get_friends_ids(screen_name)
-		print friends_ids
 
 		friendlist = []
 
