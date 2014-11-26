@@ -55,29 +55,34 @@ var VIZ = VIZ || (function () {
           })
           .attr("stroke", "gray")
           .attr("fill", function(d) {
-              return "rgba(0, 0, 255, " + d.score + ")";
+              return "rgba(0, 0, 255, " + d.score + ")"
           });
 
-        // add svg "text" elements
-        svg.selectAll("text")
-           .data(scores)
-           .enter()
-         .append("text")
-           .text(function(d) {
-                return d.screen_name;
-           })
-           .attr("x", function(d, i) {
-                return (i+1) * (w / scores.length);
-           })
-           .attr("y", function(d) {
-              console.log("CY " + (1 - d.score) * h)
-              return (1 - d.score) * h;
-            })
-           .attr("font-family", "sans-serif")
-           .attr("font-size", "11px")
-           .attr("fill", "red")
-           // center the text horizontally at the assigned x value
-           .attr("text-anchor", "middle");
+        circles.on("mouseover", function(d){
+            console.log(d);
+
+            var screenName = d.screen_name;
+            var xPosition = parseFloat(d3.select(this).attr("cx"));
+            var yPosition = parseFloat(d3.select(this).attr("cy")) - parseFloat(d3.select(this).attr("r") + 3);
+            svg.append("text")
+                .attr("id", "tooltip")
+                .attr("x", xPosition)
+                .attr("y", yPosition)
+                .attr("text-anchor", "middle")
+                .attr("font-family", "sans-serif")
+                .attr("font-size", "11px")
+                .attr("font-weight", "bold")
+                .attr("fill", "black")
+                .text(screenName);
+
+            d3.select(this)
+              .attr("fill", "orange");
+          })
+          .on("mouseout", function(d) {
+            d3.select("#tooltip").remove();
+            d3.select(this)
+              .attr("fill", "rgba(0, 0, 255, " + d.score + ")");
+          });
 
       }
     };
