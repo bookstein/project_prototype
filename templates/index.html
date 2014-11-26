@@ -56,22 +56,28 @@
 		<script>
 			$("#visualize").click(function(e){
 				e.preventDefault();
-				var screen_name = $("input[name=screenname]").val()
-				$.ajax({
-					url: "/display",
-					data: {screenname: screen_name},
-					type: "POST",
-					dataType: 'json',
-					success: function(response) {
-						// call d3 viz here!
-						VIZ.test(response)
-						VIZ.createVisualization(response);
-
-					},
-					error: function(error) {
-						console.log(error)
-					}
-				});
+				var screen_name = $("input[name=screen_name]").val();
+				if (screen_name.length > 0) {
+					console.log(screen_name);
+					$.ajax({
+						url: "/display",
+						data: JSON.stringify({"screen_name":screen_name}),
+						type: "POST",
+						dataType: 'json',
+						contentType: 'application/json;charset=UTF-8',
+						success: function(response) {
+							// call d3 viz here!
+							VIZ.test(response);
+							VIZ.createVisualization(response);
+						},
+						error: function(error) {
+							console.log(error);
+						}
+					});
+				}
+				else {
+					$("#result").text("Please enter a valid Twitter handle!");
+				}
 			});
 		</script>
 	</body>
