@@ -24,12 +24,6 @@ RATE_LIMITED_RESOURCES =[("statuses", "/statuses/user_timeline")]
 def index():
 	return render_template("index.html")
 
-@app.route("/json")
-def return_json(scores_dictionary):
-	pass
-	# Or - just do an object2json function of some sort and there's a shortcut to return that
-	# return render_template("test.json", obj_list = [{'handle': '@whoever', 'score': 10}, {'handle': '@blah', 'score': 20}])
-
 @app.route("/display", methods=["POST"])
 def display_friends():
 	screen_name = request.json["screen_name"]
