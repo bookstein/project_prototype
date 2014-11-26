@@ -8,27 +8,38 @@ var VIZ = VIZ || (function () {
 
       createVisualization: function(scores) {
 
-        var w = 960,
-          h = 600;
-
-
-        // set radius proportional to num of followers
+        var margin = {top: 20, right: 20, bottom: 20, left: 20},
+          padding = {top: 60, right: 60, bottom: 60, left: 60},
+          outerWidth = 960,
+          outerHeight = 500,
+          innerWidth = outerWidth - margin.left - margin.right,
+          innerHeight = outerHeight - margin.top - margin.bottom,
+          w = innerWidth - padding.left - padding.right,
+          h = innerHeight - padding.top - padding.bottom;
 
         // create SVG elem
-        var svg = d3.select("body")
+        var svg = d3.select("#viz")
                     .append("svg")
-                    .attr("width", w)
-                    .attr("height", h);
+                    .attr("width", outerWidth)
+                    .attr("height", outerHeight)
+                  .append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");;
 
         var max_followers = d3.max(scores, function(d) {
           // references "followers" property of each object in scores
           return d.followers
         });
 
-        //
+        // var x = d3.scale.linear()
+        //     .range([0, w]);
+
+        // var y = d3.scale.linear()
+        //     .range([h, 0]);
+
         var rScale = d3.scale.linear()
                       .domain([0, max_followers])
                       .range([2, 30])
+
 
         var circles = svg.selectAll("circle")
           .data(scores)
@@ -38,16 +49,20 @@ var VIZ = VIZ || (function () {
 
         circles.attr("cx", function(d, i) {
             // assign a dynamic value that corresponds to i, or each value’s position in the data set
+            console.log("CX " + (i * (w / scores.length)))
             return i * (w / scores.length);
           })
           .attr("cy", function(d) {
-            return d.score * h;
+            console.log("CY " + (1 - d.score) * h)
+            return (1 - d.score) * h;
           })
           .attr("r", function(d) {
             return rScale(d.followers);
           })
-          .attr("fill", function(d, i) {
-            return "rgb(0, 0, " + (d.score * 50) + ")";
+          .attr("stroke", "gray")
+          .attr("fill", function(d) {
+            console.log(d.score*255)
+            return "rgb(0, 0, " + (d.score * 255) + ")";
           });
 
         // add svg "text" elements
