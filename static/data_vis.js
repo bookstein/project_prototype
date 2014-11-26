@@ -56,7 +56,7 @@ var VIZ = VIZ || (function () {
           });
 
         circles.on("mouseover", function(d){
-            console.log(d);
+            // console.log(d);
 
             var screenName = d.screen_name;
             var xPosition = parseFloat(d3.select(this).attr("cx"));
@@ -79,6 +79,16 @@ var VIZ = VIZ || (function () {
             d3.select("#tooltip").remove();
             d3.select(this)
               .attr("fill", "rgba(0, 0, 255, " + d.score + ")");
+          })
+          .on("click", function(d) {
+            var details = [d.screen_name, d.score, d.followers];
+            console.log(details);
+
+            for (var i = 0; i < details.length; i++) {
+              console.log("FOR LOOP!");
+              $("#detail ul").append("<li>" + details[i] + "</li>");
+            }
+
           });
 
       }
