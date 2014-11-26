@@ -8,22 +8,19 @@ var VIZ = VIZ || (function () {
 
       createVisualization: function(scores) {
 
-        var margin = {top: 20, right: 20, bottom: 20, left: 60},
-          padding = {top: 60, right: 60, bottom: 60, left: 120},
-          outerWidth = 960,
-          outerHeight = 500,
-          innerWidth = outerWidth - margin.left - margin.right,
-          innerHeight = outerHeight - margin.top - margin.bottom,
-          w = innerWidth - padding.left - padding.right,
-          h = innerHeight - padding.top - padding.bottom;
+        var margin = {top: 60, right: 60, bottom: 60, left: 60};
+
+        var w = 960 - margin.left - margin.right,
+            h = 500 - margin.top - margin.bottom;
 
         // create SVG elem
         var svg = d3.select("#viz")
                     .append("svg")
-                    .attr("width", outerWidth)
-                    .attr("height", outerHeight)
+                    .attr("width", w + margin.left + margin.right)
+                    .attr("height", h + margin.top + margin.bottom)
                   .append("g")
-                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");;
+
 
         var max_followers = d3.max(scores, function(d) {
           // references "followers" property of each object in scores
