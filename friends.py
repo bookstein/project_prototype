@@ -133,7 +133,7 @@ class User(object):
 			If user has protected tweets, returns [] rather than break the program.
 		"""
 		try:
-			feed = tweepy.Cursor(self.api.user_timeline, id=uid).items(count)
+			feed = tweepy.Cursor(self.api.user_timeline, id=uid, include_rts=True).items(count)
 			# logging.info("\n\n\n", "Get timeline: ", feed, "\n\n\n")
 			print "get request timeline"
 			return feed
