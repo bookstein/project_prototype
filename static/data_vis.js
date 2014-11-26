@@ -81,6 +81,7 @@ var VIZ = VIZ || (function () {
               .attr("fill", "rgba(0, 0, 255, " + d.score + ")");
           })
           .on("click", function(d) {
+            $("#detail ul").empty();
             var details = [d.screen_name, d.score, d.followers];
             console.log(details);
 
