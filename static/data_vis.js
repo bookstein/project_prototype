@@ -1,10 +1,17 @@
 var VIZ = VIZ || (function () {
 
+  function showTweets(data) {
+    console.log(data);
+  }
 
   return {
       test : function(scores_json) {
           console.log(scores_json);
       },
+
+      // showTweets : function(data) {
+      //   console.log(data);
+      // },
 
       createVisualization: function(scores) {
 
@@ -90,8 +97,9 @@ var VIZ = VIZ || (function () {
               $("#detail ul").append("<li>" + details[i] + "</li>");
             }
 
-          });
+            showTweets(d.screen_name);
 
+          });
       }
     };
 }());

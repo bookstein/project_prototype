@@ -47,41 +47,15 @@
 					<h5> Click the bubbles to see more about your Twitter friends. </h5>
 					<ul>
 					</ul>
+					<div id="tweets">
+					</div>
 				</div>
 			</div>
 		</div>
 
 
-
-
 		<script type="text/javascript" src={{ url_for('static', filename='data_vis.js') }}></script>
-		<script>
-			$("#visualize").click(function(e){
-				e.preventDefault();
-				var screen_name = $("input[name=screen_name]").val();
-				if (screen_name.length > 0) {
-					console.log(screen_name);
-					$("#messages").append("<div class='progress'><span class='meter'></span></div>");
-					$.ajax({
-						url: "/display",
-						data: JSON.stringify({"screen_name":screen_name}),
-						type: "POST",
-						dataType: 'json',
-						contentType: 'application/json;charset=UTF-8',
-						success: function(response) {
-							// call d3 viz here!
-							VIZ.test(response);
-							VIZ.createVisualization(response);
-						},
-						error: function(error) {
-							console.log(error);
-						}
-					});
-				}
-				else {
-					$("#result").text("Please enter a valid Twitter handle!");
-				}
-			});
-		</script>
+		<script type="text/javascript" src={{ url_for('static', filename='app.js') }}></script>
+		<script type="text/javascript" src={{ url_for('static', filename='ajax.js') }}></script>
 	</body>
 </html>
