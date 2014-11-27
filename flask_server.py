@@ -24,30 +24,42 @@ RATE_LIMITED_RESOURCES =[("statuses", "/statuses/user_timeline")]
 def index():
 	return render_template("index.html")
 
-@app.route("/display", methods=["POST"])
-def display_friends():
+@app.route("/get/user", methods=["POST"])
+def get_user():
+	api = connect_to_API()
+	print check_rate_limit(api)
+
 	screen_name = request.json["screen_name"]
 	print "SCREEN NAME FROM JSON: ", screen_name
+
+	try:
+		# check to make sure this user exists before proceeding
+		user = api.get_user(screen_name=screen_name, include_entities=False)
+		if user.id_str:
+			return redirect(url_for("display_friends", screen_name=screen_name))
+		else:
+			return redirect(url_for("index")) #add flash message
+
+
+	except tweepy.TweepError as e:
+		print "ERROR GETTING USER ", e
+		return redirect(url_for("index")) # add Flash messages
+
+
+@app.route("/get/display/<screen_name>")
+def display_friends(screen_name):
 	api = connect_to_API()
 
-	print check_rate_limit(api)
-	# print retrieve_remaining_requests(api)
+	user = User(api, central_user=screen_name, user_id=screen_name)
+
+	timeline = user.get_timeline(user.USER_ID, user.MAX_NUM_TWEETS)
 
 	political_hashtags_dict = model.Hashtag.get_all_political_hashtags()
 
-	user = User(api, central_user=screen_name, user_id=screen_name)
-	timeline = user.get_timeline(user.USER_ID, user.MAX_NUM_TWEETS)
-	# logging.info("Initial timeline request: \n", check_rate_limit(api))
-	hashtag_count = user.count_hashtags(timeline)
-	user.SCORE = user.score(hashtag_count, political_hashtags_dict)
-	print "USER SCREEN NAME FROM USER OBJ: ", user.SCREEN_NAME
-	print user.SCORE
-
 	try:
-
 		friends_ids = user.get_friends_ids(screen_name)
 
-		friendlist = []
+		friendlist = [user]
 
 		for page in user.paginate_friends(friends_ids, 100):
 			friends = process_friend_batch(user, page, api)

@@ -22,7 +22,7 @@ var TwitterAjax = TwitterAjax || (function() {
     return {
 
     // callDisplay is a function that takes a success callback
-        callDisplay: ajaxFunc("/display"),
+        callDisplay: ajaxFunc("/get/user"),
 
         getTweets: ajaxFunc("/tweets")
 
