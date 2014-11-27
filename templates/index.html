@@ -56,7 +56,7 @@
 		</div>
 
 		<script>
-		  window.twttr = (function (d, s, id) {
+		 	window.twttr = (function (d, s, id) {
 			  var t, js, fjs = d.getElementsByTagName(s)[0];
 			  if (d.getElementById(id)) return;
 			  js = d.createElement(s); js.id = id;
@@ -65,24 +65,28 @@
 			  return window.twttr || (t = { _e: [], ready: function (f) { t._e.push(f) } });
 			}(document, "script", "twitter-wjs"));
 
-		  console.log(twttr);
+		  	console.log(twttr);
 
 		  // twttr.widgets.{createSomething} only works if wrapped in ready function
 		  // createTimeline replaces <!-- <a class="twitter-timeline" href="https://twitter.com/twitter" data-widget-id="538087329949548544" data-screen-name="iamjohnoliver" data-show-replies="false" data-tweet-limit="3">Recent Tweets</a> -->
-		  twttr.ready(function (twttr) {
-		  	twttr.widgets.createTimeline(
-			  '538087329949548544',
-			  document.getElementById('tweets'),
-			  {
-			    width: '450',
-			    height: '700',
-				tweetLimit: 3,
-				screenName: "iamjohnoliver",
-				showReplies: "false",
-			  }).then(function (el) {
-			    console.log("Embedded a timeline.")
-			  });
-			});
+		  	var screenName = "iamjohnoliver";
+
+		  	// embeds a timeline on clicking #detail div.
+			twttr.ready(
+	  			function (twttr) {
+	    			$("#detail").on("click", function () {
+		  			  	twttr.widgets.createTimeline(
+						  '538087329949548544',
+						  document.getElementById('tweets'),
+						  {
+							tweetLimit: 3,
+							screenName: screenName,
+							showReplies: "false",
+						  }).then(function (el) {
+						    console.log("Embedded a timeline.")
+							  });
+					});
+			  	});
 
 		  	// to add later:<!-- <a class="twitter-timeline" href="https://twitter.com/hashtag/tcot" data-widget-id="538077357496872960">#tcot Tweets</a>
 					// <a class="twitter-timeline" href="https://twitter.com/hashtag/p2" data-widget-id="538077722640388096">#p2 Tweets</a> -->
