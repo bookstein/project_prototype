@@ -1,6 +1,7 @@
 var VIZ = VIZ || (function () {
 
   function showTweets(screenName) {
+    console.log("loading tweets");
     $("#tweets").empty()
 
     // embeds a timeline in #tweets div
@@ -8,14 +9,20 @@ var VIZ = VIZ || (function () {
         function (twttr) {
           twttr.widgets.createTimeline(
             '538087329949548544',
-            document.getElementById('tweets'),
+            // $ returns jQuery obj, get first elem [0] in obj
+            $('#tweets')[0],
             {
             tweetLimit: 3,
             screenName: screenName,
             showReplies: "false",
             })
             .then(function (el) {
-              console.log("Embedded " +  screenName + " timeline.")
+              // success callback
+                console.log("Embedded " +  screenName + " timeline.");
+              },
+              function(el) {
+                // failure callback
+                console.log("Failed to embed " + screenName + " timeline.");
             });
       });
   }
