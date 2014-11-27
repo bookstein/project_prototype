@@ -1,14 +1,24 @@
 var VIZ = VIZ || (function () {
 
-  function showTweets(screen_name) {
+  function showTweets(screenName) {
+    $("#tweets").empty()
 
-    TwitterAjax.getTweets(screen_name, function(response) {
-      console.log(response);
-      $(".twitter-timeline")
-
-
-  });
-}
+    // embeds a timeline in #tweets div
+      twttr.ready(
+        function (twttr) {
+          twttr.widgets.createTimeline(
+            '538087329949548544',
+            document.getElementById('tweets'),
+            {
+            tweetLimit: 3,
+            screenName: screenName,
+            showReplies: "false",
+            })
+            .then(function (el) {
+              console.log("Embedded " +  screenName + " timeline.")
+            });
+      });
+  }
 
   return {
       test : function(scores_json) {

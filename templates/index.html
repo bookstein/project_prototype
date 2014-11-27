@@ -67,27 +67,6 @@
 
 		  	console.log(twttr);
 
-		  // twttr.widgets.{createSomething} only works if wrapped in ready function
-		  // createTimeline replaces <!-- <a class="twitter-timeline" href="https://twitter.com/twitter" data-widget-id="538087329949548544" data-screen-name="iamjohnoliver" data-show-replies="false" data-tweet-limit="3">Recent Tweets</a> -->
-		  	var screenName = "iamjohnoliver";
-
-		  	// embeds a timeline on clicking #detail div.
-			twttr.ready(
-	  			function (twttr) {
-	    			$("#detail").on("click", function () {
-		  			  	twttr.widgets.createTimeline(
-						  '538087329949548544',
-						  document.getElementById('tweets'),
-						  {
-							tweetLimit: 3,
-							screenName: screenName,
-							showReplies: "false",
-						  }).then(function (el) {
-						    console.log("Embedded a timeline.")
-							  });
-					});
-			  	});
-
 		  	// to add later:<!-- <a class="twitter-timeline" href="https://twitter.com/hashtag/tcot" data-widget-id="538077357496872960">#tcot Tweets</a>
 					// <a class="twitter-timeline" href="https://twitter.com/hashtag/p2" data-widget-id="538077722640388096">#p2 Tweets</a> -->
 
