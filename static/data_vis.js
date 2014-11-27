@@ -1,7 +1,10 @@
 var VIZ = VIZ || (function () {
 
-  function showTweets(data) {
-    console.log(data);
+  function showTweets(screen_name) {
+
+    TwitterAjax.getTweets(screen_name, function() {
+      alert("yolo");
+    })
   }
 
   return {

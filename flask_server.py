@@ -24,7 +24,7 @@ RATE_LIMITED_RESOURCES =[("statuses", "/statuses/user_timeline")]
 def index():
 	return render_template("index.html")
 
-@app.route("/get/user", methods=["POST"])
+@app.route("/ajax/user", methods=["POST"])
 def get_user():
 	api = connect_to_API()
 	print check_rate_limit(api)
@@ -102,17 +102,14 @@ def display_friends(screen_name):
 	else:
 		return redirect("/")#, add flash --> errormessage="Unable to get friends")
 
-@app.route("/tweets")
+@app.route("/ajax/tweets", methods=["GET", "POST"])
 def get_latest_tweets():
-	pass
+	# user = User(api, user_id=screen_name)
+	# tweets = user.get_timeline(user.USER_ID, 5)
 	screen_name = request.json["screen_name"]
-	print "SCREEN NAME FROM JSON: ", screen_name
-	api = connect_to_API()
-
-	user = User(api, central_user=screen_name, user_id=screen_name)
-	tweets = user.get_timeline(user.USER_ID, 5)
+	print "SCREEN NAME FOR TWEETS", screen_name
+	tweets = [{"text": "Hi"},{"text": "Oh my gosh what an amazing day #yolo"}, {"text": "#Ferguson"}]
 	json_tweets = json.dumps(tweets)
-
 	return json_tweets
 
 def process_friend_batch(user, page, api):
