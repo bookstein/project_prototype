@@ -90,6 +90,19 @@ def display_friends():
 	else:
 		return redirect("/")#, add flash --> errormessage="Unable to get friends")
 
+@app.route("/tweets")
+def get_latest_tweets():
+	pass
+	screen_name = request.json["screen_name"]
+	print "SCREEN NAME FROM JSON: ", screen_name
+	api = connect_to_API()
+
+	user = User(api, central_user=screen_name, user_id=screen_name)
+	tweets = user.get_timeline(user.USER_ID, 5)
+	json_tweets = json.dumps(tweets)
+
+	return json_tweets
+
 def process_friend_batch(user, page, api):
 	"""
 	Create User object for each friend in batch of 100 (based on pagination)
