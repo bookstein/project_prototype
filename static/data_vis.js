@@ -2,9 +2,14 @@ var VIZ = VIZ || (function () {
 
   function showTweets(screen_name) {
 
-    TwitterAjax.getTweets(screen_name, function() {
-      alert("yolo");
-    })
+    TwitterAjax.getTweets(screen_name, function(response) {
+      // alert("yolo");
+      console.log(response);
+      for (var i = 0; i < response.length; i++) {
+        $("#tweets").append(response[i]["text"]);
+      }
+
+    });
   }
 
   return {
