@@ -5,9 +5,15 @@ var VIZ = VIZ || (function () {
     TwitterAjax.getTweets(screen_name, function(response) {
       // alert("yolo");
       console.log(response);
-      for (var i = 0; i < response.length; i++) {
-        $("#tweets").append(response[i]["text"]);
-      }
+      // for (var i = 0; i < response.length; i++) {
+      //   $("#tweets").append(response[i]["text"]);
+      // }
+
+
+
+
+      twttr.widgets.load("#tweets");
+
 
     });
   }
