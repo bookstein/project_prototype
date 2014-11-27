@@ -111,9 +111,11 @@ def get_latest_tweets():
 	# tweets = user.get_timeline(user.USER_ID, 5)
 	screen_name = request.json["screen_name"]
 	print "SCREEN NAME FOR TWEETS", screen_name
-	tweets = [{"text": "Hi"},{"text": "Oh my gosh what an amazing day #yolo"}, {"text": "#Ferguson"}]
-	json_tweets = json.dumps(tweets)
-	return json_tweets
+
+	with open("cannedtweets.txt") as f:
+		tweets = f.read()
+		json_tweets = json.dumps(tweets)
+		return json_tweets
 
 @app.route("/ajax/testing")
 def test_results():
