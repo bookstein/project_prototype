@@ -67,9 +67,10 @@ var VIZ = VIZ || (function () {
 
       node.append("circle")
           .attr("r", function(d) { return d.r; })
+          .attr("stroke", "gray")
           .attr("fill", function(d) {
             return "rgba(0, 0, 255, " + d.score + ")";
-          });;
+          });
 
       node.append("text")
         .attr("dy", ".3em")
@@ -77,16 +78,11 @@ var VIZ = VIZ || (function () {
         .text(function(d) { return d.className.substring(0, d.r / 3);
         });
 
-      node.on("mouseover", function(d){
+      node.on("mouseover", function() {
+          console.log(this);
+      });
 
-          d3.select(this)
-            .attr("fill", "orange");
-        })
-        .on("mouseout", function(d) {
-          d3.select(this)
-            .attr("fill", "rgba(0, 0, 255, " + d.score + ")");
-        })
-        .on("click", function(d) {
+      node.on("click", function(d) {
           $("#detail ul").empty();
           var details = [d.className, d.score, d.value];
           console.log(details);
