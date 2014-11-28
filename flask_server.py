@@ -119,46 +119,7 @@ def get_latest_tweets():
 
 @app.route("/ajax/testing")
 def test_results():
-	nested = json.dumps(
-		{
-			"name": "TwitterData",
-
-			"children": [
-				{
-					"name": "central_user",
-					"children": [
-						{
-						"score": 1.0,
-						"followers": 100,
-						"screen_name": "bookstein"
-						}
-					]
-				},
-				{
-					"name": "friends",
-					"children": [
-						{
-							"score": 1.0,
-							"followers": 100,
-							"screen_name": "maddow"
-						},
-						{
-							"score": 0.7,
-							"followers": 100,
-							"screen_name": "barackobama"
-						},
-						{
-							"score": 0.5,
-							"followers": 100,
-							"screen_name": "rushlimbaugh"
-						}
-					]
-				}
-			]
-		}
-	)
-	print nested
-	return nested
+	return json.dumps({"name": "friends", "children": [{"score": 1.0, "size": 100, "name": "maddow"}, {"score": 0.7, "size": 100, "name": "barackobama"}, {"score": 0.5, "size": 150, "name": "rushlimbaugh"}]})
 
 def process_friend_batch(user, page, api):
 	"""

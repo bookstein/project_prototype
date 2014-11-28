@@ -34,8 +34,6 @@ var VIZ = VIZ || (function () {
 
       createVisualization: function(scores) {
 
-    var JSONdata = {"name": "friends", "children": [{"score": 1.0, "size": 100, "name": "maddow"}, {"score": 0.7, "size": 100, "name": "barackobama"}, {"score": 0.5, "size": 150, "name": "rushlimbaugh"}]}
-
     var margin = {top: 20, right: 20, bottom: 20, left: 20}
 
     var diameter = $("#viz").width() - margin.right - margin.left,
@@ -55,7 +53,7 @@ var VIZ = VIZ || (function () {
         .attr("class", "bubble");
 
 
-    var root = JSONdata;
+    var root = scores;
 
     var node = svg.selectAll(".node")
       .data(bubble.nodes(classes(root))
@@ -107,6 +105,7 @@ var VIZ = VIZ || (function () {
 
       // Returns a flattened hierarchy containing all leaf nodes under the root.
       function classes(root) {
+        // keep variable names as packageName, className, value, and score -- otherwise cannot generated numeric values for x,y,r
         console.log("classes function running");
         var classes = [];
 
