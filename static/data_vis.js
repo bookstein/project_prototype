@@ -33,13 +33,14 @@ var VIZ = VIZ || (function () {
       },
 
       createVisualization: function(scores) {
-    var diameter = 500,
+    var margin = {top: 20, right: 20, bottom: 20, left: 20}
+    var diameter = $("#viz").width(),
     format = d3.format(",d"),
     dataSource = 0;
 
 var pack = d3.layout.pack()
 //default children accessor assumes each input data is an object with a children array
-    .size([diameter - 4, diameter - 4])
+    .size([diameter - margin.top, diameter - margin.left])
     .sort( function(a, b) {
         return -(a.value - b.value);
     })
