@@ -38,12 +38,14 @@ var VIZ = VIZ || (function () {
 
     var margin = {top: 20, right: 20, bottom: 20, left: 20}
 
-    var diameter = 600 - margin.right - margin.left,
-    format = d3.format(",d"),
-    color = d3.scale.category20c();
+    var diameter = $("#viz").width() - margin.right - margin.left,
+    format = d3.format(",d");
+    // color = d3.scale.category20c();
 
     var bubble = d3.layout.pack()
-        .sort(null)
+        .sort( function(a, b) {
+        return -(a.value - b.value);
+        })
         .size([diameter, diameter])
         .padding(1.5);
 
@@ -62,17 +64,21 @@ var VIZ = VIZ || (function () {
       .attr("class", "node")
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
-      node.append("title")
-          .text(function(d) { return d.className + ": " + format(d.value); });
+      // node.append("title")
+      //     .text(function(d) { return d.className + ": " + format(d.value); });
 
       node.append("circle")
-          .attr("r", function(d) { return d.followers; });
-
+          .attr("r", function(d) { return d.r; })
+          .attr("fill", function(d) {
+            return "rgba(0, 0, 255, " + d.score + ")";
+          });;
 
       node.append("text")
-          .attr("dy", ".3em")
-          .style("text-anchor", "middle")
-          .text(function(d) { return d.screen_name });
+        .attr("dy", ".3em")
+        .style("text-anchor", "middle")
+        .text(function(d) { return d.className.substring(0, d.r / 3);
+        });
+
 
 
 
@@ -83,7 +89,7 @@ var VIZ = VIZ || (function () {
 
         function recurse(name, node) {
           if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
-          else classes.push({packageName: name, className: node.name, value: node.size});
+          else classes.push({packageName: name, className: node.name, value: node.size, score: node.score});
         }
 
         recurse(null, root);
