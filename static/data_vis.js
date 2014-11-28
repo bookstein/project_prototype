@@ -32,15 +32,11 @@ var VIZ = VIZ || (function () {
           console.log(scores_json);
       },
 
-      // showTweets : function(data) {
-      //   console.log(data);
-      // },
-
       createVisualization: function(scores) {
 
         var margin = {top: 60, right: 60, bottom: 60, left: 60};
 
-        var w = 960 - margin.left - margin.right,
+        var w = $("#viz").width() - margin.left - margin.right,
             h = 500 - margin.top - margin.bottom;
 
         // create SVG elem
