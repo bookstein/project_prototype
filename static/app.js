@@ -1,5 +1,6 @@
 (function() {
 
+    // progress bar controls
     function showProgress() {
         $("#messages").append("<div class='progress'><span style='width:0%;' class='meter'></span></div>");
 
@@ -15,17 +16,16 @@
 
     // success callback for visualization
     function displaySuccess(response) {
-        console.log("display success");
-
-        // complete progress bar
-        showProgressComplete();
+        // clear svg in case previous visualization exists
+        $("svg").remove()
         // re-enable button
         $("#visualize").removeClass("disabled");
+        // show sidebar
+        $("#detail").removeClass("hidden");
+        // complete and remove progress bar
+        showProgressComplete();
 
-        // add #detail sidebar
-        $("#detail-container").append("<div class='panel' id='detail'><h5> Click the bubbles to see more about your Twitter friends.</h5><ul><li id='tw-handle'></li><li id='score'></li><li id='followers'></li></ul><div id='tweets'></div></div>");
-
-        // call method from data_viz.js
+        // create visualization in data_viz.js
         VIZ.createVisualization(response);
     }
 
