@@ -79,6 +79,29 @@ var VIZ = VIZ || (function () {
         .text(function(d) { return d.className.substring(0, d.r / 3);
         });
 
+      node.on("mouseover", function(d){
+
+          d3.select(this)
+            .attr("fill", "orange");
+        })
+        .on("mouseout", function(d) {
+          d3.select(this)
+            .attr("fill", "rgba(0, 0, 255, " + d.score + ")");
+        })
+        .on("click", function(d) {
+          $("#detail ul").empty();
+          var details = [d.className, d.score, d.value];
+          console.log(details);
+
+          for (var i = 0; i < details.length; i++) {
+            console.log("FOR LOOP!");
+            $("#detail ul").append("<li>" + details[i] + "</li>");
+          }
+
+          showTweets(d.className);
+
+        });
+
 
 
 
@@ -100,28 +123,6 @@ var VIZ = VIZ || (function () {
 
       d3.select(self.frameElement).style("height", diameter + "px");
 
-      // circles.on("mouseover", function(d){
-
-      //             d3.select(this)
-      //               .attr("fill", "orange");
-      //           })
-      //           .on("mouseout", function(d) {
-      //             d3.select(this)
-      //               .attr("fill", "rgba(0, 0, 255, " + d.score + ")");
-      //           })
-      //           .on("click", function(d) {
-      //             $("#detail ul").empty();
-      //             var details = [d.screen_name, d.score, d.followers];
-      //             console.log(details);
-
-      //             for (var i = 0; i < details.length; i++) {
-      //               console.log("FOR LOOP!");
-      //               $("#detail ul").append("<li>" + details[i] + "</li>");
-      //             }
-
-      //             showTweets(d.screen_name);
-
-      //           });
 
     }
   }
