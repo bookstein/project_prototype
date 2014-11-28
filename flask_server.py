@@ -119,7 +119,46 @@ def get_latest_tweets():
 
 @app.route("/ajax/testing")
 def test_results():
-	return json.dumps([{'score': 0, 'followers': 14121834, 'screen_name': 'nytimes'}, {'score': 0, 'followers': 9814948, 'screen_name': 'DalaiLama'}, {'score': 0.2, 'followers': 8023469, 'screen_name': 'BBCWorld'}, {'score': 0.0, 'followers': 3052266, 'screen_name': 'nprnews'}, {'score': 1.0, 'followers': 3041963, 'screen_name': 'maddow'}, {'score': 0.0, 'followers': 2936642, 'screen_name': 'TheDailyShow'}, {'score': 0.1111111111111111, 'followers': 2420696, 'screen_name': 'wikileaks'}, {'score': 0.125, 'followers': 1524481, 'screen_name': 'NickKristof'}, {'score': 0.4166666666666667, 'followers': 1326347, 'screen_name': 'YourAnonNews'}, {'score': 0.0, 'followers': 1000101, 'screen_name': 'Medium'}, {'score': 1.0, 'followers': 453768, 'screen_name': 'MotherJones'}, {'score': 1.0, 'followers': 434682, 'screen_name': 'HuffPostPol'}, {'score': 0.3333333333333333, 'followers': 404473, 'screen_name': 'kanter'}, {'score': 0.3333333333333333, 'followers': 346444, 'screen_name': 'democracynow'}, {'score': 1.0, 'followers': 234337, 'screen_name': 'ajam'}, {'score': 0.5882352941176471, 'followers': 215619, 'screen_name': 'ACLU'}, {'score': 0.0, 'followers': 213864, 'screen_name': 'RBReich'}, {'score': 0.7777777777777778, 'followers': 205366, 'screen_name': 'OccupyWallSt'}, {'score': 0.0, 'followers': 189192, 'screen_name': '99u'}, {'score': 0.5, 'followers': 180794, 'screen_name': 'pewresearch'}, {'score': 0, 'followers': 114458, 'screen_name': 'iraglass'}, {'score': 0, 'followers': 98981, 'screen_name': 'UpshotNYT'}, {'score': 0.42857142857142855, 'followers': 85748, 'screen_name': 'AlterNet'}, {'score': 0.0, 'followers': 72823, 'screen_name': 'GA'}, {'score': 0.2727272727272727, 'followers': 63441, 'screen_name': 'Revkin'}, {'score': 0.0, 'followers': 60414, 'screen_name': 'GirlsWhoCode'}, {'score': 0.0, 'followers': 56396, 'screen_name': 'TheMoth'}, {'score': 0.28, 'followers': 45983, 'screen_name': 'GlobalRevLive'}, {'score': 0.0, 'followers': 43212, 'screen_name': 'earthisland'}, {'score': 0.0, 'followers': 42887, 'screen_name': 'tomtomorrow'}, {'score': 0.35714285714285715, 'followers': 42822, 'screen_name': 'KQED'}, {'score': 0.3469387755102041, 'followers': 41217, 'screen_name': 'OccupyOakland'}, {'score': 0.14285714285714285, 'followers': 38990, 'screen_name': 'SaveManning'}, {'score': 0.16666666666666666, 'followers': 36025, 'screen_name': 'Daily_Good'}, {'score': 0.2, 'followers': 33145, 'screen_name': 'FoodCorps'}, {'score': 1.0, 'followers': 26905, 'screen_name': 'FactTank'}, {'score': 0.0, 'followers': 19821, 'screen_name': 'girldevelopit'}, {'score': 0.05263157894736842, 'followers': 17951, 'screen_name': 'ProfessorCrunk'}, {'score': 0.8, 'followers': 17748, 'screen_name': 'quinnnorton'}, {'score': 0.5, 'followers': 17579, 'screen_name': 'neworganizing'}, {'score': 0, 'followers': 16908, 'screen_name': 'MattBors'}, {'score': 0.0, 'followers': 14888, 'screen_name': 'aaronsw'}, {'score': 0.0, 'followers': 13235, 'screen_name': 'KuraFire'}, {'score': 0.0, 'followers': 12592, 'screen_name': 'susie_c'}, {'score': 0.1875, 'followers': 12548, 'screen_name': 'realfoodnow'}, {'score': 0, 'followers': 12076, 'screen_name': 'hypatiadotca'}, {'score': 0.0, 'followers': 10044, 'screen_name': 'dnbornstein'}, {'score': 0.0, 'followers': 8705, 'screen_name': 'PopUpMag'}, {'score': 0.6666666666666666, 'followers': 8399, 'screen_name': 'sarahjeong'}, {'score': 0, 'followers': 7795, 'screen_name': 'geekfeminism'}])
+	nested = json.dumps(
+		{
+			"name": "TwitterData",
+
+			"children": [
+				{
+					"name": "central_user",
+					"children": [
+						{
+						"score": 1.0,
+						"followers": 100,
+						"screen_name": "bookstein"
+						}
+					]
+				},
+				{
+					"name": "friends",
+					"children": [
+						{
+							"score": 1.0,
+							"followers": 100,
+							"screen_name": "maddow"
+						},
+						{
+							"score": 0.7,
+							"followers": 100,
+							"screen_name": "barackobama"
+						},
+						{
+							"score": 0.5,
+							"followers": 100,
+							"screen_name": "rushlimbaugh"
+						}
+					]
+				}
+			]
+		}
+	)
+	print nested
+	return nested
 
 def process_friend_batch(user, page, api):
 	"""
