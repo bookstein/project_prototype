@@ -3,11 +3,11 @@
     function showProgress() {
         $("#messages").append("<div class='progress'><span style='width:0%;' class='meter'></span></div>");
 
-        $(".meter").animate({width:"50%"});
+        $(".meter").animate({width:"50%"}, 3000);
     }
 
     function showProgressComplete() {
-        $(".meter").animate({width:"100%"}, 1000);
+        $(".meter").animate({width:"100%"});
         setTimeout(function() {
             $("#messages").empty();
         }, 100);
