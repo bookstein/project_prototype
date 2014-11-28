@@ -13,6 +13,22 @@
         }, 100);
     }
 
+    // success callback for visualization
+    function displaySuccess(response) {
+        console.log("display success");
+
+        // complete progress bar
+        showProgressComplete();
+        // re-enable button
+        $("#visualize").removeClass("disabled");
+
+        // add #detail sidebar
+        $("#detail-container").append("<div class='panel' id='detail'><h5> Click the bubbles to see more about your Twitter friends.</h5><ul><li id='tw-handle'></li><li id='score'></li><li id='followers'></li></ul><div id='tweets'></div></div>");
+
+        // call method from data_viz.js
+        VIZ.createVisualization(response);
+    }
+
     $("#visualize").on("click", function(e){
         e.preventDefault();
         $(this).addClass("disabled");
@@ -25,18 +41,7 @@
             // add progress bar
             showProgress();
 
-            // success callback
-            function displaySuccess(response) {
-                console.log("display success");
-
-                // complete progress bar
-                showProgressComplete();
-
-                $("#detail-container").append("<div class='panel' id='detail'><h5> Click the bubbles to see more about your Twitter friends.</h5><ul><li id='tw-handle'></li><li id='score'></li><li id='followers'></li></ul><div id='tweets'></div></div>");
-                VIZ.createVisualization(response);
-            }
-
-            // make initial AJAX request, using success callback
+            // make AJAX request, using success callback
             TwitterAjax.callDisplay(screen_name, displaySuccess);
 
         }
