@@ -13,8 +13,10 @@
         }, 100);
     }
 
-    $("#visualize").click(function(e){
+    $("#visualize").on("click", function(e){
         e.preventDefault();
+        $(this).addClass("disabled");
+
         // store screen name
         var screen_name = $("input[name=screen_name]").val();
         // first-pass validation: make sure screen_name is not blank
