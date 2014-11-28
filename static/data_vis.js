@@ -80,15 +80,13 @@ var VIZ = VIZ || (function () {
 
       node.on("mouseover", function(d) {
           console.log(this);
-          $("#detail ul").empty();
-          var details = [d.className, d.score, d.value];
-          console.log(details);
-
-          for (var i = 0; i < details.length; i++) {
-            console.log("FOR LOOP!");
-            $("#detail ul").append("<li>" + details[i] + "</li>");
-          }
+          // $("#detail ul").empty();
+          // var details = [d.className, d.score, d.value];
+          $("#tw-handle").text("@" + d.className);
+          $("#score").text("Politicalness score: " + d.score);
+          $("#followers").text("Followers: " + d.value);
       });
+
 
       node.on("click", function(d) {
 

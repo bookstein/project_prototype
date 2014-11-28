@@ -32,7 +32,7 @@
                 // complete progress bar
                 showProgressComplete();
 
-                $("#detail-container").append("<div class='panel' id='detail'><h5> Click the bubbles to see more about your Twitter friends.</h5><ul></ul><div id='tweets'></div></div>");
+                $("#detail-container").append("<div class='panel' id='detail'><h5> Click the bubbles to see more about your Twitter friends.</h5><ul><li id='tw-handle'></li><li id='score'></li><li id='followers'></li></ul><div id='tweets'></div></div>");
                 VIZ.createVisualization(response);
             }
 
