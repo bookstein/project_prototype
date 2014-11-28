@@ -52,7 +52,6 @@ var VIZ = VIZ || (function () {
         .attr("height", diameter)
         .attr("class", "bubble");
 
-
     var root = scores;
 
     var node = svg.selectAll(".node")
@@ -79,20 +78,29 @@ var VIZ = VIZ || (function () {
         });
 
       node.on("mouseover", function(d) {
-          console.log(this);
-          // $("#detail ul").empty();
-          // var details = [d.className, d.score, d.value];
+          // get "circle", the first child of node ("g" element)
+          var selection = $(this).children()[0];
+          // set attribute ("fill") to orange
+          selection.setAttribute("fill", "orange");
+
+          // Update data values in #detail panel list
           $("#tw-handle").text("@" + d.className);
           $("#score").text("Politicalness score: " + d.score);
           $("#followers").text("Followers: " + d.value);
       });
 
+    node.on("mouseout", function(d) {
+          // console.log(this);
+          var selection = $(this).children()[0];
+          // set attribute ("fill") to orange
+          selection.setAttribute("fill", "rgba(0, 0, 255, " + d.score + ")");
+      });
 
       node.on("click", function(d) {
 
           showTweets(d.className);
 
-        });
+      });
 
 
 
