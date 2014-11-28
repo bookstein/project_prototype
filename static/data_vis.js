@@ -33,180 +33,93 @@ var VIZ = VIZ || (function () {
       },
 
       createVisualization: function(scores) {
+
+    var JSONdata = {"name": "friends", "children": [{"score": 1.0, "size": 100, "name": "maddow"}, {"score": 0.7, "size": 100, "name": "barackobama"}, {"score": 0.5, "size": 150, "name": "rushlimbaugh"}]}
+
     var margin = {top: 20, right: 20, bottom: 20, left: 20}
-    var diameter = $("#viz").width(),
+
+    var diameter = 600 - margin.right - margin.left,
     format = d3.format(",d"),
-    dataSource = 0;
+    color = d3.scale.category20c();
 
-var pack = d3.layout.pack()
-//default children accessor assumes each input data is an object with a children array
-    .size([diameter - margin.top, diameter - margin.left])
-    .sort( function(a, b) {
-        return -(a.value - b.value);
-    })
-    .padding(1)
-    .value(function(d) { return d.followers; });
+    var bubble = d3.layout.pack()
+        .sort(null)
+        .size([diameter, diameter])
+        .padding(1.5);
 
-var data = getData();
+    var svg = d3.select("#viz").append("svg")
+        .attr("width", diameter)
+        .attr("height", diameter)
+        .attr("class", "bubble");
 
-var packCalculations = pack.nodes(data);
-console.log(packCalculations);
 
-var svg = d3.select("body").append("svg")
-    .attr("width", diameter)
-    .attr("height", diameter)
+    var root = JSONdata;
 
-    .selectAll("g").data(packCalculations).enter()
+    var node = svg.selectAll(".node")
+      .data(bubble.nodes(classes(root))
+      .filter(function(d) { return !d.children; }))
+    .enter().append("g")
+      .attr("class", "node")
+      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
-var g = svg.append("g");
+      node.append("title")
+          .text(function(d) { return d.className + ": " + format(d.value); });
 
-var circles = g.append("circle")
-  .attr("r", function(d){return d.r})
-  .style("fill", function(d){ return "rgba(0, 0, 255, " + d.score + ")" })
-  .attr("transform", function(d,i)
-       {return "translate(" + d.x + "," + d.y + ")"});
+      node.append("circle")
+          .attr("r", function(d) { return d.followers; });
 
-g.append("text")
-  .attr("x", -10)
-  .attr("fill", "grey")
-  .text(function(d){return d.screen_name})
-  .attr("transform", function(d,i)
-         {return "translate(" + d.x + "," + d.y + ")"});
 
-// var vis = svg.datum(data).selectAll(".node")
-//     .data(pack.nodes)
-//    .enter()
-//     .append("g")
-//     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-// var titles = vis.append("title")
-//     .attr("x", function(d) { return d.x; })
-//     .attr("y", function(d) { return d.y; })
-//     .text(function(d) { return d.name +
-//         (d.children ? "" : ": " + format(d.value)); });
-
-// var circles = vis.append("circle")
-//     .attr("stroke", "black")
-//     .style("fill", function(d) {
-//               return "rgba(0, 0, 255, " + d.score + ")"
-//           })
-//     .attr("cx", function(d) { console.log(d.x); return d.x; })
-//     .attr("cy", function(d) { console.log(d.y); return d.y; })
-//     .attr("r", function(d) { console.log(d.r); return d.r; });
-
-circles.on("mouseover", function(d){
-
-            d3.select(this)
-              .attr("fill", "orange");
-          })
-          .on("mouseout", function(d) {
-            d3.select(this)
-              .attr("fill", "rgba(0, 0, 255, " + d.score + ")");
-          })
-          .on("click", function(d) {
-            $("#detail ul").empty();
-            var details = [d.screen_name, d.score, d.followers];
-            console.log(details);
-
-            for (var i = 0; i < details.length; i++) {
-              console.log("FOR LOOP!");
-              $("#detail ul").append("<li>" + details[i] + "</li>");
-            }
-
-            showTweets(d.screen_name);
-
-          });
+      node.append("text")
+          .attr("dy", ".3em")
+          .style("text-anchor", "middle")
+          .text(function(d) { return d.screen_name });
 
 
 
-function getData() {
-return {"name": "friends", "children": [{"score": 1.0, "followers": 100, "screen_name": "maddow"}, {"score": 0.7, "followers": 100, "screen_name": "barackobama"}, {"score": 0.5, "followers": 150, "screen_name": "rushlimbaugh"}]};
+      // Returns a flattened hierarchy containing all leaf nodes under the root.
+      function classes(root) {
+        console.log("classes function running");
+        var classes = [];
 
+        function recurse(name, node) {
+          if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
+          else classes.push({packageName: name, className: node.name, value: node.size});
+        }
+
+        recurse(null, root);
+
+        console.log({children: classes})
+        return {children: classes};
       }
+
+      d3.select(self.frameElement).style("height", diameter + "px");
+
+      // circles.on("mouseover", function(d){
+
+      //             d3.select(this)
+      //               .attr("fill", "orange");
+      //           })
+      //           .on("mouseout", function(d) {
+      //             d3.select(this)
+      //               .attr("fill", "rgba(0, 0, 255, " + d.score + ")");
+      //           })
+      //           .on("click", function(d) {
+      //             $("#detail ul").empty();
+      //             var details = [d.screen_name, d.score, d.followers];
+      //             console.log(details);
+
+      //             for (var i = 0; i < details.length; i++) {
+      //               console.log("FOR LOOP!");
+      //               $("#detail ul").append("<li>" + details[i] + "</li>");
+      //             }
+
+      //             showTweets(d.screen_name);
+
+      //           });
+
+    }
   }
-}
-}());
+})();
 
 
 
-
-        // // create SVG elem
-        // var svg = d3.select("#viz")
-        //             .append("svg")
-        //             .attr("width", w + margin.left + margin.right)
-        //             .attr("height", h + margin.top + margin.bottom)
-        //           .append("g")
-        //             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");;
-
-
-        // var max_followers = d3.max(scores, function(d) {
-        //   // references "followers" property of each object in scores
-        //   return d.followers
-        // });
-
-        // var rScale = d3.scale.linear()
-        //               .domain([0, max_followers])
-        //               .range([10, 60])
-
-
-        // var circles = svg.selectAll("circle")
-        //   .data(scores)
-        //   .enter()
-        //   .append("circle");
-
-
-        // circles.attr("cx", function(d, i) {
-        //     // assign a dynamic value that corresponds to i, or each value’s position in the data set
-        //     console.log("CX " + ((i+1) * (w / scores.length)))
-        //     return (i+1) * (w / scores.length);
-        //   })
-        //   .attr("cy", function(d) {
-        //     console.log("CY " + (1 - d.score) * h)
-        //     return (1 - d.score) * h;
-        //   })
-        //   .attr("r", function(d) {
-        //     return rScale(d.followers);
-        //   })
-        //   .attr("stroke", "gray")
-        //   .attr("fill", function(d) {
-        //       return "rgba(0, 0, 255, " + d.score + ")"
-        //   });
-
-        // circles.on("mouseover", function(d){
-        //     // console.log(d);
-
-        //     var screenName = d.screen_name;
-        //     var xPosition = parseFloat(d3.select(this).attr("cx"));
-        //     var yPosition = parseFloat(d3.select(this).attr("cy")) - parseFloat(d3.select(this).attr("r") + 3);
-        //     svg.append("text")
-        //         .attr("id", "tooltip")
-        //         .attr("x", xPosition)
-        //         .attr("y", yPosition)
-        //         .attr("text-anchor", "middle")
-        //         .attr("font-family", "sans-serif")
-        //         .attr("font-size", "11px")
-        //         .attr("font-weight", "bold")
-        //         .attr("fill", "black")
-        //         .text(screenName);
-
-        //     d3.select(this)
-        //       .attr("fill", "orange");
-        //   })
-        //   .on("mouseout", function(d) {
-        //     d3.select("#tooltip").remove();
-        //     d3.select(this)
-        //       .attr("fill", "rgba(0, 0, 255, " + d.score + ")");
-        //   })
-        //   .on("click", function(d) {
-        //     $("#detail ul").empty();
-        //     var details = [d.screen_name, d.score, d.followers];
-        //     console.log(details);
-
-        //     for (var i = 0; i < details.length; i++) {
-        //       console.log("FOR LOOP!");
-        //       $("#detail ul").append("<li>" + details[i] + "</li>");
-        //     }
-
-        //     showTweets(d.screen_name);
-
-        //   });
