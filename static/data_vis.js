@@ -42,7 +42,7 @@ var VIZ = VIZ || (function () {
 
     var bubble = d3.layout.pack()
         .sort( function(a, b) {
-        return -(a.value - b.value);
+        return -(a.score - b.score);
         })
         .size([diameter, diameter])
         .padding(1.5);
