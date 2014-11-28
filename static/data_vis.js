@@ -44,57 +44,62 @@ var pack = d3.layout.pack()
     .sort( function(a, b) {
         return -(a.value - b.value);
     })
+    .padding(1)
     .value(function(d) { return d.followers; });
-
-var svg = d3.select("body").append("svg")
-    .attr("width", diameter)
-    .attr("height", diameter);
 
 var data = getData();
 
-var vis = svg.datum(data).selectAll(".node")
-    .data(pack.nodes)
-   .enter()
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+var packCalculations = pack.nodes(data);
+console.log(packCalculations);
 
-var titles = vis.append("title")
-    .attr("x", function(d) { return d.x; })
-    .attr("y", function(d) { return d.y; })
-    .text(function(d) { return d.name +
-        (d.children ? "" : ": " + format(d.value)); });
+var svg = d3.select("body").append("svg")
+    .attr("width", diameter)
+    .attr("height", diameter)
 
-var circles = vis.append("circle")
-    .attr("stroke", "black")
-    .style("fill", function(d) {
-              return "rgba(0, 0, 255, " + d.score + ")"
-          })
-    .attr("cx", function(d) { console.log(d.x); return d.x; })
-    .attr("cy", function(d) { console.log(d.y); return d.y; })
-    .attr("r", function(d) { console.log(d.r); return d.r; });
+    .selectAll("g").data(packCalculations).enter()
+
+var g = svg.append("g");
+
+var circles = g.append("circle")
+  .attr("r", function(d){return d.r})
+  .style("fill", function(d){ return "rgba(0, 0, 255, " + d.score + ")" })
+  .attr("transform", function(d,i)
+       {return "translate(" + d.x + "," + d.y + ")"});
+
+g.append("text")
+  .attr("x", -10)
+  .attr("fill", "grey")
+  .text(function(d){return d.screen_name})
+  .attr("transform", function(d,i)
+         {return "translate(" + d.x + "," + d.y + ")"});
+
+// var vis = svg.datum(data).selectAll(".node")
+//     .data(pack.nodes)
+//    .enter()
+//     .append("g")
+//     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// var titles = vis.append("title")
+//     .attr("x", function(d) { return d.x; })
+//     .attr("y", function(d) { return d.y; })
+//     .text(function(d) { return d.name +
+//         (d.children ? "" : ": " + format(d.value)); });
+
+// var circles = vis.append("circle")
+//     .attr("stroke", "black")
+//     .style("fill", function(d) {
+//               return "rgba(0, 0, 255, " + d.score + ")"
+//           })
+//     .attr("cx", function(d) { console.log(d.x); return d.x; })
+//     .attr("cy", function(d) { console.log(d.y); return d.y; })
+//     .attr("r", function(d) { console.log(d.r); return d.r; });
 
 circles.on("mouseover", function(d){
-            // console.log(d);
-
-            var screenName = d.screen_name;
-            var xPosition = parseFloat(d3.select(this).attr("cx"));
-            var yPosition = parseFloat(d3.select(this).attr("cy")) - parseFloat(d3.select(this).attr("r") + 3);
-            svg.append("text")
-                .attr("id", "tooltip")
-                .attr("x", xPosition)
-                .attr("y", yPosition)
-                .attr("text-anchor", "middle")
-                .attr("font-family", "sans-serif")
-                .attr("font-size", "11px")
-                .attr("font-weight", "bold")
-                .attr("fill", "black")
-                .text(screenName);
 
             d3.select(this)
               .attr("fill", "orange");
           })
           .on("mouseout", function(d) {
-            d3.select("#tooltip").remove();
             d3.select(this)
               .attr("fill", "rgba(0, 0, 255, " + d.score + ")");
           })
