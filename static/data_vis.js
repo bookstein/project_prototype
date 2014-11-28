@@ -78,11 +78,8 @@ var VIZ = VIZ || (function () {
         .text(function(d) { return d.className.substring(0, d.r / 3);
         });
 
-      node.on("mouseover", function() {
+      node.on("mouseover", function(d) {
           console.log(this);
-      });
-
-      node.on("click", function(d) {
           $("#detail ul").empty();
           var details = [d.className, d.score, d.value];
           console.log(details);
@@ -91,6 +88,9 @@ var VIZ = VIZ || (function () {
             console.log("FOR LOOP!");
             $("#detail ul").append("<li>" + details[i] + "</li>");
           }
+      });
+
+      node.on("click", function(d) {
 
           showTweets(d.className);
 
