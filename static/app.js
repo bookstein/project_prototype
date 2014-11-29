@@ -15,6 +15,7 @@
     }
 
     function addVizHeadline(screenName) {
+        $("#viz h2").remove();
         $("#viz").prepend("<h2>@" + screenName + "'s Twitter Friends" + "</h2>");
     }
 
