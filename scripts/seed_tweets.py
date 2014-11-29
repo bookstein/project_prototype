@@ -14,8 +14,8 @@ import politwit.model as model
 api = None
 
 POLITICAL_HASHTAGS = ["p2", "tcot"]
-NONPOLITICAL_HASHTAGS = ["gameinsight","love", "win", "ipad", "ff", "tbt", "rt"]
-# ["nowplaying", "gameinsight","love", "win", "ipad", "ff", "tbt", "rt"]
+NONPOLITICAL_HASHTAGS = ["ff", "tbt"] #"nowplaying", "gameinsight","love", "win", "ipad"
+EXCLUDE_HASHTAGS =  "-#RT -#rt -#TeamFollowBack -#followback"
 
 
 def connect_to_API():
@@ -149,7 +149,7 @@ def main(session):
 	# load_tweets(session, p2, "libs")
 
 	for hashtag in NONPOLITICAL_HASHTAGS:
-		htg = get_tweets_by_query(api, ("#" + hashtag + " -#p2 -#tcot"), 3000)
+		htg = get_tweets_by_query(api, ("#" + hashtag + " -#p2 -#tcot " + EXCLUDE_HASHTAGS), 3000)
 		load_tweets(session, htg, "np")
 
 
