@@ -34,7 +34,7 @@ var VIZ = VIZ || (function () {
 
       createVisualization: function(scores) {
 
-    var margin = {top: 20, right: 20, bottom: 20, left: 20}
+    var margin = {top: 10, right: 10, bottom: 10, left: 10}
 
     var diameter = $("#viz").width() - margin.right - margin.left,
     format = d3.format(",d");
@@ -81,7 +81,7 @@ var VIZ = VIZ || (function () {
           // get "circle", the first child of node ("g" element)
           var selection = $(this).children()[0];
           // set attribute ("fill") to orange
-          selection.setAttribute("fill", "orange");
+          selection.setAttribute("fill", "#ffcc4d");
 
           // Update data values in #detail panel list
           $("#tw-handle").text("@" + d.className);
