@@ -10,8 +10,12 @@
     function showProgressComplete() {
         $(".meter").animate({width:"100%"});
         setTimeout(function() {
-            $("#messages").empty();
+            $(".progress").remove();
         }, 100);
+    }
+
+    function addVizHeadline(screenName) {
+        $("#viz").prepend("<h2>@" + screenName + "'s Twitter Friends" + "</h2>");
     }
 
     // success callback for visualization
@@ -24,6 +28,8 @@
         $("#detail").removeClass("hidden");
         // complete and remove progress bar
         showProgressComplete();
+        // add header above visualization
+        addVizHeadline(response["name"]);
 
         // create visualization in data_viz.js
         VIZ.createVisualization(response);
