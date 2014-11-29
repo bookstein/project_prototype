@@ -1,23 +1,21 @@
 """
-	API for getting tweets from Twitter hashtag feeds, scoring.
+	API for getting tweets from Twitter hashtag feeds.
 """
 import itertools
 import os
 from datetime import datetime
 
 import tweepy
-import sqlalchemy.exc
+from sqlalchemy.exc import SQLAlchemyError
 
-import dummyscore
-import politwit.model
-import politwit.score
-
-
-CURRENT_USER = ""
-USER_SCORE = None
+import politwit.model as model
 
 # tweepy api instance
 api = None
+
+POLITICAL_HASHTAGS = ["p2", "tcot"]
+NONPOLITICAL_HASHTAGS = ["gameinsight","love", "win", "ipad", "ff", "tbt", "rt"]
+# ["nowplaying", "gameinsight","love", "win", "ipad", "ff", "tbt", "rt"]
 
 
 def connect_to_API():
@@ -65,8 +63,7 @@ def get_tweets_by_query(api, query, max_tweets):
 	while len(searched_tweets) < max_tweets:
 	    count = max_tweets - len(searched_tweets)
 	    try:
-	        new_tweets = api.search(q=query, count=count, include_entities=True,
-	         max_id=str(max_id - 1))
+	        new_tweets = api.search(q=query, lang="en", count=count, include_entities=True, max_id=str(max_id - 1))
 	        if not new_tweets:
 	            break
 
@@ -81,8 +78,8 @@ def get_tweets_by_query(api, query, max_tweets):
 	        print "since_id", since_id
 
 	    except tweepy.TweepError as e:
-	        # depending on TweepError.code, one may want to retry or wait
-        	# to keep things simple, we will give up on an error
+	        # depending on TweepError.code --> retry or wait
+        	# for now give up on an error
         	break
 	return searched_tweets
 
@@ -122,20 +119,20 @@ def load_tweets(session, statuses, label):
 
 		print "TWEET TO ADD", tweet
 
-		hashtags_from_tw = status["entities"]['hashtags']
-		for hashtag_obj in hashtags_from_tw:
-			hashtag = hashtag_obj["text"].lower()
-			tag_in_db = hashtags_seen.get(hashtag)
-			if not tag_in_db:
-				tag_in_db = model.Hashtag(text=hashtag)
-				hashtags_seen[hashtag] = tag_in_db
-			tweet.hashtags.append(tag_in_db)
+		# hashtags_from_tw = status["entities"]['hashtags']
+		# for hashtag_obj in hashtags_from_tw:
+		# 	hashtag = hashtag_obj["text"].lower()
+		# 	tag_in_db = hashtags_seen.get(hashtag)
+		# 	if not tag_in_db:
+		# 		tag_in_db = model.Hashtag(text=hashtag)
+		# 		hashtags_seen[hashtag] = tag_in_db
+		# 	tweet.hashtags.append(tag_in_db)
 
 		try:
 			session.add(tweet)
 			session.commit()
-		except sqlalchemy.exc:
-			session.rollback()
+		except SQLAlchemyError:
+			# session.rollback()
 			pass
 		finally:
 			session.close()
@@ -144,12 +141,17 @@ def load_tweets(session, statuses, label):
 
 def main(session):
 	print "hi"
-	# api = connect_to_API()
+	api = connect_to_API()
 	# tcot = get_tweets_by_query(api, "#tcot -#p2", 3000)
 	# p2 = get_tweets_by_query(api, "#p2 -#tcot", 3000)
 
 	# load_tweets(session, tcot, "cons")
 	# load_tweets(session, p2, "libs")
+
+	for hashtag in NONPOLITICAL_HASHTAGS:
+		htg = get_tweets_by_query(api, ("#" + hashtag + " -#p2 -#tcot"), 3000)
+		load_tweets(session, htg, "np")
+
 
 
 if __name__ == "__main__":
