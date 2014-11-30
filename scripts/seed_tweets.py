@@ -4,6 +4,7 @@
 import itertools
 import os
 from datetime import datetime
+import pickle
 
 import tweepy
 from sqlalchemy.exc import SQLAlchemyError
@@ -16,7 +17,7 @@ api = None
 POLITICAL_HASHTAGS = ["p2", "tcot"]
 NONPOLITICAL_HASHTAGS = ["ff", "tbt"] #"nowplaying", "gameinsight","love", "win", "ipad"
 EXCLUDE_HASHTAGS =  "-#RT -#rt -#TeamFollowBack -#followback"
-
+TWEETS_TO_GET = 3000
 
 def connect_to_API():
 	"""
@@ -101,7 +102,6 @@ def load_tweets(session, statuses, label):
 	This eliminates duplicates by rolling back commits of dupes and continuing.
 
 	"""
-	hashtags_seen = {}
 
 	for status in statuses:
 
@@ -119,40 +119,33 @@ def load_tweets(session, statuses, label):
 
 		print "TWEET TO ADD", tweet
 
-		# hashtags_from_tw = status["entities"]['hashtags']
-		# for hashtag_obj in hashtags_from_tw:
-		# 	hashtag = hashtag_obj["text"].lower()
-		# 	tag_in_db = hashtags_seen.get(hashtag)
-		# 	if not tag_in_db:
-		# 		tag_in_db = model.Hashtag(text=hashtag)
-		# 		hashtags_seen[hashtag] = tag_in_db
-		# 	tweet.hashtags.append(tag_in_db)
-
 		try:
 			session.add(tweet)
 			session.commit()
 		except SQLAlchemyError:
-			# session.rollback()
 			pass
 		finally:
 			session.close()
 
 
+def get_political_hashtags(api, session):
 
-def main(session):
-	print "hi"
-	api = connect_to_API()
-	# tcot = get_tweets_by_query(api, "#tcot -#p2", 3000)
-	# p2 = get_tweets_by_query(api, "#p2 -#tcot", 3000)
+	for hashtag in POLITICAL_HASHTAGS:
+		htg_tweets = get_tweets_by_query(api, hashtag, TWEETS_TO_GET/4)
+		load_tweets(session, htg_tweets, "p")
 
-	# load_tweets(session, tcot, "cons")
-	# load_tweets(session, p2, "libs")
+def get_nonpolitical_hashtags(api, session):
 
 	for hashtag in NONPOLITICAL_HASHTAGS:
-		htg = get_tweets_by_query(api, ("#" + hashtag + " -#p2 -#tcot " + EXCLUDE_HASHTAGS), 3000)
-		load_tweets(session, htg, "np")
+		htg_tweets = get_tweets_by_query(api, ("#" + hashtag + " -#p2 -#tcot " + EXCLUDE_HASHTAGS), TWEETS_TO_GET)
+		load_tweets(session, htg_tweets, "np")
 
 
+def main(session):
+	print "running main"
+	api = connect_to_API()
+	# get_political_hashtags(api, session)
+	# get_nonpolitical_hashtags(api, session)
 
 if __name__ == "__main__":
 	s = model.connect()
