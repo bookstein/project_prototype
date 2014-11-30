@@ -1,4 +1,11 @@
-import json
+
+# coding: utf-8
+
+# In[24]:
+
+import simplejson as json
+import os
+import string
 import pickle
 
 import numpy as np
@@ -11,6 +18,32 @@ from sklearn import cross_validation
 from sklearn import metrics
 
 import politwit.model as model
+
+
+# In[25]:
+
+TEXT = []
+LABELS = []
+
+data = model.Status.get_all_statuses()
+for status in data:
+    TEXT.append(status.text.lower())
+    #label 'p' for political
+    if status.label == "libs" or status.label == "cons":
+        LABELS.append("p")
+    else:
+        LABELS.append("np")
+
+
+
+# In[26]:
+
+print "TEXT LEN:", len(TEXT)
+print "LABELS LEN:", len(LABELS)
+print TEXT[1]
+
+
+# In[27]:
 
 ENGLISH_STOP_WORDS = [
     "a", "about", "above", "across", "after", "afterwards", "again", "against",
@@ -56,136 +89,177 @@ ENGLISH_STOP_WORDS = [
     "yourselves"]
 
 
-classifier = LogisticRegression()
-Kfolds = 5
-OUTPUT_FILE = ""
+# In[28]:
 
-def label_data():
-    TEXT = []
-    LABELS = []
+stops = ['http', 'rt']
+stops.extend(ENGLISH_STOP_WORDS)
 
-    data = model.Status.get_all_statuses()
-    for status in data:
-        TEXT.append(status.text.lower())
-        #label 'p' for political
-        if status.label == "libs" or status.label == "cons":
-            LABELS.append("p")
-        else:
-            LABELS.append("np")
 
-    print len(LABELS), len(TEXT)
-    return TEXT, LABELS
+# In[29]:
 
-def makeVector():
-    stopwords = ["http", "rt"]
-    stopwords.extend(ENGLISH_STOP_WORDS)
+makeVector = TfidfVectorizer(analyzer="word", stop_words=stops)
+print makeVector
 
-    return TfidfVectorizer(analyzer="word", stop_words=stopwords)
 
-def transform_documents(, vectorizer):
+# In[30]:
+
+# create vector from raw documents (X)
+X = makeVector.fit_transform(TEXT)
+print X.shape
+# print X
+
+# create numpy array of labels
+# numpy arrays = n-dimensional array with collection of items all the same type. Homogenous.
+y = np.array(LABELS)
+print y.shape
+
+
+# In[31]:
+
+def get_fraction_np(text_list, label_list):
     """
-    Transform given documents into vectors of features, with matching vector of labels.
-
-    Paramters:
-    ----------
-    Vectorizer
-
-    Output:
-    -------
-    X (matrix of documents and features)
-    y (single-dimensional matrix of labels)
-    """
-    # create vector from raw documents (X)
-    X = vectorizer.fit_transform(TEXT)
-    print X.shape
-
-    # create numpy array of labels
-    y = np.array(LABELS)
-    print y.shape
-
-    return X, y
-
-def get_fraction_np():
-    """
-    Get fraction of training data that is associated with "np" (nonpolitical) label.
+    Get fraction of training data that is associated with "np" (nonpolitical)
+    label.
     """
     # get number of nonpolitical
-    np_list = [label for label in LABELS if label == 'np']
-    np_fraction = float(len(np_list))/float(len(TEXT))
+    np_list = [label for label in label_list if label == 'np']
 
-    print np_fraction
+#     print len(text_list)
+#     print len(np_list)
 
-    return np_fraction
+    return float(len(np_list))/float(len(text_list))
 
-def train(clf):
-    """
-    Train and cross-validate classifier by dividing training set into K-fold number of test and training sets.
+print get_fraction_np(TEXT, LABELS)
 
-    Parameters:
-    -----------
-    Sci-kit learn classifier.
 
-    Output:
-    -------
-    Trained classifier.
-    Precision and recall metrics printed to console.
-    """
-    cv = cross_validation.StratifiedKFold(y, Kfolds)
-    precision = []
-    recall = []
+# In[38]:
 
-    for train, test in cv:
-        X_train = X[train]
-        X_test = X[test]
-        y_train = y[train]
-        y_test = y[test]
+clf = LogisticRegression()
 
-        # train classifier
-        clf.fit(X_train, y_train)
 
-        y_hat = clf.predict(X_test)
+# In[39]:
 
-        # get values for precision, recall, f1_score, support
-        p,r,f1_score,s = metrics.precision_recall_fscore_support(y_test, y_hat)
+clf.fit(X, y)
+# train classifier to recognize all tweets as 'political' (single label)
 
-        precision.append(p[1])
-        recall.append(r[1])
 
-    print 'avg precision:',np.average(precision), '+/-', np.std(precision)
-    print 'avg recall:', np.average(recall), '+/-', np.std(recall)
-    print 'f1 measure', f1_score
+# In[40]:
 
-    print "clf: ", clf
-    print "cv: ", cv
+Kfolds = 5
 
-    return clf
 
-def main():
+# In[41]:
 
-    """
-    Produces a trained and tested classifier, exports to pickle.
-    Used for "scoring" user timelines by "political" or "nonpolitical" class probability.
+cv = cross_validation.StratifiedKFold(y, Kfolds)
 
-    Parameters:
-    ----------
-    Classifier model (e.g. LogisticRegression)
-    Filename for pickling trained classifer
 
-    Output:
-    ------
-    Trained classifer, pickled to specified file.
+# In[42]:
 
-    """
-    TEXT, LABELS = label_data()
-    vectorizer = makeVector()
+precision = []
+recall = []
 
-    X, y = transform_documents(vectorizer)
-    clf = train(classifier)
+for train, test in cv:
+    X_train = X[train]
+    X_test = X[test]
+    y_train = y[train]
+    y_test = y[test]
 
-    with open(OUTPUT_FILE, 'wb') as fid:
-        pickle.dump(clf, fid)
+    clf.fit(X_train, y_train)
 
-    print "pickled to ", filename
+    y_hat = clf.predict(X_test)
 
-if __name__ == "__main__":
-	main()
+    p,r,f1_score,support = metrics.precision_recall_fscore_support(y_test, y_hat)
+
+    precision.append(p[1])
+    recall.append(r[1])
+
+print 'avg precision:',np.average(precision), '+/-', np.std(precision)
+print 'avg recall:', np.average(recall), '+/-', np.std(recall)
+print 'f1 measure', f1_score
+
+print "clf: ", clf
+print "cv: ", cv
+
+
+# In[43]:
+
+with open('classifierLR.pkl', 'wb') as fid:
+    pickle.dump(clf, fid)
+
+
+# In[44]:
+
+tweet1 = 'This Veterans Day, join me at #TheConcertForValor, a free event at the #NationalMall in Washington DC https://www.youtube.com/watch?v=U8NtbVL-CKM …'
+tweet2 = 'Here is our piece on Iraqi and Afghani translators from last night. Buckle up. http://www.youtube.com/watch?v=QplQL5eAxlY&list=UU3XTzVzaHQEd30rQbuvCtTQ&index=1 …'
+
+
+# In[45]:
+
+# concatenate tweets to make a 'timeline' --
+# roughly equivalent to rating each tweet separately and then averaging based on this example data
+timeline = [tweet1 + tweet2]
+sample = makeVector.transform(timeline)
+
+
+# In[46]:
+
+print sample
+
+
+# In[47]:
+
+# get classifier from pickle
+with open('classifierLR.pkl', 'rb') as fid:
+    clf2 = pickle.load(fid)
+
+
+# In[48]:
+
+# class prediction
+prediction = clf2.predict(sample)
+print prediction
+
+# probabilities of belonging to class == SCORE!
+probs = clf2.predict_proba(sample)
+print probs
+
+
+# In[102]:
+
+# print clf.predict_log_proba(makeVector.transform([tweet1]))
+# print clf.predict_log_proba(makeVector.transform([tweet2]))
+
+
+# In[23]:
+
+#feature count
+
+
+# In[20]:
+
+#log probs
+
+
+# In[19]:
+
+#list of features (words)
+
+
+# In[21]:
+
+# sorted(zip(probs,features), reverse=True)[:10]
+# zip together features and their probabilities, sort in reverse order (descending)
+
+
+# In[22]:
+
+# zip together feature log probs with NONPOLITICAL features, in reverse order (descending)
+# np_features = sorted(zip(clf.feature_log_prob_[0],features), key=lambda f: f[0], reverse=True)[:10]
+# zip together feature log probs with POLITICAL features
+# p_features = sorted(zip(clf.feature_log_prob_[1],features), key=lambda f: f[0], reverse=True)[:10]
+
+
+# In[ ]:
+
+
+
