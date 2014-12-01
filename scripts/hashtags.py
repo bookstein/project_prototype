@@ -1,21 +1,15 @@
 """
-    API for getting tweets from Twitter hashtag feeds.
+    Script for getting and pickling co-occurring hashtags based on seed hashtags.
 """
-import itertools
 import os
-from datetime import datetime
 import pickle
 
 import tweepy
-from sqlalchemy.exc import SQLAlchemyError
 
 import politwit.model as model
 
-# tweepy api instance
-api = None
-
-POLITICAL_HASHTAGS = ["p2", "tcot"]
-NONPOLITICAL_HASHTAGS = ["ff", "tbt", "nowplaying", "gameinsight","love", "win", "ipad"]
+POLITICAL_SEED_HASHTAGS = ["p2", "tcot"]
+NONPOLITICAL_SEED_HASHTAGS = ["ff", "tbt", "nowplaying", "gameinsight","love", "win", "ipad"]
 EXCLUDE_HASHTAGS =  "-#RT -#rt -#TeamFollowBack -#followback"
 TWEETS_TO_GET = 100
 
@@ -39,7 +33,7 @@ def connect_to_API():
 
 def get_tweets_by_query(api, query, max_tweets):
     """
-    search for {max_tweets} tweets labeled by a particular hashtag {query}
+    Search for {max_tweets} tweets labeled by a particular hashtag {query}
 
     Parameters:
     ----------
@@ -86,10 +80,19 @@ def get_tweets_by_query(api, query, max_tweets):
 
 
 
-def load_hashtags(session, statuses, label, hashtags_seen):
+def load_hashtags(statuses, label, hashtags_seen):
     """
-    Load co-occurring hashtags into pickle.
+    Iterate through searched tweets, pickle dictionary of co-occurring hashtags.
 
+    Parameters:
+    ----------
+    Statuses from Twitter API query
+    Label
+    Dictionary of hashtags and counts to return to main() scope
+
+    Output:
+    ------
+    Dictionary of hashtag, count pairs from given list of statuses.
     """
 
     for status in statuses:
@@ -102,31 +105,30 @@ def load_hashtags(session, statuses, label, hashtags_seen):
     return hashtags_seen
 
 
-def main(session):
+def main():
     print "running main"
     api = connect_to_API()
 
     # hashtags_seen = {}
 
-    # for hashtag in POLITICAL_HASHTAGS:
+    # for hashtag in POLITICAL_SEED_HASHTAGS:
     #     htg_tweets = get_tweets_by_query(api, hashtag, TWEETS_TO_GET/10)
-    #     load_hashtags(session, htg_tweets, "p", hashtags_seen)
+    #     load_hashtags(htg_tweets, "p", hashtags_seen)
 
-    # with open("p_test.pkl", "w+") as f:
+    # with open("p_hashtags.pkl", "w+") as f:
     #     pickle.dump(hashtags_seen, f)
 
     hashtags_seen = {}
 
-    for hashtag in NONPOLITICAL_HASHTAGS:
+    for hashtag in NONPOLITICAL_SEED_HASHTAGS:
         htg_tweets = get_tweets_by_query(api, ("#" + hashtag + " -#p2 -#tcot " + EXCLUDE_HASHTAGS), TWEETS_TO_GET)
-        load_hashtags(session, htg_tweets, "np", hashtags_seen)
+        load_hashtags(htg_tweets, "np", hashtags_seen)
 
-    with open("np_test.pkl", "w+") as f:
+    with open("np_hashtags.pkl", "w+") as f:
         pickle.dump(hashtags_seen, f)
 
 if __name__ == "__main__":
-    s = model.connect()
-    main(s)
+    main()
 
 
 
