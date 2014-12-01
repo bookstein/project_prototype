@@ -8,7 +8,7 @@ from flask import Flask, url_for, request, render_template, redirect, flash
 import tweepy
 
 from friends import User
-import model
+import politwit.model as model
 
 app = Flask(__name__)
 
