@@ -68,7 +68,7 @@ var VIZ = VIZ || (function () {
           .attr("r", function(d) { return d.r; })
           .attr("stroke", "gray")
           .attr("fill", function(d) {
-            return "rgba(0, 0, 255, " + d.score + ")";
+            return "rgba(85,26,139, " + d.score + ")";
           });
 
       node.append("text")
@@ -93,7 +93,7 @@ var VIZ = VIZ || (function () {
           // console.log(this);
           var selection = $(this).children()[0];
           // set attribute ("fill") to orange
-          selection.setAttribute("fill", "rgba(0, 0, 255, " + d.score + ")");
+          selection.setAttribute("fill", "rgba(85, 26, 139, " + d.score + ")");
       });
 
       node.on("click", function(d) {
