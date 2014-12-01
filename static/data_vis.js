@@ -85,7 +85,7 @@ var VIZ = VIZ || (function () {
 
           // Update data values in #detail panel list
           $("#tw-handle").text("@" + d.className);
-          $("#score").text("% of political hashtags: " + parseInt(d.score*100) + "%");
+          $("#score").text("Political tweets: " + parseInt(d.score*100) + "%");
           $("#followers").text("Followers: " + d.value);
       });
 

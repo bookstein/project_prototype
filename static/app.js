@@ -15,14 +15,22 @@
     }
 
     function addVizHeadline(screenName) {
-        $("#viz h2").remove();
-        $("#viz").prepend("<h2>@" + screenName + "'s Twitter Friends" + "</h2>");
+        $("#viz").prepend("<h3>@" + screenName + "'s top 50 Twitter friends" + "</h3>");
+    }
+
+    function clearPreviousData() {
+        // clear svg in case previous visualization exists
+        $("svg").remove()
+        // empty out #detail panel list items
+        $("#detail ul li").empty()
+        // clear previous headline
+        $("#viz h3").remove();
+        // remove timeline from twitter widget
+        $("#tweets").empty()
     }
 
     // success callback for visualization
     function displaySuccess(response) {
-        // clear svg in case previous visualization exists
-        $("svg").remove()
         // re-enable button
         $("#visualize").removeClass("disabled");
         // show sidebar
@@ -47,6 +55,8 @@
             console.log(screen_name);
             // add progress bar
             showProgress();
+            // clear any previous data
+            clearPreviousData();
 
             // make AJAX request, using success callback
             TwitterAjax.callDisplay(screen_name, displaySuccess);

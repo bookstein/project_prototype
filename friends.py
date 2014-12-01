@@ -8,10 +8,6 @@ import logging
 
 import tweepy
 
-import politwit.simplescore as simplescore
-
-# logging.basicConfig(filename='api_requests.log',level=logging.DEBUG)
-
 class User(object):
 
 	# important variables
@@ -138,14 +134,27 @@ class User(object):
 		# pickle dictionary
 
 	def get_timeline(self, uid, count):
-		"""Get n number of tweets by passing in user id and number of statuses.
-			If user has protected tweets, returns [] rather than break the program.
 		"""
+		Get n number of tweets by passing in user id and number of statuses.
+			If user has protected tweets, returns [] rather than break the program.
+
+		Parameters:
+		-----------
+		User id for which to get tweets
+		Number of tweets to get
+
+		Output:
+		-------
+		An array of {count} lower-cased tweet texts, including retweets.
+		"""
+		timeline = []
+
 		try:
-			feed = tweepy.Cursor(self.api.user_timeline, id=uid, include_rts=True).items(count)
-			# logging.info("\n\n\n", "Get timeline: ", feed, "\n\n\n")
+			for tweet in tweepy.Cursor(self.api.user_timeline, id=uid, include_rts=True).items(count):
+				timeline.append(tweet.text.lower())
+
 			print "get request timeline"
-			return feed
+			return timeline
 
 		except tweepy.TweepError as e:
 			print e.message[0]["error"]
@@ -183,24 +192,41 @@ class User(object):
 		return hashtags_dict
 
 
-	def score(self, hashtags_dict, political_hashtags_dict):
+	def score(self, timeline, vectorizer, classifier):
 		"""
-		Score user based on number of politically-relevant hashtags.
+		Score user by averaging classifier probabilities for timeline.
 
 		Paramters:
 		---------
-		Dictionary of hashtags and their counts found in recent timeline,
-		created in count_hashtags() function.
+		Timeline, a list of recent tweets.
+		An unpickled classifier.
 
 		Output:
 		-------
-		A score between 0 and 1, representing the percentage of political
-		hashtags out of all hashtags used.
+		A score between 0 and 1, representing the average probability of tweets being political.
 
 		"""
-		score = simplescore.Score(hashtags_dict, political_hashtags_dict)
 		print "Scoring"
-		return score.score
+		score = 0
+
+		vector = vectorizer.transform(timeline)
+		prediction = classifier.predict(vector)
+		probs = classifier.predict_proba(vector)
+
+		print prediction
+		print zip(prediction, timeline)
+		print len(probs)
+
+		# prob.item(1) is the probability of political
+		# ndarray ordered lexigraphically (np before p)
+		for prob in probs:
+			score += prob.item(1)
+
+		average_score = score/len(probs)
+		print average_score
+
+		return average_score
+
 
 	def get_links(self):
 		pass
@@ -221,6 +247,20 @@ def connect_to_API():
 	auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_SECRET_TOKEN)
 	api = tweepy.API(auth, cache=None) #removed wait_on_rate_limit=True, wait_on_rate_limit_notify=True
 	return api
+
+def check_rate_limit(api):
+	"""
+	Check Twitter API rate limit status for "statuses" (timeline) requests
+	Print number of requests remaining per time period
+	"""
+	limits = api.rate_limit_status()
+	stats = limits["resources"]["statuses"]
+	for resource in stats.keys():
+		if stats[resource]["remaining"] == 0:
+			print "EXPIRED:", resource
+
+		else:
+			print resource, ":", stats[resource]["remaining"], "\n"
 
 def main():
 	pass
