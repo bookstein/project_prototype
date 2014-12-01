@@ -4,7 +4,6 @@
 
 import itertools
 import os
-import logging
 
 import tweepy
 

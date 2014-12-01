@@ -1,14 +1,12 @@
 import os
-import logging
-import time#, threading
 import json
 import datetime
-import pickle
+import cPickle as pickle
 
 from flask import Flask, url_for, request, render_template, redirect, flash
 import tweepy
 
-from friends import User
+from friends import User, check_rate_limit
 import politwit.model as model
 
 app = Flask(__name__)
@@ -16,8 +14,7 @@ app = Flask(__name__)
 
 TIME_TO_WAIT = 900/180 # 15 minutes divided into 180 requests
 NUM_RETRIES = 2
-RATE_LIMITED_RESOURCES =[("statuses", "/statuses/user_timeline")]
-# logging.basicConfig(filename='rate_limits.log',level=logging.DEBUG)
+
 PATH_TO_VECTORIZER = "politwit/vectorizer.pkl"
 PATH_TO_CLASSIFIER = "politwit/classifierNB.pkl"
 
@@ -64,8 +61,6 @@ def display_friends(screen_name):
 	user = User(api, central_user=screen_name, user_id=screen_name)
 
 	timeline = user.get_timeline(user.USER_ID, user.MAX_NUM_TWEETS)
-
-	# political_hashtags_dict = model.Hashtag.get_all_political_hashtags()
 
 	try:
 		friends_ids = user.get_friends_ids(screen_name)
@@ -166,20 +161,6 @@ def get_top_influencers(friendlist, count):
 	friendlist = sorted_by_influence[:count]
 
 	return friendlist
-
-def check_rate_limit(api):
-	"""
-	Check Twitter API rate limit status for "statuses" (timeline) requests
-	Print number of requests remaining per time period
-	"""
-	limits = api.rate_limit_status()
-	stats = limits["resources"]["statuses"]
-	for resource in stats.keys():
-		if stats[resource]["remaining"] == 0:
-			print "EXPIRED:", resource
-
-		else:
-			print resource, ":", stats[resource]["remaining"], "\n"
 
 def connect_to_API():
 	"""
