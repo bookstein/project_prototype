@@ -8,10 +8,6 @@ import logging
 
 import tweepy
 
-import politwit.simplescore as simplescore
-
-# logging.basicConfig(filename='api_requests.log',level=logging.DEBUG)
-
 class User(object):
 
 	# important variables
@@ -184,24 +180,41 @@ class User(object):
 		return hashtags_dict
 
 
-	def score(self, hashtags_dict, political_hashtags_dict):
+	def score(self, timeline, vectorizer, classifier):
 		"""
-		Score user based on number of politically-relevant hashtags.
+		Score user by averaging classifier probabilities for timeline.
 
 		Paramters:
 		---------
-		Dictionary of hashtags and their counts found in recent timeline,
-		created in count_hashtags() function.
+		Timeline, a list of recent tweets.
+		An unpickled classifier.
 
 		Output:
 		-------
-		A score between 0 and 1, representing the percentage of political
-		hashtags out of all hashtags used.
+		A score between 0 and 1, representing the average probability of tweets being political.
 
 		"""
-		score = simplescore.Score(hashtags_dict, political_hashtags_dict)
 		print "Scoring"
-		return score.score
+		score = 0
+
+		vector = vectorizer.transform(timeline)
+		prediction = classifier.predict(vector)
+		probs = classifier.predict_proba(vector)
+
+		print prediction
+		print zip(prediction, timeline)
+		print len(probs)
+
+		# prob.item(1) is the probability of political
+		# ndarray ordered lexigraphically (np before p)
+		for prob in probs:
+			score += prob.item(1)
+
+		average_score = score/len(probs)
+		print average_score
+
+		return average_score
+
 
 	def get_links(self):
 		pass
