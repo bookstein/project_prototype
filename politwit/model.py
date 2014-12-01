@@ -122,10 +122,3 @@ def connect():
     Session = sessionmaker(bind=ENGINE)
 
     return Session()
-
-
-def main():
-	pass
-
-if __name__ == "__main__":
-    main()

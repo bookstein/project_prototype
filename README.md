@@ -5,12 +5,14 @@ A project for Hackbright Academy, Fall 2014.
 Using data from Twitter's Search and REST API, I classify any user's political activity with scikit-learn's Bernoulli Naive Bayesian classifer and visualize the politicalness of the top 50 friends (ranked by number of followers) with D3.
 
 ##Stack/technology##
-Python Flask
-d3
-scikit-learn
-SQLAlchemy
-Foundation/SASS
-jQuery
+'''
+    Python Flask
+    d3
+    scikit-learn
+    SQLAlchemy and sqlite3
+    Foundation/SASS
+    jQuery
+'''
 
 
 ##Current project state##
@@ -36,5 +38,7 @@ My training data consists of 60,000 tweets harvested in late November 2014 by qu
 
 
 ## Cloning Instructions ##
-git clone ...
-pip install -r requirements.txt
+''
+    git clone ...
+    pip install -r requirements.txt
+'''
