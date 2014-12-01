@@ -6,7 +6,7 @@ from sqlalchemy.orm import backref, relationship
 from sqlalchemy import ForeignKey
 from sqlalchemy import UniqueConstraint #have these on same line?
 
-ENGINE = create_engine("sqlite:///../tweets.db", echo=False)
+ENGINE = create_engine("sqlite:///../tweets_58_42.db", echo=False)
 db_session = scoped_session(sessionmaker(bind=ENGINE, autocommit=False, autoflush = False))
 
 Base = declarative_base()
