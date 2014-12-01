@@ -2,6 +2,7 @@ var VIZ = VIZ || (function () {
 
   function showTweets(screenName) {
     console.log("loading tweets");
+    $("#tweets").empty()
 
     // embeds a timeline in #tweets div
       twttr.ready(
