@@ -1,0 +1,132 @@
+Intro
+
+- Clone this repo at github.com/laurakelly/d3_demo
+- D3 is Javascript library that uses SVGs to create data visualizations
+- SVGs are scalar vector graphics that are actual DOM elements, so they can be styled directly with CSS and react to browser events like clicks and hovering
+- D3 is basically a set of graphing functions that translates your x and y coordinates into pixel coordinates on an SVG (which you can do a lot with: http://adereth.github.io/oneoff/girltalk-v2/)
+- D3 also has some functions that  help you select, append, and remove items from the DOM
+- Finally, D3 has functions that allow you to read in data from different types of files -- CSV, JSON, etc
+
+Basic Workflow
+
+- In D3, the basic steps to creating a visualization are:
+	1) Select a DOM element
+	2) append an SVG
+	3) append shape elements to the SVG
+	4) add style attributes
+	5) attach any event listeners 
+- This is accomplished by chaining functions together. It looks very different compared to Python code, but is a more common pattern in Javascript
+
+Intro Code example
+
+1) select body
+2) append 960px x 960px svg
+3) append a rectangle
+4) give the rectangle a height, width, and red fill
+
+Moving on to something more complicated
+
+- Let's make a bar chart
+- I will use d3's axis and scale objects. These objects are part of what makes d3 so great
+
+- First, specify the margins. You don't have to do this, but it makes editing the dimensions easier
+- Specify a scale
+	- scales translate your data coordinates into the actual pixel placement
+	- there are many types of scales, we'll use the ordinal and linear scales
+- Specify an axis
+	- an axis uses the scales we just specified
+	- we will add a domain later to specify the possible values of the coordinates
+- Append a new g element. This is where our axes and bars will go
+	- It's translated over to the right a bit to give it a margin
+
+[ pause and show browser ]
+
+Importing Data
+
+- The data is in a CSV, so we will use d3's csv function
+- For security reasons, browsers won't let you read in a local JSON file directly into a browser, so we'll use a simple python webserver
+- specify a domain for the x and y scales
+	- this is the range of values of your data itself. It is not the actual pixel size of your scale (that's the range)
+- append the x axis
+	- call the xAxis function
+	- translate it to the bottom
+- append the y axis
+	- call the yAxis function
+	- it's on the left, so it doesn't need any translation
+
+[ pause and show browser ]
+
+Finally, Let's add some bars
+
+- select everything with the class bar within the barchart (nothing right now)
+- specify the data to be used
+- enter in the data, appending a rectangle for each data point
+	- calculate the x pixel value using the x scale
+	- calculate the width using x.rangeBand()
+	- calculate y pixel value using the y scale
+	- calculate the height of the bar by subtracting the y pixel value from the height of the graph
+- it's ugly, let's add some CSS
+	- I have this pre-prepared, we just need to add a class
+
+
+[ pause and show browser ]
+
+Woohoo, Let's Add Some Interaction
+- mouseover
+	- select the rectangle
+	- add a stroke
+	- add stroke-width
+
+[ pause and show browser ]
+
+- mouseout
+	- select the rectangle
+	- remove stroke
+	- remove stroke-width
+
+[ pause and show browser ]
+
+You can do things *way* more complicated than this with mouse and click events
+[ pause and show part_3 ]
+
+Finally, Let's Add a Title
+
+- append text
+
+
+Part part_3
+
+- Let's make a line chart that shows timeseries data for a city on hover (show data)
+- wrap the bar chart code in a function
+- create a new function for a linechart. We only want to call this when hovering on a bar
+- add hover code to barchart and test that it's working. We'll add hover out later
+- a line chart is going to have a lot of similar elements to a bar chart
+    - x scale (it will be a time scale this time)
+    - y scale (same)
+    - x axis (same)
+    - y axis (same)
+- we're going to introduce a new d3 function: line
+    - it creates a function that takes a set of points and connects them with a line, 
+      using x and y scales to calculate each point's coordinates
+- we'll append an svg element to div#linechart just like with the bar chart
+- RECAP
+    - x and y scales
+    - x and y axes
+    - line function
+    - svg attached to #linechart
+- adding data
+    - we need to open the appropriate file when a user hovers
+    - I have named the files the names of the cities, we can use hovered_d to generate 
+      this filename
+    - we'll read in data with d3.csv just like before
+- now that we have data, we need to calculate the x and y domains
+    - we need to parse the dates and turn them into javascript date objects
+- attach x and y axes like we did with the bar chart
+    - the x axis doesn't have dates formatted properly, let's fix that
+- add the line 
+    - append a "path" svg element
+- add css for lines
+- add title - similar to barchart
+- add hover out
+
+

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+/*
+
+The CSS approach has a few obvious benefits:
+
+You can specify a style once and have it be applied to multiple elements.
+CSS code is generally easier to read than inline attributes.
+For those reasons, the CSS approach may be more maintainable and make design changes faster to implement.
+
+If it helps you remember which rules in your stylesheet are SVG-specific, consider including svg in those selectors:
+
+svg .pumpkin {
+    ...
+ }*/
+
+  .bubble {
+  fill: brown;
+  fill-opacity: .5;
+  stroke: #fff;
+  stroke-width: .5px;
+  }
+
+  .bubble :hover {
+  stroke: #000;
+  }
+
+  .legend circle {
+  fill: none;
+  stroke: #ccc;
+}
+
+.legend text {
+  fill: #777;
+  font: 10px sans-serif;
+  text-anchor: middle;
+  }
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="part_3/libs/d3.js"></script>
+<script>
+
+var w = 960,
+    h = 600;
+
+var formatNumber = d3.format(",.0f");
+
+var scale = d3.scale.linear()
+              .domain([200, 500])
+              .range([20, 50])
+
+var radius = d3.scale.linear()
+              .domain([200, 500])
+              .range([20, 50])
+
+var svg = d3.select("body").append("svg")
+    .attr("width", w)
+    .attr("height", h);
+
+console.log("w" + w)
+console.log("h" + h)
+
+var legend = svg.append("g")
+    .attr("class", "legend")
+    .attr("font-size", 12)
+  .selectAll("g")
+    .data(["50", "100", "150", "200"])
+  .enter().append("g");
+
+legend.append("circle")
+    .attr("cy", function(d) {
+      return d;
+    })
+    .attr("cx", function(d) {
+      return d;
+    })
+    .attr("r", 10);
+
+legend.append("text")
+    .attr("y", function(d) {
+      return d;
+    })
+    .attr("x", function(d) {
+      return d;
+    })
+    .attr("dy", "3em")
+    .text(function(d) {
+      return d;
+    });
+
+svg.append("g")
+    .attr("class", "bubble")
+  .selectAll("circle")
+    .data([200, 300, 400, 500])
+  .enter().append("circle")
+    .attr("cx", function(d) {
+      return d;
+    })
+    .attr("cy", function(d) {
+      return d;
+    })
+    .attr("r", function(d) {
+      return radius(d);
+    });
+
+</script>

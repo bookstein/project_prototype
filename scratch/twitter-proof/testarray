@@ -1,0 +1,1245 @@
+[
+ {
+  "contributors": null, 
+  "truncated": false, 
+  "text": "After 45-minute march to the port, #BlockTheBoat in Oakland blocked the boat! #JewsAgainstGenocide #FreeGaza http://t.co/KgkZbuYNNE", 
+  "in_reply_to_status_id": null, 
+  "id": 500823742772043776, 
+  "favorite_count": 0, 
+  "source": "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>", 
+  "retweeted": false, 
+  "coordinates": null, 
+  "entities": {
+   "symbols": [], 
+   "user_mentions": [], 
+   "hashtags": [
+    {
+     "indices": [
+      35, 
+      48
+     ], 
+     "text": "BlockTheBoat"
+    }, 
+    {
+     "indices": [
+      78, 
+      98
+     ], 
+     "text": "JewsAgainstGenocide"
+    }, 
+    {
+     "indices": [
+      99, 
+      108
+     ], 
+     "text": "FreeGaza"
+    }
+   ], 
+   "urls": [], 
+   "media": [
+    {
+     "expanded_url": "http://twitter.com/bookstein/status/500823742772043776/photo/1", 
+     "display_url": "pic.twitter.com/KgkZbuYNNE", 
+     "url": "http://t.co/KgkZbuYNNE", 
+     "media_url_https": "https://pbs.twimg.com/media/BvNIikHCMAAPalY.jpg", 
+     "id_str": "500823742214189056", 
+     "sizes": {
+      "large": {
+       "h": 480, 
+       "resize": "fit", 
+       "w": 640
+      }, 
+      "small": {
+       "h": 255, 
+       "resize": "fit", 
+       "w": 340
+      }, 
+      "medium": {
+       "h": 450, 
+       "resize": "fit", 
+       "w": 600
+      }, 
+      "thumb": {
+       "h": 150, 
+       "resize": "crop", 
+       "w": 150
+      }
+     }, 
+     "indices": [
+      109, 
+      131
+     ], 
+     "type": "photo", 
+     "id": 500823742214189056, 
+     "media_url": "http://pbs.twimg.com/media/BvNIikHCMAAPalY.jpg"
+    }
+   ]
+  }, 
+  "in_reply_to_screen_name": null, 
+  "id_str": "500823742772043776", 
+  "retweet_count": 0, 
+  "in_reply_to_user_id": null, 
+  "favorited": false, 
+  "user": {
+   "follow_request_sent": false, 
+   "profile_use_background_image": false, 
+   "profile_text_color": "000000", 
+   "default_profile_image": false, 
+   "id": 917825426, 
+   "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png", 
+   "verified": false, 
+   "profile_location": null, 
+   "profile_image_url_https": "https://pbs.twimg.com/profile_images/430095609182179328/y9HXEsvv_normal.jpeg", 
+   "profile_sidebar_fill_color": "000000", 
+   "entities": {
+    "url": {
+     "urls": [
+      {
+       "url": "http://t.co/MI2zaCsWf4", 
+       "indices": [
+        0, 
+        22
+       ], 
+       "expanded_url": "http://bookstein.github.io", 
+       "display_url": "bookstein.github.io"
+      }
+     ]
+    }, 
+    "description": {
+     "urls": []
+    }
+   }, 
+   "followers_count": 43, 
+   "profile_sidebar_border_color": "000000", 
+   "id_str": "917825426", 
+   "profile_background_color": "000000", 
+   "listed_count": 4, 
+   "is_translation_enabled": false, 
+   "utc_offset": -28800, 
+   "statuses_count": 38, 
+   "description": "Writer, web developer. Reader & creator of nonfiction comics. Here to learn about social, economic & environmental justice.", 
+   "friends_count": 139, 
+   "location": "Oakland, CA", 
+   "profile_link_color": "0084B4", 
+   "profile_image_url": "http://pbs.twimg.com/profile_images/430095609182179328/y9HXEsvv_normal.jpeg", 
+   "following": false, 
+   "geo_enabled": false, 
+   "profile_banner_url": "https://pbs.twimg.com/profile_banners/917825426/1408161957", 
+   "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png", 
+   "name": "Emily Bookstein", 
+   "lang": "en", 
+   "profile_background_tile": false, 
+   "favourites_count": 11, 
+   "screen_name": "bookstein", 
+   "notifications": false, 
+   "url": "http://t.co/MI2zaCsWf4", 
+   "created_at": "Wed Oct 31 22:58:26 +0000 2012", 
+   "contributors_enabled": false, 
+   "time_zone": "Pacific Time (US & Canada)", 
+   "protected": true, 
+   "default_profile": false, 
+   "is_translator": false
+  }, 
+  "geo": null, 
+  "in_reply_to_user_id_str": null, 
+  "possibly_sensitive": false, 
+  "lang": "en", 
+  "created_at": "Sun Aug 17 01:57:39 +0000 2014", 
+  "in_reply_to_status_id_str": null, 
+  "place": null, 
+  "extended_entities": {
+   "media": [
+    {
+     "expanded_url": "http://twitter.com/bookstein/status/500823742772043776/photo/1", 
+     "display_url": "pic.twitter.com/KgkZbuYNNE", 
+     "url": "http://t.co/KgkZbuYNNE", 
+     "media_url_https": "https://pbs.twimg.com/media/BvNIikHCMAAPalY.jpg", 
+     "id_str": "500823742214189056", 
+     "sizes": {
+      "large": {
+       "h": 480, 
+       "resize": "fit", 
+       "w": 640
+      }, 
+      "small": {
+       "h": 255, 
+       "resize": "fit", 
+       "w": 340
+      }, 
+      "medium": {
+       "h": 450, 
+       "resize": "fit", 
+       "w": 600
+      }, 
+      "thumb": {
+       "h": 150, 
+       "resize": "crop", 
+       "w": 150
+      }
+     }, 
+     "indices": [
+      109, 
+      131
+     ], 
+     "type": "photo", 
+     "id": 500823742214189056, 
+     "media_url": "http://pbs.twimg.com/media/BvNIikHCMAAPalY.jpg"
+    }
+   ]
+  }
+ }, 
+ {
+  "contributors": null, 
+  "truncated": false, 
+  "text": "RT @OccupyOakland: Crowd marching AT police in #Berkeley chanting \"hands up, don't shoot\" getting kettled by cops at university and telegra\u2026", 
+  "in_reply_to_status_id": null, 
+  "id": 500533641768751105, 
+  "favorite_count": 0, 
+  "source": "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>", 
+  "retweeted": true, 
+  "coordinates": null, 
+  "entities": {
+   "symbols": [], 
+   "user_mentions": [
+    {
+     "id": 383558512, 
+     "indices": [
+      3, 
+      17
+     ], 
+     "id_str": "383558512", 
+     "screen_name": "OccupyOakland", 
+     "name": "Occupy Oakland"
+    }
+   ], 
+   "hashtags": [
+    {
+     "indices": [
+      47, 
+      56
+     ], 
+     "text": "Berkeley"
+    }
+   ], 
+   "urls": []
+  }, 
+  "in_reply_to_screen_name": null, 
+  "id_str": "500533641768751105", 
+  "retweet_count": 30, 
+  "in_reply_to_user_id": null, 
+  "favorited": false, 
+  "retweeted_status": {
+   "contributors": null, 
+   "truncated": false, 
+   "text": "Crowd marching AT police in #Berkeley chanting \"hands up, don't shoot\" getting kettled by cops at university and telegraph police have guns", 
+   "in_reply_to_status_id": null, 
+   "id": 500532594891833344, 
+   "favorite_count": 6, 
+   "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>", 
+   "retweeted": true, 
+   "coordinates": null, 
+   "entities": {
+    "symbols": [], 
+    "user_mentions": [], 
+    "hashtags": [
+     {
+      "indices": [
+       28, 
+       37
+      ], 
+      "text": "Berkeley"
+     }
+    ], 
+    "urls": []
+   }, 
+   "in_reply_to_screen_name": null, 
+   "id_str": "500532594891833344", 
+   "retweet_count": 30, 
+   "in_reply_to_user_id": null, 
+   "favorited": false, 
+   "user": {
+    "follow_request_sent": false, 
+    "profile_use_background_image": true, 
+    "profile_text_color": "333333", 
+    "default_profile_image": false, 
+    "id": 383558512, 
+    "profile_background_image_url_https": "https://pbs.twimg.com/profile_background_images/487827189/OOtwit.jpg", 
+    "verified": false, 
+    "profile_location": null, 
+    "profile_image_url_https": "https://pbs.twimg.com/profile_images/378800000268346400/547491411d2776db4dde89a63eb11607_normal.png", 
+    "profile_sidebar_fill_color": "EFEFEF", 
+    "entities": {
+     "url": {
+      "urls": [
+       {
+        "url": "http://t.co/xzYFW6kXe4", 
+        "indices": [
+         0, 
+         22
+        ], 
+        "expanded_url": "http://www.occupyoakland.org", 
+        "display_url": "occupyoakland.org"
+       }
+      ]
+     }, 
+     "description": {
+      "urls": []
+     }
+    }, 
+    "followers_count": 39853, 
+    "profile_sidebar_border_color": "EEEEEE", 
+    "id_str": "383558512", 
+    "profile_background_color": "131516", 
+    "listed_count": 1446, 
+    "is_translation_enabled": false, 
+    "utc_offset": -28800, 
+    "statuses_count": 12953, 
+    "description": "News of resistance in Oakland and across the Earth. No love for capitalism.", 
+    "friends_count": 1278, 
+    "location": "Oakland, CA", 
+    "profile_link_color": "850000", 
+    "profile_image_url": "http://pbs.twimg.com/profile_images/378800000268346400/547491411d2776db4dde89a63eb11607_normal.png", 
+    "following": true, 
+    "geo_enabled": false, 
+    "profile_banner_url": "https://pbs.twimg.com/profile_banners/383558512/1403921681", 
+    "profile_background_image_url": "http://pbs.twimg.com/profile_background_images/487827189/OOtwit.jpg", 
+    "name": "Occupy Oakland", 
+    "lang": "en", 
+    "profile_background_tile": false, 
+    "favourites_count": 454, 
+    "screen_name": "OccupyOakland", 
+    "notifications": false, 
+    "url": "http://t.co/xzYFW6kXe4", 
+    "created_at": "Sun Oct 02 03:13:47 +0000 2011", 
+    "contributors_enabled": false, 
+    "time_zone": "Pacific Time (US & Canada)", 
+    "protected": false, 
+    "default_profile": false, 
+    "is_translator": false
+   }, 
+   "geo": null, 
+   "in_reply_to_user_id_str": null, 
+   "lang": "en", 
+   "created_at": "Sat Aug 16 06:40:44 +0000 2014", 
+   "in_reply_to_status_id_str": null, 
+   "place": null
+  }, 
+  "user": {
+   "follow_request_sent": false, 
+   "profile_use_background_image": false, 
+   "profile_text_color": "000000", 
+   "default_profile_image": false, 
+   "id": 917825426, 
+   "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png", 
+   "verified": false, 
+   "profile_location": null, 
+   "profile_image_url_https": "https://pbs.twimg.com/profile_images/430095609182179328/y9HXEsvv_normal.jpeg", 
+   "profile_sidebar_fill_color": "000000", 
+   "entities": {
+    "url": {
+     "urls": [
+      {
+       "url": "http://t.co/MI2zaCsWf4", 
+       "indices": [
+        0, 
+        22
+       ], 
+       "expanded_url": "http://bookstein.github.io", 
+       "display_url": "bookstein.github.io"
+      }
+     ]
+    }, 
+    "description": {
+     "urls": []
+    }
+   }, 
+   "followers_count": 43, 
+   "profile_sidebar_border_color": "000000", 
+   "id_str": "917825426", 
+   "profile_background_color": "000000", 
+   "listed_count": 4, 
+   "is_translation_enabled": false, 
+   "utc_offset": -28800, 
+   "statuses_count": 38, 
+   "description": "Writer, web developer. Reader & creator of nonfiction comics. Here to learn about social, economic & environmental justice.", 
+   "friends_count": 139, 
+   "location": "Oakland, CA", 
+   "profile_link_color": "0084B4", 
+   "profile_image_url": "http://pbs.twimg.com/profile_images/430095609182179328/y9HXEsvv_normal.jpeg", 
+   "following": false, 
+   "geo_enabled": false, 
+   "profile_banner_url": "https://pbs.twimg.com/profile_banners/917825426/1408161957", 
+   "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png", 
+   "name": "Emily Bookstein", 
+   "lang": "en", 
+   "profile_background_tile": false, 
+   "favourites_count": 11, 
+   "screen_name": "bookstein", 
+   "notifications": false, 
+   "url": "http://t.co/MI2zaCsWf4", 
+   "created_at": "Wed Oct 31 22:58:26 +0000 2012", 
+   "contributors_enabled": false, 
+   "time_zone": "Pacific Time (US & Canada)", 
+   "protected": true, 
+   "default_profile": false, 
+   "is_translator": false
+  }, 
+  "geo": null, 
+  "in_reply_to_user_id_str": null, 
+  "lang": "en", 
+  "created_at": "Sat Aug 16 06:44:54 +0000 2014", 
+  "in_reply_to_status_id_str": null, 
+  "place": null
+ }, 
+ {
+  "contributors": null, 
+  "truncated": false, 
+  "text": "@alltopieces I can't sleep either for the same reason...", 
+  "in_reply_to_status_id": 500524334960496640, 
+  "id": 500525892259442689, 
+  "favorite_count": 1, 
+  "source": "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>", 
+  "retweeted": false, 
+  "coordinates": null, 
+  "entities": {
+   "symbols": [], 
+   "user_mentions": [
+    {
+     "id": 394333585, 
+     "indices": [
+      0, 
+      12
+     ], 
+     "id_str": "394333585", 
+     "screen_name": "alltopieces", 
+     "name": "Scaryanne Moore"
+    }
+   ], 
+   "hashtags": [], 
+   "urls": []
+  }, 
+  "in_reply_to_screen_name": "alltopieces", 
+  "id_str": "500525892259442689", 
+  "retweet_count": 0, 
+  "in_reply_to_user_id": 394333585, 
+  "favorited": false, 
+  "user": {
+   "follow_request_sent": false, 
+   "profile_use_background_image": false, 
+   "profile_text_color": "000000", 
+   "default_profile_image": false, 
+   "id": 917825426, 
+   "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png", 
+   "verified": false, 
+   "profile_location": null, 
+   "profile_image_url_https": "https://pbs.twimg.com/profile_images/430095609182179328/y9HXEsvv_normal.jpeg", 
+   "profile_sidebar_fill_color": "000000", 
+   "entities": {
+    "url": {
+     "urls": [
+      {
+       "url": "http://t.co/MI2zaCsWf4", 
+       "indices": [
+        0, 
+        22
+       ], 
+       "expanded_url": "http://bookstein.github.io", 
+       "display_url": "bookstein.github.io"
+      }
+     ]
+    }, 
+    "description": {
+     "urls": []
+    }
+   }, 
+   "followers_count": 43, 
+   "profile_sidebar_border_color": "000000", 
+   "id_str": "917825426", 
+   "profile_background_color": "000000", 
+   "listed_count": 4, 
+   "is_translation_enabled": false, 
+   "utc_offset": -28800, 
+   "statuses_count": 38, 
+   "description": "Writer, web developer. Reader & creator of nonfiction comics. Here to learn about social, economic & environmental justice.", 
+   "friends_count": 139, 
+   "location": "Oakland, CA", 
+   "profile_link_color": "0084B4", 
+   "profile_image_url": "http://pbs.twimg.com/profile_images/430095609182179328/y9HXEsvv_normal.jpeg", 
+   "following": false, 
+   "geo_enabled": false, 
+   "profile_banner_url": "https://pbs.twimg.com/profile_banners/917825426/1408161957", 
+   "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png", 
+   "name": "Emily Bookstein", 
+   "lang": "en", 
+   "profile_background_tile": false, 
+   "favourites_count": 11, 
+   "screen_name": "bookstein", 
+   "notifications": false, 
+   "url": "http://t.co/MI2zaCsWf4", 
+   "created_at": "Wed Oct 31 22:58:26 +0000 2012", 
+   "contributors_enabled": false, 
+   "time_zone": "Pacific Time (US & Canada)", 
+   "protected": true, 
+   "default_profile": false, 
+   "is_translator": false
+  }, 
+  "geo": null, 
+  "in_reply_to_user_id_str": "394333585", 
+  "lang": "en", 
+  "created_at": "Sat Aug 16 06:14:06 +0000 2014", 
+  "in_reply_to_status_id_str": "500524334960496640", 
+  "place": null
+ }, 
+ {
+  "contributors": null, 
+  "truncated": false, 
+  "text": "@spozbo @FiresideStory @truestorytime That's awesome! This theme is always a good idea, both \"at the time\" and after!", 
+  "in_reply_to_status_id": 476770139480670209, 
+  "id": 476790096067166209, 
+  "favorite_count": 1, 
+  "source": "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>", 
+  "retweeted": false, 
+  "coordinates": null, 
+  "entities": {
+   "symbols": [], 
+   "user_mentions": [
+    {
+     "id": 326617601, 
+     "indices": [
+      0, 
+      7
+     ], 
+     "id_str": "326617601", 
+     "screen_name": "spozbo", 
+     "name": "Will Rogers"
+    }, 
+    {
+     "id": 100654112, 
+     "indices": [
+      8, 
+      22
+     ], 
+     "id_str": "100654112", 
+     "screen_name": "FiresideStory", 
+     "name": "Fireside"
+    }, 
+    {
+     "id": 742186806, 
+     "indices": [
+      23, 
+      37
+     ], 
+     "id_str": "742186806", 
+     "screen_name": "truestorytime", 
+     "name": "True Story"
+    }
+   ], 
+   "hashtags": [], 
+   "urls": []
+  }, 
+  "in_reply_to_screen_name": "spozbo", 
+  "id_str": "476790096067166209", 
+  "retweet_count": 0, 
+  "in_reply_to_user_id": 326617601, 
+  "favorited": false, 
+  "user": {
+   "follow_request_sent": false, 
+   "profile_use_background_image": false, 
+   "profile_text_color": "000000", 
+   "default_profile_image": false, 
+   "id": 917825426, 
+   "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png", 
+   "verified": false, 
+   "profile_location": null, 
+   "profile_image_url_https": "https://pbs.twimg.com/profile_images/430095609182179328/y9HXEsvv_normal.jpeg", 
+   "profile_sidebar_fill_color": "000000", 
+   "entities": {
+    "url": {
+     "urls": [
+      {
+       "url": "http://t.co/MI2zaCsWf4", 
+       "indices": [
+        0, 
+        22
+       ], 
+       "expanded_url": "http://bookstein.github.io", 
+       "display_url": "bookstein.github.io"
+      }
+     ]
+    }, 
+    "description": {
+     "urls": []
+    }
+   }, 
+   "followers_count": 43, 
+   "profile_sidebar_border_color": "000000", 
+   "id_str": "917825426", 
+   "profile_background_color": "000000", 
+   "listed_count": 4, 
+   "is_translation_enabled": false, 
+   "utc_offset": -28800, 
+   "statuses_count": 38, 
+   "description": "Writer, web developer. Reader & creator of nonfiction comics. Here to learn about social, economic & environmental justice.", 
+   "friends_count": 139, 
+   "location": "Oakland, CA", 
+   "profile_link_color": "0084B4", 
+   "profile_image_url": "http://pbs.twimg.com/profile_images/430095609182179328/y9HXEsvv_normal.jpeg", 
+   "following": false, 
+   "geo_enabled": false, 
+   "profile_banner_url": "https://pbs.twimg.com/profile_banners/917825426/1408161957", 
+   "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png", 
+   "name": "Emily Bookstein", 
+   "lang": "en", 
+   "profile_background_tile": false, 
+   "favourites_count": 11, 
+   "screen_name": "bookstein", 
+   "notifications": false, 
+   "url": "http://t.co/MI2zaCsWf4", 
+   "created_at": "Wed Oct 31 22:58:26 +0000 2012", 
+   "contributors_enabled": false, 
+   "time_zone": "Pacific Time (US & Canada)", 
+   "protected": true, 
+   "default_profile": false, 
+   "is_translator": false
+  }, 
+  "geo": null, 
+  "in_reply_to_user_id_str": "326617601", 
+  "lang": "en", 
+  "created_at": "Wed Jun 11 18:16:31 +0000 2014", 
+  "in_reply_to_status_id_str": "476770139480670209", 
+  "place": null
+ }, 
+ {
+  "contributors": null, 
+  "truncated": false, 
+  "text": "@iPancreas Hi Jana! Met you at OWFA hackathon. Have some time to talk programming? Hoping to learn about your experience!", 
+  "in_reply_to_status_id": null, 
+  "id": 473879328040574976, 
+  "favorite_count": 0, 
+  "source": "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>", 
+  "retweeted": false, 
+  "coordinates": null, 
+  "entities": {
+   "symbols": [], 
+   "user_mentions": [
+    {
+     "id": 509020574, 
+     "indices": [
+      0, 
+      10
+     ], 
+     "id_str": "509020574", 
+     "screen_name": "iPancreas", 
+     "name": "Jana Beck"
+    }
+   ], 
+   "hashtags": [], 
+   "urls": []
+  }, 
+  "in_reply_to_screen_name": "iPancreas", 
+  "id_str": "473879328040574976", 
+  "retweet_count": 0, 
+  "in_reply_to_user_id": 509020574, 
+  "favorited": false, 
+  "user": {
+   "follow_request_sent": false, 
+   "profile_use_background_image": false, 
+   "profile_text_color": "000000", 
+   "default_profile_image": false, 
+   "id": 917825426, 
+   "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png", 
+   "verified": false, 
+   "profile_location": null, 
+   "profile_image_url_https": "https://pbs.twimg.com/profile_images/430095609182179328/y9HXEsvv_normal.jpeg", 
+   "profile_sidebar_fill_color": "000000", 
+   "entities": {
+    "url": {
+     "urls": [
+      {
+       "url": "http://t.co/MI2zaCsWf4", 
+       "indices": [
+        0, 
+        22
+       ], 
+       "expanded_url": "http://bookstein.github.io", 
+       "display_url": "bookstein.github.io"
+      }
+     ]
+    }, 
+    "description": {
+     "urls": []
+    }
+   }, 
+   "followers_count": 43, 
+   "profile_sidebar_border_color": "000000", 
+   "id_str": "917825426", 
+   "profile_background_color": "000000", 
+   "listed_count": 4, 
+   "is_translation_enabled": false, 
+   "utc_offset": -28800, 
+   "statuses_count": 38, 
+   "description": "Writer, web developer. Reader & creator of nonfiction comics. Here to learn about social, economic & environmental justice.", 
+   "friends_count": 139, 
+   "location": "Oakland, CA", 
+   "profile_link_color": "0084B4", 
+   "profile_image_url": "http://pbs.twimg.com/profile_images/430095609182179328/y9HXEsvv_normal.jpeg", 
+   "following": false, 
+   "geo_enabled": false, 
+   "profile_banner_url": "https://pbs.twimg.com/profile_banners/917825426/1408161957", 
+   "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png", 
+   "name": "Emily Bookstein", 
+   "lang": "en", 
+   "profile_background_tile": false, 
+   "favourites_count": 11, 
+   "screen_name": "bookstein", 
+   "notifications": false, 
+   "url": "http://t.co/MI2zaCsWf4", 
+   "created_at": "Wed Oct 31 22:58:26 +0000 2012", 
+   "contributors_enabled": false, 
+   "time_zone": "Pacific Time (US & Canada)", 
+   "protected": true, 
+   "default_profile": false, 
+   "is_translator": false
+  }, 
+  "geo": null, 
+  "in_reply_to_user_id_str": "509020574", 
+  "lang": "en", 
+  "created_at": "Tue Jun 03 17:30:10 +0000 2014", 
+  "in_reply_to_status_id_str": null, 
+  "place": null
+ }, 
+ {
+  "contributors": null, 
+  "truncated": false, 
+  "text": "@Nerdrotics I'm a comics fan+InglesideLight journalist. Have 20 min for an interview about your brainchild Comic Outpost? ehbookstein@gmail", 
+  "in_reply_to_status_id": null, 
+  "id": 443430815934865408, 
+  "favorite_count": 0, 
+  "source": "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>", 
+  "retweeted": false, 
+  "coordinates": null, 
+  "entities": {
+   "symbols": [], 
+   "user_mentions": [
+    {
+     "id": 16620803, 
+     "indices": [
+      0, 
+      11
+     ], 
+     "id_str": "16620803", 
+     "screen_name": "Nerdrotics", 
+     "name": "GaryBuechler"
+    }
+   ], 
+   "hashtags": [], 
+   "urls": []
+  }, 
+  "in_reply_to_screen_name": "Nerdrotics", 
+  "id_str": "443430815934865408", 
+  "retweet_count": 0, 
+  "in_reply_to_user_id": 16620803, 
+  "favorited": false, 
+  "user": {
+   "follow_request_sent": false, 
+   "profile_use_background_image": false, 
+   "profile_text_color": "000000", 
+   "default_profile_image": false, 
+   "id": 917825426, 
+   "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png", 
+   "verified": false, 
+   "profile_location": null, 
+   "profile_image_url_https": "https://pbs.twimg.com/profile_images/430095609182179328/y9HXEsvv_normal.jpeg", 
+   "profile_sidebar_fill_color": "000000", 
+   "entities": {
+    "url": {
+     "urls": [
+      {
+       "url": "http://t.co/MI2zaCsWf4", 
+       "indices": [
+        0, 
+        22
+       ], 
+       "expanded_url": "http://bookstein.github.io", 
+       "display_url": "bookstein.github.io"
+      }
+     ]
+    }, 
+    "description": {
+     "urls": []
+    }
+   }, 
+   "followers_count": 43, 
+   "profile_sidebar_border_color": "000000", 
+   "id_str": "917825426", 
+   "profile_background_color": "000000", 
+   "listed_count": 4, 
+   "is_translation_enabled": false, 
+   "utc_offset": -28800, 
+   "statuses_count": 38, 
+   "description": "Writer, web developer. Reader & creator of nonfiction comics. Here to learn about social, economic & environmental justice.", 
+   "friends_count": 139, 
+   "location": "Oakland, CA", 
+   "profile_link_color": "0084B4", 
+   "profile_image_url": "http://pbs.twimg.com/profile_images/430095609182179328/y9HXEsvv_normal.jpeg", 
+   "following": false, 
+   "geo_enabled": false, 
+   "profile_banner_url": "https://pbs.twimg.com/profile_banners/917825426/1408161957", 
+   "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png", 
+   "name": "Emily Bookstein", 
+   "lang": "en", 
+   "profile_background_tile": false, 
+   "favourites_count": 11, 
+   "screen_name": "bookstein", 
+   "notifications": false, 
+   "url": "http://t.co/MI2zaCsWf4", 
+   "created_at": "Wed Oct 31 22:58:26 +0000 2012", 
+   "contributors_enabled": false, 
+   "time_zone": "Pacific Time (US & Canada)", 
+   "protected": true, 
+   "default_profile": false, 
+   "is_translator": false
+  }, 
+  "geo": null, 
+  "in_reply_to_user_id_str": "16620803", 
+  "lang": "en", 
+  "created_at": "Tue Mar 11 16:58:39 +0000 2014", 
+  "in_reply_to_status_id_str": null, 
+  "place": null
+ }, 
+ {
+  "contributors": null, 
+  "truncated": false, 
+  "text": "Last chance to comment on Keystone XL pipeline! Period for public comment almost over. Do it now: http://t.co/9AEjWsGknc via @350", 
+  "in_reply_to_status_id": null, 
+  "id": 437309354421669888, 
+  "favorite_count": 0, 
+  "source": "<a href=\"https://dev.twitter.com/docs/tfw\" rel=\"nofollow\">Twitter for Websites</a>", 
+  "retweeted": false, 
+  "coordinates": null, 
+  "entities": {
+   "symbols": [], 
+   "user_mentions": [
+    {
+     "id": 14266598, 
+     "indices": [
+      125, 
+      129
+     ], 
+     "id_str": "14266598", 
+     "screen_name": "350", 
+     "name": "350 dot org"
+    }
+   ], 
+   "hashtags": [], 
+   "urls": [
+    {
+     "url": "http://t.co/9AEjWsGknc", 
+     "indices": [
+      98, 
+      120
+     ], 
+     "expanded_url": "http://share.350.org/30741903t", 
+     "display_url": "share.350.org/30741903t"
+    }
+   ]
+  }, 
+  "in_reply_to_screen_name": null, 
+  "id_str": "437309354421669888", 
+  "retweet_count": 0, 
+  "in_reply_to_user_id": null, 
+  "favorited": false, 
+  "user": {
+   "follow_request_sent": false, 
+   "profile_use_background_image": false, 
+   "profile_text_color": "000000", 
+   "default_profile_image": false, 
+   "id": 917825426, 
+   "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png", 
+   "verified": false, 
+   "profile_location": null, 
+   "profile_image_url_https": "https://pbs.twimg.com/profile_images/430095609182179328/y9HXEsvv_normal.jpeg", 
+   "profile_sidebar_fill_color": "000000", 
+   "entities": {
+    "url": {
+     "urls": [
+      {
+       "url": "http://t.co/MI2zaCsWf4", 
+       "indices": [
+        0, 
+        22
+       ], 
+       "expanded_url": "http://bookstein.github.io", 
+       "display_url": "bookstein.github.io"
+      }
+     ]
+    }, 
+    "description": {
+     "urls": []
+    }
+   }, 
+   "followers_count": 43, 
+   "profile_sidebar_border_color": "000000", 
+   "id_str": "917825426", 
+   "profile_background_color": "000000", 
+   "listed_count": 4, 
+   "is_translation_enabled": false, 
+   "utc_offset": -28800, 
+   "statuses_count": 38, 
+   "description": "Writer, web developer. Reader & creator of nonfiction comics. Here to learn about social, economic & environmental justice.", 
+   "friends_count": 139, 
+   "location": "Oakland, CA", 
+   "profile_link_color": "0084B4", 
+   "profile_image_url": "http://pbs.twimg.com/profile_images/430095609182179328/y9HXEsvv_normal.jpeg", 
+   "following": false, 
+   "geo_enabled": false, 
+   "profile_banner_url": "https://pbs.twimg.com/profile_banners/917825426/1408161957", 
+   "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png", 
+   "name": "Emily Bookstein", 
+   "lang": "en", 
+   "profile_background_tile": false, 
+   "favourites_count": 11, 
+   "screen_name": "bookstein", 
+   "notifications": false, 
+   "url": "http://t.co/MI2zaCsWf4", 
+   "created_at": "Wed Oct 31 22:58:26 +0000 2012", 
+   "contributors_enabled": false, 
+   "time_zone": "Pacific Time (US & Canada)", 
+   "protected": true, 
+   "default_profile": false, 
+   "is_translator": false
+  }, 
+  "geo": null, 
+  "in_reply_to_user_id_str": null, 
+  "possibly_sensitive": false, 
+  "lang": "en", 
+  "created_at": "Sat Feb 22 19:34:09 +0000 2014", 
+  "in_reply_to_status_id_str": null, 
+  "place": null
+ }, 
+ {
+  "contributors": null, 
+  "truncated": false, 
+  "text": "Join 10,000 people in taking a stand against mass surveillance by the NSA! (NSA, stop reading this!) https://t.co/rBBEvugaj4 #stopthensa", 
+  "in_reply_to_status_id": null, 
+  "id": 433381499602096128, 
+  "favorite_count": 0, 
+  "source": "<a href=\"https://dev.twitter.com/docs/tfw\" rel=\"nofollow\">Twitter for Websites</a>", 
+  "retweeted": false, 
+  "coordinates": null, 
+  "entities": {
+   "symbols": [], 
+   "user_mentions": [], 
+   "hashtags": [
+    {
+     "indices": [
+      125, 
+      136
+     ], 
+     "text": "stopthensa"
+    }
+   ], 
+   "urls": [
+    {
+     "url": "https://t.co/rBBEvugaj4", 
+     "indices": [
+      101, 
+      124
+     ], 
+     "expanded_url": "https://thedaywefightback.org/", 
+     "display_url": "thedaywefightback.org"
+    }
+   ]
+  }, 
+  "in_reply_to_screen_name": null, 
+  "id_str": "433381499602096128", 
+  "retweet_count": 0, 
+  "in_reply_to_user_id": null, 
+  "favorited": false, 
+  "user": {
+   "follow_request_sent": false, 
+   "profile_use_background_image": false, 
+   "profile_text_color": "000000", 
+   "default_profile_image": false, 
+   "id": 917825426, 
+   "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png", 
+   "verified": false, 
+   "profile_location": null, 
+   "profile_image_url_https": "https://pbs.twimg.com/profile_images/430095609182179328/y9HXEsvv_normal.jpeg", 
+   "profile_sidebar_fill_color": "000000", 
+   "entities": {
+    "url": {
+     "urls": [
+      {
+       "url": "http://t.co/MI2zaCsWf4", 
+       "indices": [
+        0, 
+        22
+       ], 
+       "expanded_url": "http://bookstein.github.io", 
+       "display_url": "bookstein.github.io"
+      }
+     ]
+    }, 
+    "description": {
+     "urls": []
+    }
+   }, 
+   "followers_count": 43, 
+   "profile_sidebar_border_color": "000000", 
+   "id_str": "917825426", 
+   "profile_background_color": "000000", 
+   "listed_count": 4, 
+   "is_translation_enabled": false, 
+   "utc_offset": -28800, 
+   "statuses_count": 38, 
+   "description": "Writer, web developer. Reader & creator of nonfiction comics. Here to learn about social, economic & environmental justice.", 
+   "friends_count": 139, 
+   "location": "Oakland, CA", 
+   "profile_link_color": "0084B4", 
+   "profile_image_url": "http://pbs.twimg.com/profile_images/430095609182179328/y9HXEsvv_normal.jpeg", 
+   "following": false, 
+   "geo_enabled": false, 
+   "profile_banner_url": "https://pbs.twimg.com/profile_banners/917825426/1408161957", 
+   "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png", 
+   "name": "Emily Bookstein", 
+   "lang": "en", 
+   "profile_background_tile": false, 
+   "favourites_count": 11, 
+   "screen_name": "bookstein", 
+   "notifications": false, 
+   "url": "http://t.co/MI2zaCsWf4", 
+   "created_at": "Wed Oct 31 22:58:26 +0000 2012", 
+   "contributors_enabled": false, 
+   "time_zone": "Pacific Time (US & Canada)", 
+   "protected": true, 
+   "default_profile": false, 
+   "is_translator": false
+  }, 
+  "geo": null, 
+  "in_reply_to_user_id_str": null, 
+  "possibly_sensitive": false, 
+  "lang": "en", 
+  "created_at": "Tue Feb 11 23:26:16 +0000 2014", 
+  "in_reply_to_status_id_str": null, 
+  "place": null
+ }, 
+ {
+  "contributors": null, 
+  "truncated": false, 
+  "text": "@alltopieces Do you have The New Jim Crow? I want to read it", 
+  "in_reply_to_status_id": 432292782770630656, 
+  "id": 432300568573251584, 
+  "favorite_count": 0, 
+  "source": "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>", 
+  "retweeted": false, 
+  "coordinates": null, 
+  "entities": {
+   "symbols": [], 
+   "user_mentions": [
+    {
+     "id": 394333585, 
+     "indices": [
+      0, 
+      12
+     ], 
+     "id_str": "394333585", 
+     "screen_name": "alltopieces", 
+     "name": "Scaryanne Moore"
+    }
+   ], 
+   "hashtags": [], 
+   "urls": []
+  }, 
+  "in_reply_to_screen_name": "alltopieces", 
+  "id_str": "432300568573251584", 
+  "retweet_count": 0, 
+  "in_reply_to_user_id": 394333585, 
+  "favorited": false, 
+  "user": {
+   "follow_request_sent": false, 
+   "profile_use_background_image": false, 
+   "profile_text_color": "000000", 
+   "default_profile_image": false, 
+   "id": 917825426, 
+   "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png", 
+   "verified": false, 
+   "profile_location": null, 
+   "profile_image_url_https": "https://pbs.twimg.com/profile_images/430095609182179328/y9HXEsvv_normal.jpeg", 
+   "profile_sidebar_fill_color": "000000", 
+   "entities": {
+    "url": {
+     "urls": [
+      {
+       "url": "http://t.co/MI2zaCsWf4", 
+       "indices": [
+        0, 
+        22
+       ], 
+       "expanded_url": "http://bookstein.github.io", 
+       "display_url": "bookstein.github.io"
+      }
+     ]
+    }, 
+    "description": {
+     "urls": []
+    }
+   }, 
+   "followers_count": 43, 
+   "profile_sidebar_border_color": "000000", 
+   "id_str": "917825426", 
+   "profile_background_color": "000000", 
+   "listed_count": 4, 
+   "is_translation_enabled": false, 
+   "utc_offset": -28800, 
+   "statuses_count": 38, 
+   "description": "Writer, web developer. Reader & creator of nonfiction comics. Here to learn about social, economic & environmental justice.", 
+   "friends_count": 139, 
+   "location": "Oakland, CA", 
+   "profile_link_color": "0084B4", 
+   "profile_image_url": "http://pbs.twimg.com/profile_images/430095609182179328/y9HXEsvv_normal.jpeg", 
+   "following": false, 
+   "geo_enabled": false, 
+   "profile_banner_url": "https://pbs.twimg.com/profile_banners/917825426/1408161957", 
+   "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png", 
+   "name": "Emily Bookstein", 
+   "lang": "en", 
+   "profile_background_tile": false, 
+   "favourites_count": 11, 
+   "screen_name": "bookstein", 
+   "notifications": false, 
+   "url": "http://t.co/MI2zaCsWf4", 
+   "created_at": "Wed Oct 31 22:58:26 +0000 2012", 
+   "contributors_enabled": false, 
+   "time_zone": "Pacific Time (US & Canada)", 
+   "protected": true, 
+   "default_profile": false, 
+   "is_translator": false
+  }, 
+  "geo": null, 
+  "in_reply_to_user_id_str": "394333585", 
+  "lang": "en", 
+  "created_at": "Sat Feb 08 23:51:01 +0000 2014", 
+  "in_reply_to_status_id_str": "432292782770630656", 
+  "place": null
+ }, 
+ {
+  "contributors": null, 
+  "truncated": false, 
+  "text": "@iPancreas @emzeit @hiSilv We might want to send our infographic to NPR. :)", 
+  "in_reply_to_status_id": 431868929690988544, 
+  "id": 431869398723219456, 
+  "favorite_count": 1, 
+  "source": "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>", 
+  "retweeted": false, 
+  "coordinates": null, 
+  "entities": {
+   "symbols": [], 
+   "user_mentions": [
+    {
+     "id": 509020574, 
+     "indices": [
+      0, 
+      10
+     ], 
+     "id_str": "509020574", 
+     "screen_name": "iPancreas", 
+     "name": "Jana Beck"
+    }, 
+    {
+     "id": 777595, 
+     "indices": [
+      11, 
+      18
+     ], 
+     "id_str": "777595", 
+     "screen_name": "emzeit", 
+     "name": "Emily Y."
+    }, 
+    {
+     "id": 1967300545, 
+     "indices": [
+      19, 
+      26
+     ], 
+     "id_str": "1967300545", 
+     "screen_name": "hiSilv", 
+     "name": "Silvia A."
+    }
+   ], 
+   "hashtags": [], 
+   "urls": []
+  }, 
+  "in_reply_to_screen_name": "bookstein", 
+  "id_str": "431869398723219456", 
+  "retweet_count": 0, 
+  "in_reply_to_user_id": 917825426, 
+  "favorited": false, 
+  "user": {
+   "follow_request_sent": false, 
+   "profile_use_background_image": false, 
+   "profile_text_color": "000000", 
+   "default_profile_image": false, 
+   "id": 917825426, 
+   "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png", 
+   "verified": false, 
+   "profile_location": null, 
+   "profile_image_url_https": "https://pbs.twimg.com/profile_images/430095609182179328/y9HXEsvv_normal.jpeg", 
+   "profile_sidebar_fill_color": "000000", 
+   "entities": {
+    "url": {
+     "urls": [
+      {
+       "url": "http://t.co/MI2zaCsWf4", 
+       "indices": [
+        0, 
+        22
+       ], 
+       "expanded_url": "http://bookstein.github.io", 
+       "display_url": "bookstein.github.io"
+      }
+     ]
+    }, 
+    "description": {
+     "urls": []
+    }
+   }, 
+   "followers_count": 43, 
+   "profile_sidebar_border_color": "000000", 
+   "id_str": "917825426", 
+   "profile_background_color": "000000", 
+   "listed_count": 4, 
+   "is_translation_enabled": false, 
+   "utc_offset": -28800, 
+   "statuses_count": 38, 
+   "description": "Writer, web developer. Reader & creator of nonfiction comics. Here to learn about social, economic & environmental justice.", 
+   "friends_count": 139, 
+   "location": "Oakland, CA", 
+   "profile_link_color": "0084B4", 
+   "profile_image_url": "http://pbs.twimg.com/profile_images/430095609182179328/y9HXEsvv_normal.jpeg", 
+   "following": false, 
+   "geo_enabled": false, 
+   "profile_banner_url": "https://pbs.twimg.com/profile_banners/917825426/1408161957", 
+   "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png", 
+   "name": "Emily Bookstein", 
+   "lang": "en", 
+   "profile_background_tile": false, 
+   "favourites_count": 11, 
+   "screen_name": "bookstein", 
+   "notifications": false, 
+   "url": "http://t.co/MI2zaCsWf4", 
+   "created_at": "Wed Oct 31 22:58:26 +0000 2012", 
+   "contributors_enabled": false, 
+   "time_zone": "Pacific Time (US & Canada)", 
+   "protected": true, 
+   "default_profile": false, 
+   "is_translator": false
+  }, 
+  "geo": null, 
+  "in_reply_to_user_id_str": "917825426", 
+  "lang": "en", 
+  "created_at": "Fri Feb 07 19:17:43 +0000 2014", 
+  "in_reply_to_status_id_str": "431868929690988544", 
+  "place": null
+ }
+]

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+	<head>
+		<title>Twitter Test</title>
+		<meta charset="UTF-8">
+		<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+	</head>
+	<body>
+		<h1>HELLO WORLD!</h1>
+		<form role="form" action="/login" method="POST">
+			<label for="screenname">Enter Twitter handle</label>
+			<input name="screenname" type="text" placeholder="@screen_name">
+			<input type="submit" value="Get visualization">
+		</form>
+
+		<div id="result">
+			{{ friends }}
+		</div>
+
+		<script>
+			// $("#login").click(function(e){
+			// 	e.preventDefault();
+				// $.post(
+				// 	"https://api.twitter.com/1.1/statuses/home_timeline.json", {},
+				// 	function(response) {
+				// 		console.log(response);
+				// 	});
+			// });
+		</script>
+	</body>
+</html>
