@@ -28,6 +28,7 @@ def get_user():
 	print check_rate_limit(api)
 
 	screen_name = request.json["screen_name"]
+
 	print "SCREEN NAME FROM JSON: ", screen_name
 
 	if screen_name == "bookstein":

@@ -44,9 +44,9 @@
         VIZ.createVisualization(response);
     }
 
-    $("#visualize").on("click", function(e){
+    $("form").on("submit", function(e){
         e.preventDefault();
-        $(this).addClass("disabled");
+        $("#visualize").addClass("disabled");
 
         // store screen name
         var screen_name = $("input[name=screen_name]").val();
