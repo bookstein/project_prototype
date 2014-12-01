@@ -1,6 +1,7 @@
 import os
 import json
 import datetime
+import time
 import cPickle as pickle
 
 from flask import Flask, url_for, request, render_template, redirect, flash
@@ -84,40 +85,29 @@ def display_friends(screen_name):
 	friend_scores = {"name": user.USER_ID, "children": []}
 
 	try:
+		t0 = time.time()
+
 		for friend in friendlist:
 			timeline = friend.get_timeline(friend.USER_ID, friend.MAX_NUM_TWEETS)
-			print check_rate_limit(api)
+			# print check_rate_limit(api)
 			friend.SCORE = friend.score(timeline, vectorizer, classifier)
 
 			friend_scores["children"].append({"name": friend.SCREEN_NAME, "size": friend.NUM_FOLLOWERS, "score": friend.SCORE})
+
+		t1 = time.time()
+		print "TIME TO GET TIMELINES AND SCORE", t1-t0
 
 	except tweepy.TweepError as e:
 		print "ERROR!!!!!", e
 		# logging.warning("ERROR: \n", check_rate_limit(api))
 
 	if len(friend_scores) > 0:
-		print "FRIEND SCORES", friend_scores
+		# print "FRIEND SCORES", friend_scores
 		json_scores = json.dumps(friend_scores)
 		return json_scores
 
 	else:
 		return redirect("/")#, add flash --> errormessage="Unable to get friends")
-
-@app.route("/ajax/tweets", methods=["GET", "POST"])
-def get_latest_tweets():
-	# user = User(api, user_id=screen_name)
-	# tweets = user.get_timeline(user.USER_ID, 5)
-	screen_name = request.json["screen_name"]
-	print "SCREEN NAME FOR TWEETS", screen_name
-
-	with open("cannedtweets.txt") as f:
-		tweets = f.read()
-		json_tweets = json.dumps(tweets)
-		return json_tweets
-
-@app.route("/ajax/testing")
-def test_results():
-	return json.dumps({'name': 'bookstein', 'children': [{'score': 0.6621288434149878, 'name': 'nytimes', 'size': 14160089}, {'score': 0.6024210739190844, 'name': 'DalaiLama', 'size': 9834809}, {'score': 0.7532961655655628, 'name': 'BBCWorld', 'size': 8049266}, {'score': 0.7170098613172879, 'name': 'nprnews', 'size': 3061375}, {'score': 0.7411111088037284, 'name': 'maddow', 'size': 3044201}, {'score': 0.668490765740428, 'name': 'TheDailyShow', 'size': 2944827}, {'score': 0.6106084371672981, 'name': 'wikileaks', 'size': 2423037}, {'score': 0.7844805290743996, 'name': 'NickKristof', 'size': 1525849}, {'score': 0.9214918901147827, 'name': 'YourAnonNews', 'size': 1326447}, {'score': 0.3957033176556604, 'name': 'Medium', 'size': 1002287}, {'score': 0.8745964630221176, 'name': 'MotherJones', 'size': 455471}, {'score': 0.9478069469237381, 'name': 'HuffPostPol', 'size': 435314}, {'score': 0.4862231158061716, 'name': 'kanter', 'size': 404467}, {'score': 0.8444930591757265, 'name': 'democracynow', 'size': 347059}, {'score': 0.9260415189549398, 'name': 'ajam', 'size': 235139}, {'score': 0.9462528483917902, 'name': 'ACLU', 'size': 215827}, {'score': 0.9063116375558954, 'name': 'RBReich', 'size': 214252}, {'score': 0.8708490825538281, 'name': 'OccupyWallSt', 'size': 205603}, {'score': 0.43175795370399034, 'name': '99u', 'size': 189275}, {'score': 0.7244459940118697, 'name': 'pewresearch', 'size': 181212}, {'score': 0.6005260246749018, 'name': 'iraglass', 'size': 115326}, {'score': 0.8172435268595505, 'name': 'UpshotNYT', 'size': 99405}, {'score': 0.8154697883980356, 'name': 'AlterNet', 'size': 85902}, {'score': 0.2793861118514671, 'name': 'GA', 'size': 72873}, {'score': 0.6255953154263557, 'name': 'Revkin', 'size': 63501}, {'score': 0.3344072389905702, 'name': 'GirlsWhoCode', 'size': 61199}, {'score': 0.31305912636044037, 'name': 'TheMoth', 'size': 56476}, {'score': 0.9687524863997323, 'name': 'GlobalRevLive', 'size': 46335}, {'score': 0.5585787738587116, 'name': 'earthisland', 'size': 43248}, {'score': 0.5753698699586668, 'name': 'KQED', 'size': 42924}, {'score': 0.5769960776462038, 'name': 'tomtomorrow', 'size': 42916}, {'score': 0.8971033977000994, 'name': 'OccupyOakland', 'size': 41415}, {'score': 0.9102259061950695, 'name': 'SaveManning', 'size': 39019}, {'score': 0.27995737240395124, 'name': 'Daily_Good', 'size': 36056}, {'score': 0.3492342885188048, 'name': 'FoodCorps', 'size': 33250}, {'score': 0.8744117577919912, 'name': 'FactTank', 'size': 27073}, {'score': 0.3416501953318024, 'name': 'girldevelopit', 'size': 19914}, {'score': 0.7514660970444359, 'name': 'ProfessorCrunk', 'size': 18090}, {'score': 0.5843995473438215, 'name': 'quinnnorton', 'size': 17763}, {'score': 0.866547681131552, 'name': 'neworganizing', 'size': 17588}, {'score': 0.49393225605868346, 'name': 'MattBors', 'size': 16939}, {'score': 0.6116565283368856, 'name': 'aaronsw', 'size': 14906}, {'score': 0.7549212121248698, 'name': 'KuraFire', 'size': 13239}, {'score': 0.7790318818514511, 'name': 'susie_c', 'size': 12601}, {'score': 0.4780180119515844, 'name': 'realfoodnow', 'size': 12562}, {'score': 0.5764062616942909, 'name': 'hypatiadotca', 'size': 12090}, {'score': 0.6052069259993499, 'name': 'dnbornstein', 'size': 10058}, {'score': 0.24306846602456034, 'name': 'PopUpMag', 'size': 8707}, {'score': 0.6653150003042494, 'name': 'sarahjeong', 'size': 8388}, {'score': 0.2934325219344482, 'name': 'geekfeminism', 'size': 7826}]})
 
 def process_friend_batch(user, page, api):
 	"""
@@ -129,8 +119,6 @@ def process_friend_batch(user, page, api):
 		friend = User(api, central_user=user.CENTRAL_USER, user_id=f.id)
 		friend.NUM_FOLLOWERS = f.followers_count
 		friend.SCREEN_NAME = f.screen_name
-		print friend.SCREEN_NAME, friend.NUM_FOLLOWERS
-		# print "friend created"
 		batch.append(friend)
 	return batch
 
@@ -162,6 +150,11 @@ def get_top_influencers(friendlist, count):
 	friendlist = sorted_by_influence[:count]
 
 	return friendlist
+
+@app.route("/ajax/testing")
+def test_results():
+	return json.dumps({'name': 'bookstein', 'children': [{'score': 0.6621288434149878, 'name': 'nytimes', 'size': 14160089}, {'score': 0.6024210739190844, 'name': 'DalaiLama', 'size': 9834809}, {'score': 0.7532961655655628, 'name': 'BBCWorld', 'size': 8049266}, {'score': 0.7170098613172879, 'name': 'nprnews', 'size': 3061375}, {'score': 0.7411111088037284, 'name': 'maddow', 'size': 3044201}, {'score': 0.668490765740428, 'name': 'TheDailyShow', 'size': 2944827}, {'score': 0.6106084371672981, 'name': 'wikileaks', 'size': 2423037}, {'score': 0.7844805290743996, 'name': 'NickKristof', 'size': 1525849}, {'score': 0.9214918901147827, 'name': 'YourAnonNews', 'size': 1326447}, {'score': 0.3957033176556604, 'name': 'Medium', 'size': 1002287}, {'score': 0.8745964630221176, 'name': 'MotherJones', 'size': 455471}, {'score': 0.9478069469237381, 'name': 'HuffPostPol', 'size': 435314}, {'score': 0.4862231158061716, 'name': 'kanter', 'size': 404467}, {'score': 0.8444930591757265, 'name': 'democracynow', 'size': 347059}, {'score': 0.9260415189549398, 'name': 'ajam', 'size': 235139}, {'score': 0.9462528483917902, 'name': 'ACLU', 'size': 215827}, {'score': 0.9063116375558954, 'name': 'RBReich', 'size': 214252}, {'score': 0.8708490825538281, 'name': 'OccupyWallSt', 'size': 205603}, {'score': 0.43175795370399034, 'name': '99u', 'size': 189275}, {'score': 0.7244459940118697, 'name': 'pewresearch', 'size': 181212}, {'score': 0.6005260246749018, 'name': 'iraglass', 'size': 115326}, {'score': 0.8172435268595505, 'name': 'UpshotNYT', 'size': 99405}, {'score': 0.8154697883980356, 'name': 'AlterNet', 'size': 85902}, {'score': 0.2793861118514671, 'name': 'GA', 'size': 72873}, {'score': 0.6255953154263557, 'name': 'Revkin', 'size': 63501}, {'score': 0.3344072389905702, 'name': 'GirlsWhoCode', 'size': 61199}, {'score': 0.31305912636044037, 'name': 'TheMoth', 'size': 56476}, {'score': 0.9687524863997323, 'name': 'GlobalRevLive', 'size': 46335}, {'score': 0.5585787738587116, 'name': 'earthisland', 'size': 43248}, {'score': 0.5753698699586668, 'name': 'KQED', 'size': 42924}, {'score': 0.5769960776462038, 'name': 'tomtomorrow', 'size': 42916}, {'score': 0.8971033977000994, 'name': 'OccupyOakland', 'size': 41415}, {'score': 0.9102259061950695, 'name': 'SaveManning', 'size': 39019}, {'score': 0.27995737240395124, 'name': 'Daily_Good', 'size': 36056}, {'score': 0.3492342885188048, 'name': 'FoodCorps', 'size': 33250}, {'score': 0.8744117577919912, 'name': 'FactTank', 'size': 27073}, {'score': 0.3416501953318024, 'name': 'girldevelopit', 'size': 19914}, {'score': 0.7514660970444359, 'name': 'ProfessorCrunk', 'size': 18090}, {'score': 0.5843995473438215, 'name': 'quinnnorton', 'size': 17763}, {'score': 0.866547681131552, 'name': 'neworganizing', 'size': 17588}, {'score': 0.49393225605868346, 'name': 'MattBors', 'size': 16939}, {'score': 0.6116565283368856, 'name': 'aaronsw', 'size': 14906}, {'score': 0.7549212121248698, 'name': 'KuraFire', 'size': 13239}, {'score': 0.7790318818514511, 'name': 'susie_c', 'size': 12601}, {'score': 0.4780180119515844, 'name': 'realfoodnow', 'size': 12562}, {'score': 0.5764062616942909, 'name': 'hypatiadotca', 'size': 12090}, {'score': 0.6052069259993499, 'name': 'dnbornstein', 'size': 10058}, {'score': 0.24306846602456034, 'name': 'PopUpMag', 'size': 8707}, {'score': 0.6653150003042494, 'name': 'sarahjeong', 'size': 8388}, {'score': 0.2934325219344482, 'name': 'geekfeminism', 'size': 7826}]})
+
 
 def connect_to_API():
 	"""

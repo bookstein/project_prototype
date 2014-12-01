@@ -156,7 +156,7 @@ class User(object):
 			return timeline
 
 		except tweepy.TweepError as e:
-			print e.message[0]["error"]
+			print e
 			return []
 
 		# try:
