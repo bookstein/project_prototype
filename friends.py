@@ -134,15 +134,27 @@ class User(object):
 		# pickle dictionary
 
 	def get_timeline(self, uid, count):
-		"""Get n number of tweets by passing in user id and number of statuses.
-			If user has protected tweets, returns [] rather than break the program.
 		"""
+		Get n number of tweets by passing in user id and number of statuses.
+			If user has protected tweets, returns [] rather than break the program.
+
+		Parameters:
+		-----------
+		User id for which to get tweets
+		Number of tweets to get
+
+		Output:
+		-------
+		An array of {count} lower-cased tweet texts, including retweets.
+		"""
+		timeline = []
 
 		try:
-			feed = tweepy.Cursor(self.api.user_timeline, id=uid, include_rts=True).items(count)
-			# logging.info("\n\n\n", "Get timeline: ", feed, "\n\n\n")
+			for tweet in tweepy.Cursor(self.api.user_timeline, id=uid, include_rts=True).items(count):
+				timeline.append(tweet.text.lower())
+
 			print "get request timeline"
-			return feed
+			return timeline
 
 		except tweepy.TweepError as e:
 			print e.message[0]["error"]
