@@ -63,36 +63,23 @@ def display_friends(screen_name):
 	with open(PATH_TO_VECTORIZER, "rb") as f:
 		vectorizer = pickle.load(f)
 
-	t0 = time.time()
 	user = User(api, central_user=screen_name, user_id=screen_name)
 	timeline = user.get_timeline(user.USER_ID, user.MAX_NUM_TWEETS)
-	t1 = time.time()
 
 	print "TIME TO GET INITIAL USER TIMELINE", t1-t0
 
 	try:
 
-		t0 = time.time()
 		friends_ids = user.get_friends_ids(screen_name)
-		t1 = time.time()
-		print "TIME TO GET FRIEND IDS", t1-t0
 
 		friendlist = [user]
 
-		t0 = time.time()
 		for page in user.paginate_friends(friends_ids, 100):
 			friends = process_friend_batch(user, page, api)
 			friendlist.extend(friends)
-		t1 = time.time()
-		print "TIME TO PAGINATE ALL FRIENDS", t1-t0
 
 		if len(friendlist) > user.MAX_NUM_FRIENDS:
-			print "ORIGINAL LEN", len(friendlist)
-			t0 = time.time()
 			friendlist = get_top_influencers(friendlist, user.MAX_NUM_FRIENDS)
-			print "NEW LEN", len(friendlist)
-			t1= time.time()
-			print "TIME TO GET TOP INFLUENCERS", t1-t0
 
 	except tweepy.TweepError as e:
 		print "ERROR!!!!!", e
@@ -101,24 +88,16 @@ def display_friends(screen_name):
 	friend_scores = {"name": user.USER_ID, "children": []}
 
 	try:
-		t0 = time.time()
-
 		for friend in friendlist:
 			timeline = friend.get_timeline(friend.USER_ID, friend.MAX_NUM_TWEETS)
-			# print check_rate_limit(api)
 			friend.SCORE = friend.score(timeline, vectorizer, classifier)
 
 			friend_scores["children"].append({"name": friend.SCREEN_NAME, "size": friend.NUM_FOLLOWERS, "score": friend.SCORE})
 
-		t1 = time.time()
-		print "TIME TO GET TIMELINES AND SCORE", t1-t0
-
 	except tweepy.TweepError as e:
 		print "ERROR!!!!!", e
-		# logging.warning("ERROR: \n", check_rate_limit(api))
 
 	if len(friend_scores) > 0:
-		# print "FRIEND SCORES", friend_scores
 		json_scores = json.dumps(friend_scores)
 		return json_scores
 
