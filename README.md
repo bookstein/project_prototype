@@ -2,7 +2,7 @@
 
 A project for Hackbright Academy, Fall 2014.
 
-Using data from Twitter's Search and REST API, I classify any user's political activity with scikit-learn's Bernoulli Naive Bayesian classifer and visualize the politicalness of the top 50 friends (ranked by number of followers) with D3.
+Using data from Twitter's Search and REST API, as well as scikit-learn's Bernoulli Naive Bayes classifer, visualize the recent intensity of political activity within any Twitter user's friend group. An interactive bubble chart shows the user's 50 most influential friends, as measured by number of followers.
 
 ##Main stack/technology##
 
@@ -28,11 +28,11 @@ _frontend_:
 
 ![ScreenShot](/static/images/scrn_cap1.png "Landing Page")
 
-A user can search for any Twitter user's friend group politicization by entering a Twitter handle into the search field.
+Search for any Twitter user by entering a Twitter handle into the search field.
 
-Flask returns a JSON object containing the top 50 most influential friends of that person, as ranked by number of followers, as well as a "politicalness" score between 0 and 1 -- an average of probabilities given by a Naive Bayes classifier that each tweet is political. Only 20 tweets are collected per friend, so politicalness may be only a measure of recent political dialog.
+The result is a "politicalness" score for each of the top 50 most influential friends (people that user follows). The score is a fraction between 0 and 1 -- determined by averaging probabilities given by a Naive Bayes classifier that any given tweet is political. 20 tweets are collected per friend, so the politicalness score may be only a measure of recent political dialogue.
 
-Finally, the data is rendered in d3 as a flattened hierarchy with a pack layout. Bubbles' opacity varies with the person's politicalness score -- dark bubbles are more political, light bubbles less so.
+The data is rendered in d3 as bubble chart, with each bubble representing a Twitter account. Bubbles' opacity varies with the person's politicalness score -- dark bubbles are more political, light bubbles less so. Bubble radii reflect the number of followers.
 
 ![ScreenShot](/static/images/scrn_cap3.png "On hover")
 
@@ -55,13 +55,24 @@ Before deciding on Naive Bayes, I compared its performance to a Logistic Regress
 
 
 ##Moving forward:##
- -Increase the precision of my classifier, both by tuning it, by improving training data, and by testing other classifiers (i.e., K-near neighbors, SVM).
 
- -Visualize political leanings on Twitter, to investigate on a case-by-case basis when users have put themselves in a political echo chamber ("homophily") versus in conversation with politically diverse users. This will be accomplished by classifying tweets as liberal/nonliberal and conservative/nonconservative.
+In broad strokes, here's what I plan to do:
 
- -Enable login with OAuth
+ - Increase the precision of my classifier, both by tuning it, by improving training data, and by testing other classifiers (i.e., Multinomial Bayes, K-near neighbors, SVM) for better performance.
 
- -Recommend diverse Twitter accounts that are either highly similar or highly different, politically, from the current user.
+ - Visualize liberal-conservative political leanings on Twitter, to investigate on a case-by-case basis when users have put themselves in a political echo chamber ("homophily") versus in conversation with politically diverse users.
+
+ - Enable login with OAuth (currently using app auth)
+
+ - Recommend diverse Twitter accounts that are either highly similar or highly different, politically, from the current user.
+
+ - Reduce the number of API calls with memcache.
+
+ - Continuously update the visualization, rather than wait for all tweets to be processed (the bottleneck is the Twitter api; getting 20 tweets for 50 friends can take up to 25 seconds altogether!)
+
+ - Write tests using Python's unittest or nosetest
+
+ - Handle errors gracefully, beyond a simple flash message -- in particular errors caused by hitting the Twitter API rate limit
 
 
 ## Cloning Instructions ##
