@@ -12,8 +12,11 @@ app = Flask(__name__)
 app.secret_key = 'politicaltwitter'
 
 
+# important variables
 TIME_TO_WAIT = 3  # in seconds
 NUM_RETRIES = 2  # number of retries Tweepy API object should make
+MAX_NUM_TWEETS = 20
+MAX_NUM_FRIENDS = 50
 
 PATH_TO_VECTORIZER = "politwit/vectorizer.pkl"
 PATH_TO_CLASSIFIER = "politwit/classifierNB.pkl"
@@ -62,7 +65,7 @@ def display_friends(screen_name):
         vectorizer = pickle.load(f)
 
     user = User(api, central_user=screen_name, user_id=screen_name)
-    timeline = user.get_timeline(user.USER_ID, user.MAX_NUM_TWEETS)
+    timeline = user.get_timeline(user.USER_ID, MAX_NUM_TWEETS)
 
     # initialize friend_scores object, which will pass friends and scores to d3
     friend_scores = {"name": user.USER_ID, "children": []}
@@ -76,12 +79,12 @@ def display_friends(screen_name):
             friends = process_friend_batch(user, page, api)
             friendlist.extend(friends)
 
-        if len(friendlist) > user.MAX_NUM_FRIENDS:
-            friendlist = get_top_influencers(friendlist, user.MAX_NUM_FRIENDS)
+        if len(friendlist) > MAX_NUM_FRIENDS:
+            friendlist = get_top_influencers(friendlist, MAX_NUM_FRIENDS)
 
         for friend in friendlist:
             timeline = friend.get_timeline(friend.USER_ID,
-                                           friend.MAX_NUM_TWEETS)
+                                           MAX_NUM_TWEETS)
             friend.SCORE = friend.score(timeline, vectorizer, classifier)
 
             friend_scores["children"].append({"name": friend.SCREEN_NAME,
