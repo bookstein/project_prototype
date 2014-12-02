@@ -2,7 +2,25 @@
 
 A project for Hackbright Academy, Fall 2014.
 
-Using data from Twitter's Search and REST API, as well as scikit-learn's Bernoulli Naive Bayes classifer, visualize the recent intensity of political activity within any Twitter user's friend group. An interactive bubble chart shows the user's 50 most influential friends, as measured by number of followers.
+>Using data from Twitter's Search and REST API, as well as scikit-learn's Bernoulli Naive Bayes classifer, visualize the recent intensity of political activity within any Twitter user's friend group. An interactive bubble chart shows the user's 50 most influential friends, as measured by number of followers.
+
+##About the project##
+
+I chose my project inspired by my interest in social movements and informed by a past internship at Causes.com, a tech start-up that made tools for online activism. Towards the beginning of the project period, I learned that only 23% of millenials planned to vote in the 2014 midterm elections. I wondered how social media might have an impact on voter turnout: do people have political friends on social media? If so, do they put themselves in an echo chamber of like-minded people? While it was easy to brainstorm diverse project ideas, I narrowed my scope to finding the politicalness of Twitter friends.
+
+I began scoring Twitter users’ politicalness by counting political hashtags, based on ~1000 co-occurring political hashtags harvested from Twitter. But after my advisor suggested I look into machine learning as a way to identify political speech, I quickly re-oriented my project. Talking through the concepts of machine learning with mentors was invaluable; their explanations enabled me to understand the tools I was using in NLTK and scikit-learn.
+
+Several iterations of scoring algorithms later - simple hashtag counting, using NLTK's Naive Bayes to classify hashtags, and finally using scikit-learn's Bernoulli Naive Bayes to classify full-text tweets - my project identifies the average probability that a user's recent tweets are political.
+
+Naive Bayes classifiers are often used often to classify text documents -- for example, classifying emails as spam or not-spam. Rather than using the classifier's predicted _label_ for tweets, however, I make use of the _probability_ that any given document (e.g. tweet) belongs to a specific class (e.g. political / not political). That value becomes the political score of a user.
+
+Before firmly deciding on Naive Bayes, I compared its performance to a scikit-learn Logistic Regression algorithm.
+
+    Metric| Bernoulli Naive Bayes  | Logistic Regression
+    ------|------------- | -------------
+ Precision| 87%          |  76%
+    Recall| 88%          |  94%
+
 
 ##Main stack/technology##
 
@@ -42,16 +60,7 @@ Bubbles can be hovered over for more information, or clicked on to reveal the us
 
 The Naive Bayes classifier used for generating politicalness scores tends to overpredict political content, probably because the training data is not diverse enough and does not reflect the true proportion of political content on Twitter.
 
-Previously I had used a simple hashtag counter to score users' politicalness, which counted the number of hashtags in a user's timeline and returned a ratio of political to total hashtags.
-
 My training data consists of 60,000 tweets harvested in late November 2014 by querying for specific political and nonpolitical hashtags.
-
-Before deciding on Naive Bayes, I compared its performance to a Logistic Regression algorithm. Both are available in scikit-learn.
-
-    Metric| Bernoulli Naive Bayes  | Logistic Regression
-    ------|------------- | -------------
- Precision| 87%          |  76%
-    Recall| 88%          |  94%
 
 
 ##Moving forward:##
@@ -99,4 +108,4 @@ In broad strokes, here's what I plan to do:
     # run flask_server.py on the command line to start the app
     python flask_server.py
 
-Now visit localhost:5000 in your browser and enjoy!
+Now visit localhost:5000 in your browser!
