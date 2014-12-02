@@ -1,8 +1,8 @@
 (function() {
 
     // progress bar controls
-    function showProgress() {
-        $("#messages").append("<div class='progress'><span style='width:0%;' class='meter'></span></div>");
+    function showProgress(screenName) {
+        $("#messages").append("<h3>Analyzing Twitter friends for @" + screenName + "</h3>").append("<div class='progress'><span style='width:0%;' class='meter'></span></div>");
 
         $(".meter").animate({width:"50%"}, 3000);
     }
@@ -11,6 +11,7 @@
         $(".meter").animate({width:"100%"});
         setTimeout(function() {
             $(".progress").remove();
+            $("#messages h3").remove();
         }, 100);
     }
 
