@@ -34,11 +34,11 @@ The result is a "politicalness" score for each of the top 50 most influential fr
 
 The data is rendered in d3 as a bubble chart, with each bubble representing a Twitter account. Bubbles' opacity varies with the person's politicalness score -- dark bubbles are more political, light bubbles less so. Bubble radii reflect the number of followers.
 
-![ScreenShot](/static/images/scrn_cap3.png "On hover")
+![ScreenShot](/static/images/scrn_cap4.png "On hover")
 
 Bubbles can be hovered over for more information, or clicked on to reveal the user's 3 most recent tweets.
 
-![ScreenShot](/static/images/scrn_cap2.png "On click")
+![ScreenShot](/static/images/scrn_cap5.png "On click")
 
 The Naive Bayes classifier used for generating politicalness scores tends to overpredict political content, probably because the training data is not diverse enough and does not reflect the true proportion of political content on Twitter.
 
