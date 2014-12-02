@@ -50,17 +50,19 @@
         $("#visualize").addClass("disabled");
 
         // store screen name
-        var screen_name = $("input[name=screen_name]").val();
-        // first-pass validation: make sure screen_name is not blank
-        if (screen_name.length > 0) {
-            console.log(screen_name);
+        var screenName = $("input[name=screen_name]").val();
+        // first-pass validation: remove punc, make sure screen_name is not blank
+        if (screenName.length > 0) {
+            // remove @, if any
+            if (screenName[0] === "@") {
+                screenName = screenName.slice(1)
+            }
             // add progress bar
-            showProgress();
+            showProgress(screenName);
             // clear any previous data
             clearPreviousData();
-
             // make AJAX request, using success callback
-            TwitterAjax.callDisplay(screen_name, displaySuccess);
+            TwitterAjax.callDisplay(screenName, displaySuccess);
 
         }
         else {
