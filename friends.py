@@ -36,7 +36,7 @@ class User(object):
         self.CENTRAL_USER = central_user
         self.USER_ID = user_id
 
-    def get_friends_ids(self, screen_name):
+    def get_friends_ids(self):
         """
         Request ids of all user's friends.
 
@@ -46,7 +46,7 @@ class User(object):
         """
 
         try:
-            friends_ids = self.api.friends_ids(screen_name=screen_name)
+            friends_ids = self.api.friends_ids(screen_name=self.central_user)
             return friends_ids
 
         except tweepy.TweepError as e:

@@ -71,7 +71,7 @@ def display_friends(screen_name):
     friend_scores = {"name": user.user_id, "children": []}
 
     try:
-        friends_ids = user.get_friends_ids(screen_name)
+        friends_ids = user.get_friends_ids()
 
         friendlist = [user]
 
