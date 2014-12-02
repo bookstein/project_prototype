@@ -8,11 +8,9 @@
     }
 
     function showProgressComplete() {
-        $(".meter").animate({width:"100%"});
-        setTimeout(function() {
-            $(".progress").remove();
-            $("#messages h3").remove();
-        }, 100);
+        $(".meter").animate({width:"100%"}, 5);
+        $(".progress").remove();
+        $("#messages h3").remove();
     }
 
     function addVizHeadline(screenName) {
