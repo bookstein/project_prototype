@@ -32,7 +32,7 @@ Search for any Twitter user by entering a Twitter handle into the search field.
 
 The result is a "politicalness" score for each of the top 50 most influential friends (people that user follows). The score is a fraction between 0 and 1 -- determined by averaging probabilities given by a Naive Bayes classifier that any given tweet is political. 20 tweets are collected per friend, so the politicalness score may be only a measure of recent political dialogue.
 
-The data is rendered in d3 as bubble chart, with each bubble representing a Twitter account. Bubbles' opacity varies with the person's politicalness score -- dark bubbles are more political, light bubbles less so. Bubble radii reflect the number of followers.
+The data is rendered in d3 as a bubble chart, with each bubble representing a Twitter account. Bubbles' opacity varies with the person's politicalness score -- dark bubbles are more political, light bubbles less so. Bubble radii reflect the number of followers.
 
 ![ScreenShot](/static/images/scrn_cap3.png "On hover")
 
@@ -40,7 +40,7 @@ Bubbles can be hovered over for more information, or clicked on to reveal the us
 
 ![ScreenShot](/static/images/scrn_cap2.png "On click")
 
-The Naive Bayes classifier used for generating politicalness scores has a precision of about 87% and recall of 88%. It tends to overpredict political content.
+The Naive Bayes classifier used for generating politicalness scores tends to overpredict political content, probably because the training data is not diverse enough and does not reflect the true proportion of political content on Twitter.
 
 Previously I had used a simple hashtag counter to score users' politicalness, which counted the number of hashtags in a user's timeline and returned a ratio of political to total hashtags.
 
@@ -50,8 +50,8 @@ Before deciding on Naive Bayes, I compared its performance to a Logistic Regress
 
     Metric| Bernoulli Naive Bayes  | Logistic Regression
     ------|------------- | -------------
- Precision| 87%          |  88%
-    Recall| 76%          |  94%
+ Precision| 87%          |  76%
+    Recall| 88%          |  94%
 
 
 ##Moving forward:##
