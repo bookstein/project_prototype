@@ -81,18 +81,22 @@ def display_friends(screen_name):
 
     """
     api = connect_to_API()
-    friendlist = []
+
+    # initialize the searched user as user object
     user = User(api, central_user=screen_name, user_id=screen_name)
 
+    # will contain list of friend objects
+    friendlist = []
+
+    # store friends, followers and scores as objects inside "children" list
+    friend_scores = {"name": user.user_id, "children": []}
+
+    # unpickle classifier and vectorizer used for scoring timelines
     with open(PATH_TO_CLASSIFIER, "rb") as f:
         classifier = pickle.load(f)
 
     with open(PATH_TO_VECTORIZER, "rb") as f:
         vectorizer = pickle.load(f)
-
-    # initialize friend_scores object, which stores
-        # friends, followers and scores as objects inside "children" list
-    friend_scores = {"name": user.user_id, "children": []}
 
     try:
         friends_ids = user.get_friends_ids()
