@@ -13,7 +13,7 @@ app.secret_key = 'politicaltwitter'
 
 
 TIME_TO_WAIT = 3  # in seconds
-NUM_RETRIES = 2
+NUM_RETRIES = 2  # number of retries Tweepy API object should make
 
 PATH_TO_VECTORIZER = "politwit/vectorizer.pkl"
 PATH_TO_CLASSIFIER = "politwit/classifierNB.pkl"
@@ -89,6 +89,7 @@ def display_friends(screen_name):
                                              "score": friend.SCORE})
 
         json_scores = json.dumps(friend_scores)
+        print json_scores
         return json_scores
 
     except tweepy.TweepError as e:
@@ -177,8 +178,7 @@ def connect_to_API():
     auth = tweepy.OAuthHandler(TWITTER_API_KEY, TWITTER_SECRET_KEY,
                                secure=True)
     auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_SECRET_TOKEN)
-    api = tweepy.API(auth, cache=None, retry_count=NUM_RETRIES,
-                     wait_on_rate_limit=False, wait_on_rate_limit_notify=False)
+    api = tweepy.API(auth, cache=None, retry_count=NUM_RETRIES)
 
     return api
 
