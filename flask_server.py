@@ -30,9 +30,6 @@ def get_user():
 
 	screen_name = request.json["screen_name"]
 
-	flash("Hi!")
-	return redirect(url_for("index"))
-
 	if screen_name == "bookstein":
 		return redirect("/ajax/testing")
 
@@ -47,10 +44,8 @@ def get_user():
 
 
 	except tweepy.TweepError as e:
-		if e.args[0][0]['code'] == "88":
-			flash("Please wait a few minutes to retry.", "Rate limit exceeded")
-		else:
-			flash("We encountered an error while contacting Twitter: \n" + e.args[0][0]["message"] + ".\n" + "Please try again!", "Error")
+		error_message = handle_error(e)
+		flash(error_message)
 		return redirect(url_for("index"))
 
 
@@ -80,10 +75,8 @@ def display_friends(screen_name):
 			friendlist = get_top_influencers(friendlist, user.MAX_NUM_FRIENDS)
 
 	except tweepy.TweepError as e:
-		if e.args[0][0]['code'] == "88":
-			flash("Please wait a few minutes to retry.", "Rate limit exceeded")
-		else:
-			flash("We encountered an error while contacting Twitter: \n" + e + ".\n" + "Please try again!", "Error")
+		error_message = handle_error(e)
+		flash(error_message)
 		return redirect(url_for("index"))
 
 	# initialized friend_scores object with root, children
@@ -97,10 +90,8 @@ def display_friends(screen_name):
 			friend_scores["children"].append({"name": friend.SCREEN_NAME, "size": friend.NUM_FOLLOWERS, "score": friend.SCORE})
 
 	except tweepy.TweepError as e:
-		if e.args[0][0]['code'] == "88":
-			flash("Please wait a few minutes to retry.", "Rate limit exceeded")
-		else:
-			flash("We encountered an error while contacting Twitter: \n" + e + ".\n" + "Please try again!", "Error")
+		error_message = handle_error(e)
+		flash(error_message)
 		return redirect(url_for("index"))
 
 	if len(friend_scores) > 0:
