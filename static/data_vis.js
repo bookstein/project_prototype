@@ -103,6 +103,7 @@ var VIZ = VIZ || (function () {
 
       });
 
+
       /*
       This function returns a flattened hierarchy containing all leaf nodes under the root.
 
