@@ -13,7 +13,6 @@
 var VIZ = VIZ || (function () {
 
   function showTweets(screenName) {
-    console.log("loading tweets");
     $("#tweets").empty()
 
     // embeds a timeline in #tweets div
@@ -31,17 +30,6 @@ var VIZ = VIZ || (function () {
             tweetLimit: 3,
             screenName: screenName,
             showReplies: "false",
-          })
-          .then(function (el) {
-
-            // success callback
-            console.log("Embedded " +  screenName + " timeline.");
-          },
-
-          function(el) {
-
-            // failure callback
-            console.log("Failed to embed " + screenName + "'s timeline.");
           });
       });
   }
