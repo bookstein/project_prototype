@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
 
-ENGINE = create_engine("sqlite:///../tweets_58_42.db", echo=False)
+ENGINE = create_engine("sqlite:///../tweets.db", echo=False)
 db_session = scoped_session(sessionmaker(bind=ENGINE, autocommit=False,
                             autoflush=False))
 
@@ -117,7 +117,7 @@ def connect():
     global ENGINE
     global Session
 
-    ENGINE = create_engine("sqlite:///tweets.db", echo=True)
+    ENGINE = create_engine("sqlite:///../tweets.db", echo=True)
     Session = sessionmaker(bind=ENGINE)
 
     return Session()
