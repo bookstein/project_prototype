@@ -54,6 +54,7 @@ class User(object):
 
         except tweepy.TweepError as e:
             print e
+            raise
 
     def paginate_friends(self, f_ids, page_size):
         """
@@ -107,6 +108,7 @@ class User(object):
 
         except tweepy.TweepError as e:
             print e
+            raise
 
     def get_timeline(self, count):
         """
@@ -132,7 +134,7 @@ class User(object):
 
         except tweepy.TweepError as e:
             print e
-            return []
+            raise  # NewRelic::Agent.notice_error(e)
 
     def score_user(self, timeline, vectorizer, classifier):
         """
