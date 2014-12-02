@@ -17,69 +17,75 @@ var VIZ = VIZ || (function () {
     $("#tweets").empty()
 
     // embeds a timeline in #tweets div
-      twttr.ready(
-        function (twttr) {
-          twttr.widgets.createTimeline(
-            '538087329949548544',
-            // $ returns jQuery obj, get first elem [0] in obj
-            $('#tweets')[0],
-            {
+    twttr.ready(
+      function (twttr) {
+        twttr.widgets.createTimeline(
+
+          // FIXME: this should be private
+          // widget id
+          '538087329949548544',
+
+          // $ returns jQuery obj, get first elem [0] in obj
+          $('#tweets')[0],
+          {
             tweetLimit: 3,
             screenName: screenName,
             showReplies: "false",
-            })
-            .then(function (el) {
-              // success callback
-                console.log("Embedded " +  screenName + " timeline.");
-              },
-              function(el) {
-                // failure callback
-                console.log("Failed to embed " + screenName + " timeline.");
-            });
+          })
+          .then(function (el) {
+
+            // success callback
+            console.log("Embedded " +  screenName + " timeline.");
+          },
+
+          function(el) {
+
+            // failure callback
+            console.log("Failed to embed " + screenName + "'s timeline.");
+          });
       });
   }
 
   return {
-      test : function(scores_json) {
-          console.log(scores_json);
-      },
 
-      createVisualization: function(scores) {
+    createVisualization: function(scores) {
 
-    var margin = {top: 10, right: 10, bottom: 10, left: 10}
+      margin = 10;
 
-    var diameter = $("#viz").width() - margin.right - margin.left,
-    format = d3.format(",d");
-    // color = d3.scale.category20c();
+      // set diameter of bubble pack
+      var diameter = $("#viz").width() - margin,
+      format = d3.format(",d");
 
-    var bubble = d3.layout.pack()
-        .sort( function(a, b) {
-        return -(a.score - b.score);
-        })
-        .size([diameter, diameter])
-        .padding(1.5);
+      var bubble = d3.layout.pack()
+          .sort( function(a, b) {
 
-    var svg = d3.select("#viz").append("svg")
-        .attr("width", diameter)
-        .attr("height", diameter)
-        .attr("class", "bubble");
+            // sort bubbles in reverse order of score
+            return -(a.score - b.score);
 
-    var root = scores;
+          })
+          .size([diameter, diameter])
+          .padding(2);
 
-    var node = svg.selectAll(".node")
-      .data(bubble.nodes(classes(root))
-      .filter(function(d) { return !d.children; }))
-    .enter().append("g")
-      .attr("class", "node")
-      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+      // append svg to #viz div
+      var svg = d3.select("#viz").append("svg")
+          .attr("width", diameter)
+          .attr("height", diameter)
+          .attr("class", "bubble");
 
-      // node.append("title")
-      //     .text(function(d) { return d.className + ": " + format(d.value); });
+      var node = svg.selectAll(".node")
+        .data(bubble.nodes(classes(scores))
+        .filter(function(d) { return !d.children; }))
+      .enter().append("g")
+        .attr("class", "node")
+        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
       node.append("circle")
           .attr("r", function(d) { return d.r; })
           .attr("stroke", "gray")
           .attr("fill", function(d) {
+
+            // opacity is a function of political score
+            // TODO: make this color setting a variable, to stay DRY
             return "rgba(85,26,139, " + d.score + ")";
           });
 
