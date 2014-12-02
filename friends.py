@@ -46,23 +46,9 @@ class User(object):
         """
 
         try:
-            # IF USING MEMCACHE: wrap it around API calls
-            # key = derive_key(obj)
-            # obj = mc.get(key)
-            #if not obj:
-                #obj = backend_api.get(...) <-- friends_ids = api.get(...)
-                #mc.set(key, obj)
-            print "User id for which we're requesting friends", screen_name
             friends_ids = self.api.friends_ids(screen_name=screen_name)
-
-            # logging.info("Api request: ", friends_ids,
-                # "\n")
-            print "get request friend ids"
-
-            # for friend in friends_ids:
-            #   print friend
-
             return friends_ids
+
         except tweepy.TweepError as e:
             print e
 
@@ -113,26 +99,15 @@ class User(object):
 
         """
         try:
-
             friends = self.api.lookup_users(f_ids)
-            # logging.info("Lookup users: ", friends, "\n")
-            print "get request friends hydrated"
-
-            # for friend in friends:
-            #   print friend
-
             return friends
+
         except tweepy.TweepError as e:
             print e
-
-        # use output of get_friends_ids
-        # hydrate (create twitter user object)
-        # pickle dictionary
 
     def get_timeline(self, uid, count):
         """
         Get n number of tweets by passing in user id and number of statuses.
-        If user has protected tweets, returns [].
 
         Parameters:
         -----------
@@ -142,6 +117,7 @@ class User(object):
         Output:
         -------
         An array of {count} lower-cased tweet texts, including retweets.
+        If user has protected tweets, returns [].
         """
         timeline = []
 
@@ -149,48 +125,16 @@ class User(object):
             for tweet in tweepy.Cursor(self.api.user_timeline, id=uid,
                                        include_rts=True).items(count):
                 timeline.append(tweet.text.lower())
-
-            print "get request timeline"
             return timeline
 
         except tweepy.TweepError as e:
             print e
             return []
 
-        # try:
-        # except:
-        # get user's timeline
-        # statuses/user_timeline
-        # create Status object
-        # pickle dictionary
-
-    def count_hashtags(self, timeline):
-        """
-        Store hashtags from a given timeline in a dictionary.
-
-        Parameters:
-        ----------
-        Takes a tweepy cursor object corresponding to a user's timeline.
-
-        Output:
-        ------
-        A dictionary of all hashtags (lowercased) used, with count as value.
-
-        """
-        hashtags_dict = {}
-
-        for tweet in timeline:
-            # print "processing tweet"
-            hashtags_in_tweet = tweet.entities["hashtags"]
-            for hashtag_obj in hashtags_in_tweet:
-                # print "counting hashtags"
-                hashtag = hashtag_obj["text"].lower()
-                hashtags_dict[hashtag] = hashtags_dict.get(hashtag, 0) + 1
-        return hashtags_dict
-
     def score(self, timeline, vectorizer, classifier):
         """
-        Score user by averaging classifier probabilities for timeline.
+        Score user by averaging classifier probabilities for their recent
+        timeline.
 
         Paramters:
         ---------
@@ -203,7 +147,6 @@ class User(object):
         tweets being political.
 
         """
-        print "Scoring"
         score = 0
 
         vector = vectorizer.transform(timeline)
@@ -214,8 +157,7 @@ class User(object):
         print zip(prediction, timeline)
         print len(probs)
 
-        # prob.item(1) is the probability of political
-        # ndarray ordered lexigraphically (np before p)
+        # prob.item(1) is the probability of political content
         for prob in probs:
             score += prob.item(1)
 
@@ -227,7 +169,7 @@ class User(object):
 
 def check_rate_limit(api):
     """
-    Check Twitter API rate limit status for "statuses" (timeline) requests
+    Check Twitter API rate limit status for "statuses" (tweet) requests
     Print number of requests remaining per time period
     """
     limits = api.rate_limit_status()
