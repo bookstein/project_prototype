@@ -31,6 +31,13 @@ def index():
 
 @app.route("/ajax/user", methods=["POST"])
 def get_user():
+    """
+    Get username from AJAX POST request.
+    Request user from Twitter API, as a way to quickly verify that the
+    screen name exists.
+
+    If the screen name exists, redirect to display_friends.
+    """
     api = connect_to_API()
 
     screen_name = request.json["screen_name"]
@@ -56,7 +63,26 @@ def get_user():
 
 @app.route("/get/display/<screen_name>")
 def display_friends(screen_name):
+    """
+    For a given user, select top 50 most influential friends (by number of
+    followers) and send JSON back to the front end for visualization.
+
+    Parameters:
+    ----------
+    A user's screen name.
+
+    Output:
+    ------
+    JSON of friends' screen names, number of followers, and scores.
+
+    TODO: Refactor this route into 2 separate routes, in order to be able to
+    update the front end more frequently.
+    TODO: Add the searched user to friendlist, to be displayed in d3.
+
+    """
     api = connect_to_API()
+    friendlist = []
+    user = User(api, central_user=screen_name, user_id=screen_name)
 
     with open(PATH_TO_CLASSIFIER, "rb") as f:
         classifier = pickle.load(f)
@@ -64,16 +90,12 @@ def display_friends(screen_name):
     with open(PATH_TO_VECTORIZER, "rb") as f:
         vectorizer = pickle.load(f)
 
-    user = User(api, central_user=screen_name, user_id=screen_name)
-    timeline = user.get_timeline(MAX_NUM_TWEETS)
-
-    # initialize friend_scores object, which will pass friends and scores to d3
+    # initialize friend_scores object, which stores
+        # friends, followers and scores as objects inside "children" list
     friend_scores = {"name": user.user_id, "children": []}
 
     try:
         friends_ids = user.get_friends_ids()
-
-        friendlist = [user]
 
         for page in user.paginate_friends(friends_ids, 100):
             friends = process_friend_batch(user, page, api)
@@ -101,6 +123,20 @@ def display_friends(screen_name):
 
 @app.route("/demo/prefetched/<screen_name>")
 def get_prefetched(screen_name):
+    """
+    Some users have so many Twitter friends that performance is significantly
+    affected. A few pre-chosen users are redirected here immediately.
+    Unpickle user's already-created JSON of friends, followers and scores.
+
+    Parameters:
+    ----------
+    Screen name, as specified in "test set" variable
+
+    Output:
+    -------
+    JSONified python dictionary of scores, ready to be visualized.
+
+    """
     time.sleep(TIME_TO_WAIT)
     with open(screen_name + ".pkl") as f:
         scores = pickle.load(f)
@@ -111,7 +147,19 @@ def get_prefetched(screen_name):
 
 def process_friend_batch(user, page, api):
     """
-    Create User object for each friend in batch of 100 (based on pagination)
+    Create User object for each friend in batches of 100.
+    Return batch as list of friend objects.
+
+    Parameters:
+    -----------
+    User object
+    A page of 100 friend ids (Twitter rate limit for user/lookup is 100 ids)
+    API object
+
+    Output:
+    -------
+    A list of 100 friend objects.
+
     """
     batch = []
     friend_objs = user.lookup_friends(f_ids=page)
@@ -156,6 +204,18 @@ def get_top_influencers(friendlist, count):
 
 
 def handle_error(e):
+    """
+    Return a string message depending on Tweepy error code.
+
+    Parameters:
+    -----------
+    tweepy.TweepError
+
+    Output:
+    -------
+    String error message
+
+    """
     if e.args[0][0]['code'] == "88":
         return "Rate limit exceeded: please wait a few minutes to retry."
     else:
@@ -165,8 +225,9 @@ def handle_error(e):
 
 def check_rate_limit(api):
     """
-    Check Twitter API rate limit status for "statuses" (tweet) requests
-    Print number of requests remaining per time period
+    Check Twitter API rate limit status for "users" and "statuses" (tweets)
+    requests
+    Print number of requests remaining per time period.
     """
     limits = api.rate_limit_status()
     tweets = limits["resources"]["statuses"]
@@ -185,7 +246,8 @@ def check_rate_limit(api):
 
 def connect_to_API():
     """
-    Create instance of tweepy API class with OAuth keys and tokens.
+    Return instance of tweepy API class, using OAuth keys and tokens stored as
+    environmental variables.
     """
     # initialize tweepy api object with auth, OAuth
     TWITTER_API_KEY = os.environ.get('TWITTER_API_KEY')
