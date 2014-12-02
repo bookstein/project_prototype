@@ -1,6 +1,7 @@
-
-twitter-proof/*
-json/*
-tcplog.txt
-fb-proof/*
+#ignore "scratch" directory -- proofs of concept, scraps, ipython notebook files
 scratch/*
+
+
+#specific files to ignore in Naive Bayes version:
+politwit/simplescore.py
+tweets_72_28.db

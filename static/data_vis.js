@@ -97,15 +97,6 @@ var VIZ = VIZ || (function () {
 
       });
 
-      node.on("mouseout", function(d) {
-
-        var selection = $(this).children()[0];
-
-        // set attribute ("fill") back to original color
-        selection.setAttribute("fill", "rgba(85, 26, 139, " + d.score + ")");
-
-      });
-
       node.on("click", function(d) {
 
         showTweets(d.className);
