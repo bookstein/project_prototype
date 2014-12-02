@@ -55,22 +55,23 @@ My training data consists of 60,000 tweets harvested in late November 2014 by qu
 
 ## Cloning Instructions ##
 
-### NOTE: you will need your own Twitter tokens and access keys to run this app.###
+> ### NOTE: you will need your own Twitter tokens and access keys to run this app.###
 
-    # clone repository into local directory
-    git clone ...
+    # clone repository into a local directory
+    git clone https://github.com/bookstein/project_prototype.git
 
-    # create a virtual environment and activate to keep installations local
+    # create a virtual environment (here named 'env') and activate, so that dependencies will be installed only in this environment and not globally
     virtualenv env
     source env/bin/activate
 
-    # export Twitter tokens and keys to shell in env/bin/activate
+    # export Twitter tokens and keys to shell by adding these lines in env/bin/activate
     export TWITTER_API_KEY="..."
     export TWITTER_SECRET_KEY="..."
     export TWITTER_ACCESS_TOKEN="..."
     export TWITTER_SECRET_TOKEN="..."
 
-    # run this command on the command line to install dependencies
+    # run this command on the command line to install dependencies.
+    # make sure you're in your virtual environment!
     pip install -r requirements.txt
 
     # run flask_server.py on the command line to start the app
