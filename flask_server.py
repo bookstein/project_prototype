@@ -85,38 +85,12 @@ def display_friends(screen_name):
     # initialize the searched user as user object
     user = User(api, user_id=screen_name, central_user=screen_name)
 
-    # will contain list of friend objects
-    friendlist = []
-
-    # store friends, followers and scores as objects inside "children" list
+    # store list of {friends, followers and scores} objects inside "children"
     friend_scores = {"name": user.user_id, "children": []}
 
-    # unpickle classifier and vectorizer used for scoring timelines
-    with open(PATH_TO_CLASSIFIER, "rb") as f:
-        classifier = pickle.load(f)
-
-    with open(PATH_TO_VECTORIZER, "rb") as f:
-        vectorizer = pickle.load(f)
-
     try:
-        friends_ids = user.get_friends_ids()
-
-        for page in user.paginate_friends(friends_ids, 100):
-            friends = process_friend_batch(user, page, api)
-            friendlist.extend(friends)
-            print friendlist
-
-        if len(friendlist) > MAX_NUM_FRIENDS:
-            friendlist = get_top_influencers(friendlist, MAX_NUM_FRIENDS)
-
-        for friend in friendlist:
-            timeline = friend.get_timeline(MAX_NUM_TWEETS)
-            friend.score = friend.score_user(timeline, vectorizer, classifier)
-
-            friend_scores["children"].append({"name": friend.screen_name,
-                                             "size": friend.num_followers,
-                                             "score": friend.score})
-
+        scores_list = score_friends(user, api)
+        friend_scores["children"] = scores_list
         json_scores = json.dumps(friend_scores)
         return json_scores
 
@@ -206,6 +180,39 @@ def get_top_influencers(friendlist, count):
     friendlist = sorted_by_influence[:count]
 
     return friendlist
+
+
+def score_friends(user, api):
+    # will contain list of friend objects, truncated to top 50
+    friend_list = []
+
+    # list of objects containing screen name, followers, and scores per friend
+    score_objects = []
+
+    # unpickle classifier and vectorizer used for scoring timelines
+    with open(PATH_TO_CLASSIFIER, "rb") as f:
+        classifier = pickle.load(f)
+
+    with open(PATH_TO_VECTORIZER, "rb") as f:
+        vectorizer = pickle.load(f)
+
+    friends_ids = user.get_friends_ids()
+
+    for page in user.paginate_friends(friends_ids, 100):
+        friends = process_friend_batch(user, page, api)
+        friend_list.extend(friends)
+
+    if len(friend_list) > MAX_NUM_FRIENDS:
+        friend_list = get_top_influencers(friend_list, MAX_NUM_FRIENDS)
+
+    for friend in friend_list:
+        timeline = friend.get_timeline(MAX_NUM_TWEETS)
+        friend.score = friend.score_user(timeline, vectorizer, classifier)
+
+        score_objects.append({"name": friend.screen_name,
+                             "size": friend.num_followers,
+                             "score": friend.score})
+    return score_objects
 
 
 def handle_error(e):
