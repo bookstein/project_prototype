@@ -26,7 +26,7 @@ _frontend_:
 
 ##Current project state##
 
-![Alt text](static/images/scrn_cap1.jpg "Landing Page")
+![Alt text](/static/images/scrn_cap1.jpg "Landing Page")
 
 The Naive Bayes classifier has a precision of about 87% and recall of 88%, which I chose over a Logistic Regression classifier; despite good recall, LR precision was much lower.
 
@@ -39,9 +39,9 @@ My training data consists of 60,000 tweets harvested in late November 2014 by qu
  Precision| 87%          |  88%
     Recall| 76%          |  94%
 
-![Alt text](static/images/scrn_cap2.jpg "Visualized results")
+![Alt text](/static/images/scrn_cap2.jpg "Visualized results")
 
-![Alt text](static/images/scrn_cap2.jpg "Interactivity")
+![Alt text](/static/images/scrn_cap2.jpg "Interactivity")
 ##Moving forward:##
  -Increase the precision of my classifier, both by tuning it, by improving training data, and by testing other classifiers (i.e., K-near neighbors, SVM).
 
