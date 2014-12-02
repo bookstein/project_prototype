@@ -83,7 +83,7 @@ def display_friends(screen_name):
     api = connect_to_API()
 
     # initialize the searched user as user object
-    user = User(api, central_user=screen_name, user_id=screen_name)
+    user = User(api, user_id=screen_name, central_user=screen_name)
 
     # will contain list of friend objects
     friendlist = []
@@ -104,6 +104,7 @@ def display_friends(screen_name):
         for page in user.paginate_friends(friends_ids, 100):
             friends = process_friend_batch(user, page, api)
             friendlist.extend(friends)
+            print friendlist
 
         if len(friendlist) > MAX_NUM_FRIENDS:
             friendlist = get_top_influencers(friendlist, MAX_NUM_FRIENDS)
@@ -168,7 +169,7 @@ def process_friend_batch(user, page, api):
     batch = []
     friend_objs = user.lookup_friends(f_ids=page)
     for f in friend_objs:
-        friend = User(api, central_user=user.central_user, user_id=f.id)
+        friend = User(api, user_id=f.id, central_user=user.central_user)
         friend.num_followers = f.followers_count
         friend.screen_name = f.screen_name
         batch.append(friend)

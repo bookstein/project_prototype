@@ -18,26 +18,26 @@ class User(object):
     num_followers = None  # number of followers, assigned in flask_server
     score = None  # score assigned in score_user method
 
-    def __init__(self, api, central_user=None, user_id=None):
+    def __init__(self, api, user_id, central_user=None):
         """
         Initialize new user object.
 
         Parameters:
         ----------
-        ID for the user whose friends will be analyzed.
         Tweepy API object
-        User Id (Screen name or ID number) of friend
+        user_id: Screen name or ID number of user
+        central_user: ID of the searched-for user
 
         Output:
         ------
-        Assigns value to
+        Assigns value to:
         self.api,
         self.user_id,
         self.central_user (if provided)
         """
         self.api = api
-        self.central_user = central_user
         self.user_id = user_id
+        self.central_user = central_user
 
     def get_friends_ids(self):
         """
