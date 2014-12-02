@@ -96,55 +96,66 @@ var VIZ = VIZ || (function () {
         });
 
       node.on("mouseover", function(d) {
-          // get "circle", the first child of node ("g" element)
-          var selection = $(this).children()[0];
-          // set attribute ("fill") to orange
-          selection.setAttribute("fill", "#ffcc4d");
 
-          // Update data values in #detail panel list
-          $("#tw-handle").text("@" + d.className);
-          $("#score").text("Political tweets: " + parseInt(d.score*100) + "%");
-          $("#followers").text("Followers: " + d.value);
+        // TODO: change mouse into pointer on hover
+
+        // get "circle", the first child of node ("g" element)
+        var selection = $(this).children()[0];
+
+        // set attribute ("fill") to sandy orange
+        selection.setAttribute("fill", "#ffcc4d");
+
+        // Update data values in #detail panel list
+        $("#tw-handle").text("@" + d.className);
+        $("#score").text("Political tweets: " + parseInt( d.score * 100 ) + "%");
+        $("#followers").text("Followers: " + d.value);
+
       });
 
-    node.on("mouseout", function(d) {
-          // console.log(this);
-          var selection = $(this).children()[0];
-          // set attribute ("fill") to orange
-          selection.setAttribute("fill", "rgba(85, 26, 139, " + d.score + ")");
+      node.on("mouseout", function(d) {
+
+        var selection = $(this).children()[0];
+
+        // set attribute ("fill") back to original color
+        selection.setAttribute("fill", "rgba(85, 26, 139, " + d.score + ")");
+
       });
 
       node.on("click", function(d) {
 
-          showTweets(d.className);
+        showTweets(d.className);
 
       });
 
+      /*
+      This function returns a flattened hierarchy containing all leaf nodes under the root.
 
+      From Mbostock's bl.ocks example of flattened bubble graph.
 
-
-      // Returns a flattened hierarchy containing all leaf nodes under the root.
+        @params: object containing multi-level hierarchy
+        @returns an object that moved all children in the hierarchy into a single non-hierarchical list.
+      */
       function classes(root) {
+
         // keep variable names as packageName, className, value, and score -- otherwise cannot generated numeric values for x,y,r
-        console.log("classes function running");
+
         var classes = [];
 
         function recurse(name, node) {
-          if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
+          if (node.children) node.children.forEach(function(child) {
+            recurse(node.name, child);
+          });
           else classes.push({packageName: name, className: node.name, value: node.size, score: node.score});
         }
 
         recurse(null, root);
 
-        console.log({children: classes})
         return {children: classes};
       }
 
-      d3.select(self.frameElement).style("height", diameter + "px");
-
-
     }
   }
+
 })();
 
 
