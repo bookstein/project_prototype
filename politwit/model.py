@@ -25,7 +25,6 @@ Base.query = db_session.query_property()
 # class declarations #
 ######################
 
-
 class User(Base):
     __tablename__ = "users"
 

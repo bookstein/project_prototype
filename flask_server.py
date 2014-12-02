@@ -98,6 +98,11 @@ def display_friends(screen_name):
     with open(PATH_TO_VECTORIZER, "rb") as f:
         vectorizer = pickle.load(f)
 
+# Most of your methods look awesome! They are small and have a clear purpose.
+# I would consider breaking this method into more pieces - the below section
+# all about creating the friend score data, so you could move it into a method
+# called 'build_friend_scores' that is called here.
+
     try:
         friends_ids = user.get_friends_ids()
 
