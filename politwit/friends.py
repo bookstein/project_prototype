@@ -75,9 +75,9 @@ class User(object):
 
         """
         while True:
-            iterable1, iterable2 = itertools.tee(f_ids)
-            f_ids, page = (itertools.islice(iterable1, page_size, None),
-                           list(itertools.islice(iterable2, page_size)))
+            first_half_ids, second_half_ids = itertools.tee(f_ids)
+            f_ids, page = (itertools.islice(first_half_ids, page_size, None),
+                           list(itertools.islice(second_half_ids, page_size)))
             if len(page) == 0:
                 break
             # yield is a generator keyword
