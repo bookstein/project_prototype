@@ -25,7 +25,6 @@ def index():
 
 @app.route("/ajax/user", methods=["POST"])
 def get_user():
-	t0 = time.time()
 
 	api = connect_to_API()
 	print check_rate_limit(api)
@@ -41,8 +40,6 @@ def get_user():
 		# check to make sure this user exists before proceeding
 		user = api.get_user(screen_name=screen_name, include_entities=False)
 		if user.id_str:
-			t1 = time.time()
-			print "TIME TO GET USER", t1-t0
 			return redirect(url_for("display_friends", screen_name=screen_name))
 		else:
 			return redirect(url_for("index")) #add flash message
@@ -66,7 +63,6 @@ def display_friends(screen_name):
 	user = User(api, central_user=screen_name, user_id=screen_name)
 	timeline = user.get_timeline(user.USER_ID, user.MAX_NUM_TWEETS)
 
-	print "TIME TO GET INITIAL USER TIMELINE", t1-t0
 
 	try:
 
