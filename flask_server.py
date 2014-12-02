@@ -85,7 +85,7 @@ def display_friends(screen_name):
         for friend in friendlist:
             timeline = friend.get_timeline(friend.user_id,
                                            MAX_NUM_TWEETS)
-            friend.score = friend.score(timeline, vectorizer, classifier)
+            friend.score = friend.score_user(timeline, vectorizer, classifier)
 
             friend_scores["children"].append({"name": friend.screen_name,
                                              "size": friend.num_followers,

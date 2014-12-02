@@ -12,11 +12,11 @@ import tweepy
 class User(object):
 
     # class variables
-    central_user = None
-    user_id = None
-    screen_name = None
-    num_followers = None
-    score = None
+    central_user = None  # screen name of user who was searched
+    user_id = None  # any user's numeric ID
+    screen_name = None  # any user's Twitter handle
+    num_followers = None  # number of followers, assigned in flask_server
+    score = None  # score assigned in score_user method
 
     def __init__(self, api, central_user=None, user_id=None):
         """
@@ -30,11 +30,14 @@ class User(object):
 
         Output:
         ------
-        Assigns value to self.api, self.USER_ID
+        Assigns value to
+        self.api,
+        self.user_id,
+        self.central_user (if provided)
         """
         self.api = api
-        self.CENTRAL_USER = central_user
-        self.USER_ID = user_id
+        self.central_user = central_user
+        self.user_id = user_id
 
     def get_friends_ids(self):
         """
@@ -131,7 +134,7 @@ class User(object):
             print e
             return []
 
-    def score(self, timeline, vectorizer, classifier):
+    def score_user(self, timeline, vectorizer, classifier):
         """
         Score user by averaging classifier probabilities for their recent
         timeline.
@@ -143,7 +146,7 @@ class User(object):
 
         Output:
         -------
-        A score between 0 and 1, representing the average probability of
+        A score between 0 and 1, representing the average probability of user's
         tweets being political.
 
         """
@@ -161,9 +164,6 @@ class User(object):
         for prob in probs:
             score += prob.item(1)
 
-        if len(probs) > 0:
-            average_score = score / len(probs)
-        else:
-            print "Not able to calculate probability"
+        average_score = score / len(probs)
 
         return average_score
