@@ -90,12 +90,6 @@ var VIZ = VIZ || (function () {
 
         // TODO: change mouse into pointer on hover
 
-        // get "circle", the first child of node ("g" element)
-        var selection = $(this).children()[0];
-
-        // set attribute ("fill") to sandy orange
-        selection.setAttribute("fill", "#ffcc4d");
-
         // Update data values in #detail panel list
         $("#tw-handle").text("@" + d.className);
         $("#score").text("Political tweets: " + parseInt( d.score * 100 ) + "%");
