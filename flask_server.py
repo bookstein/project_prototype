@@ -65,7 +65,7 @@ def display_friends(screen_name):
         vectorizer = pickle.load(f)
 
     user = User(api, central_user=screen_name, user_id=screen_name)
-    timeline = user.get_timeline(user.user_id, MAX_NUM_TWEETS)
+    timeline = user.get_timeline(MAX_NUM_TWEETS)
 
     # initialize friend_scores object, which will pass friends and scores to d3
     friend_scores = {"name": user.user_id, "children": []}
@@ -83,8 +83,7 @@ def display_friends(screen_name):
             friendlist = get_top_influencers(friendlist, MAX_NUM_FRIENDS)
 
         for friend in friendlist:
-            timeline = friend.get_timeline(friend.user_id,
-                                           MAX_NUM_TWEETS)
+            timeline = friend.get_timeline(MAX_NUM_TWEETS)
             friend.score = friend.score_user(timeline, vectorizer, classifier)
 
             friend_scores["children"].append({"name": friend.screen_name,

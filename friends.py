@@ -108,7 +108,7 @@ class User(object):
         except tweepy.TweepError as e:
             print e
 
-    def get_timeline(self, uid, count):
+    def get_timeline(self, count):
         """
         Get n number of tweets by passing in user id and number of statuses.
 
@@ -125,7 +125,7 @@ class User(object):
         timeline = []
 
         try:
-            for tweet in tweepy.Cursor(self.api.user_timeline, id=uid,
+            for tweet in tweepy.Cursor(self.api.user_timeline, id=self.user_id,
                                        include_rts=True).items(count):
                 timeline.append(tweet.text.lower())
             return timeline
