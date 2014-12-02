@@ -6,7 +6,7 @@ import cPickle as pickle
 from flask import Flask, url_for, request, render_template, redirect, flash
 import tweepy
 
-from friends import User
+from politwit.friends import User
 
 app = Flask(__name__)
 app.secret_key = 'politicaltwitter'
