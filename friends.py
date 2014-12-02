@@ -161,22 +161,9 @@ class User(object):
         for prob in probs:
             score += prob.item(1)
 
-        average_score = score / len(probs)
-        print average_score
+        if len(probs) > 0:
+            average_score = score / len(probs)
+        else:
+            print "Not able to calculate probability"
 
         return average_score
-
-
-def check_rate_limit(api):
-    """
-    Check Twitter API rate limit status for "statuses" (tweet) requests
-    Print number of requests remaining per time period
-    """
-    limits = api.rate_limit_status()
-    stats = limits["resources"]["statuses"]
-    for resource in stats.keys():
-        if stats[resource]["remaining"] == 0:
-            print "EXPIRED:", resource
-
-        else:
-            print resource, ":", stats[resource]["remaining"], "\n"

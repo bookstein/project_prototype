@@ -85,7 +85,7 @@ def display_friends(screen_name):
         for friend in friendlist:
             timeline = friend.get_timeline(friend.user_id,
                                            MAX_NUM_TWEETS)
-            friend.SCORE = friend.score(timeline, vectorizer, classifier)
+            friend.score = friend.score(timeline, vectorizer, classifier)
 
             friend_scores["children"].append({"name": friend.screen_name,
                                              "size": friend.num_followers,
@@ -162,6 +162,26 @@ def handle_error(e):
     else:
         return "Error: We encountered an error while contacting Twitter: \n"
         + e.args[0][0]["message"]
+
+
+def check_rate_limit(api):
+    """
+    Check Twitter API rate limit status for "statuses" (tweet) requests
+    Print number of requests remaining per time period
+    """
+    limits = api.rate_limit_status()
+    tweets = limits["resources"]["statuses"]
+    users = limits["resources"]["users"]
+    for resource in tweets.keys():
+        if tweets[resource]["remaining"] == 0:
+            print "EXPIRED:", resource
+        else:
+            print resource, ":", tweets[resource]["remaining"], "\n"
+    for resource in users.keys():
+        if users[resource]["remaining"] == 0:
+            print "EXPIRED:", resource
+        else:
+            print resource, ":", users[resource]["remaining"], "\n"
 
 
 def connect_to_API():
