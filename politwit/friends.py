@@ -74,6 +74,13 @@ class User(object):
         Lists of {page_size} number of friend ids, to pass to lookup_friends
 
         """
+        # I like to make variables as explanatory as possible (imagine you or
+        # someone else coming back to your code in six months), so I would change
+        # iterable1/2 to more explanatory names. That will make your
+        # code more readable too.
+        # I'm not sure how this breaks out of "while True" - I would think
+        # it goes forever but I'm guessing it doesn't. :P Consider changing
+        # the "while True" loop to something more understandable/less dangerous. 
         while True:
             iterable1, iterable2 = itertools.tee(f_ids)
             f_ids, page = (itertools.islice(iterable1, page_size, None),
@@ -130,6 +137,11 @@ class User(object):
                 timeline.append(tweet.text.lower())
             return timeline
 
+        # This might not be important now but something to improve in the future:
+        # in a production environment, if you rescue and return an empty array
+        # you will never know there was an error. You could raise an error, or
+        # use New Relic to notice the error so you can investigate it later
+        # ( NewRelic::Agent.notice_error(e) )
         except tweepy.TweepError as e:
             print e
             return []
