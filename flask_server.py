@@ -177,7 +177,8 @@ def connect_to_API():
     auth = tweepy.OAuthHandler(TWITTER_API_KEY, TWITTER_SECRET_KEY,
                                secure=True)
     auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_SECRET_TOKEN)
-    api = tweepy.API(auth, cache=None)
+    api = tweepy.API(auth, cache=None, retry_count=NUM_RETRIES,
+                     wait_on_rate_limit=False, wait_on_rate_limit_notify=False)
 
     return api
 
