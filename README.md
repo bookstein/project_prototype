@@ -39,9 +39,10 @@ My training data consists of 60,000 tweets harvested in late November 2014 by qu
  Precision| 87%          |  88%
     Recall| 76%          |  94%
 
-![ScreenShot](/static/images/scrn_cap2.png "Visualized results")
+![ScreenShot](/static/images/scrn_cap3.png "On hover")
 
-![ScreenShot](/static/images/scrn_cap3.png "Interactivity")
+![ScreenShot](/static/images/scrn_cap2.png "On click")
+
 ##Moving forward:##
  -Increase the precision of my classifier, both by tuning it, by improving training data, and by testing other classifiers (i.e., K-near neighbors, SVM).
 
@@ -54,6 +55,25 @@ My training data consists of 60,000 tweets harvested in late November 2014 by qu
 
 ## Cloning Instructions ##
 
+### NOTE: you will need your own Twitter tokens and access keys to run this app.###
+
+    # clone repository into local directory
     git clone ...
 
+    # create a virtual environment and activate to keep installations local
+    virtualenv env
+    source env/bin/activate
+
+    # export Twitter tokens and keys to shell in env/bin/activate
+    export TWITTER_API_KEY="..."
+    export TWITTER_SECRET_KEY="..."
+    export TWITTER_ACCESS_TOKEN="..."
+    export TWITTER_SECRET_TOKEN="..."
+
+    # run this command on the command line to install dependencies
     pip install -r requirements.txt
+
+    # run flask_server.py on the command line to start the app
+    python flask_server.py
+
+Now visit localhost:5000 in your browser and enjoy!
