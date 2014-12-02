@@ -60,8 +60,11 @@ var VIZ = VIZ || (function () {
           .attr("height", diameter)
           .attr("class", "bubble");
 
+      // rename JSON response object to 'root' for classes function to work
+      var root = scores;
+
       var node = svg.selectAll(".node")
-        .data(bubble.nodes(classes(scores))
+        .data(bubble.nodes(classes(root))
         .filter(function(d) { return !d.children; }))
       .enter().append("g")
         .attr("class", "node")
