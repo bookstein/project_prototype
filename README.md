@@ -6,9 +6,9 @@ A project for Hackbright Academy, Fall 2014.
 
 ##About the project##
 
-I chose my project inspired by my interest in social movements and informed by a past internship at Causes.com, a tech start-up that made tools for online activism. Towards the beginning of the project period, I learned that only 23% of millenials planned to vote in the 2014 midterm elections. I wondered how social media might have an impact on voter turnout: do people have political friends on social media? If so, do they put themselves in an echo chamber of like-minded people? While it was easy to brainstorm diverse project ideas, I narrowed my scope to finding the politicalness of Twitter friends.
+I chose my project inspired by my interest in social movements and informed by a past internship at Causes.com, a tech start-up that made tools for online activism. Towards the beginning of the project period, I learned that only 23% of millenials planned to vote in the 2014 midterm elections. I wondered how social media might have an impact on voter turnout: do people have political friends on social media? If so, do they put themselves in an echo chamber of like-minded people? While it was easy to brainstorm diverse project ideas, I narrowed my scope to scoring the "politicalness" of Twitter friends.
 
-I began scoring Twitter users’ politicalness by counting political hashtags, based on ~1000 co-occurring political hashtags harvested from Twitter. But after my advisor suggested I look into machine learning as a way to identify political speech, I quickly re-oriented my project. Talking through the concepts of machine learning with mentors was invaluable; their explanations enabled me to understand the tools I was using in NLTK and scikit-learn.
+I began scoring Twitter users' tweets by counting political hashtags, based on ~1000 co-occurring political hashtags harvested from Twitter. But after my advisor suggested I look into machine learning as a way to identify political speech, I quickly re-oriented my project. Talking through the concepts of machine learning with mentors was invaluable; their explanations enabled me to understand the tools I was using in NLTK and scikit-learn.
 
 Several iterations of scoring algorithms later - simple hashtag counting, using NLTK's Naive Bayes to classify hashtags, and finally using scikit-learn's Bernoulli Naive Bayes to classify full-text tweets - my project identifies the average probability that a user's recent tweets are political.
 
@@ -21,6 +21,7 @@ Before firmly deciding on Naive Bayes, I compared its performance to a scikit-le
  Precision| 87%          |  76%
     Recall| 88%          |  94%
 
+The Naive Bayes algorithm correctly selected political tweets (true positives) 87% of the time, and identified 88% of all political labels (missing 12% of them) in the test set. Perhaps because of the ratio and size of my training data, Logistic Regression correctly labelled only 76% of tweets, although it missed fewer political tweets overall.
 
 ##Main stack/technology##
 
@@ -48,9 +49,9 @@ _frontend_:
 
 Search for any Twitter user by entering a Twitter handle into the search field.
 
-The result is a "politicalness" score for each of the top 50 most influential friends (people that user follows). The score is a fraction between 0 and 1 -- determined by averaging probabilities given by a Naive Bayes classifier that any given tweet is political. 20 tweets are collected per friend, so the politicalness score may be only a measure of recent political dialogue.
+The result is a "politicalness" score for each of the top 50 most influential friends (people that user follows). The score is a fraction between 0 and 1 -- determined by averaging probabilities given by a Naive Bayes classifier that any given tweet is political. 20 tweets are collected per friend, so the score may be only a measure of recent political dialogue.
 
-The data is rendered in d3 as a bubble chart, with each bubble representing a Twitter account. Bubbles' opacity varies with the person's politicalness score -- dark bubbles are more political, light bubbles less so. Bubble radii reflect the number of followers.
+The data is rendered in d3 as a bubble chart, with each bubble representing a Twitter account. Bubbles' opacity varies with the person's score -- dark bubbles mean more political, light bubbles less so. Bubble radii reflect the number of followers.
 
 ![ScreenShot](/static/images/scrn_cap4.png "On hover")
 
@@ -58,7 +59,7 @@ Bubbles can be hovered over for more information, or clicked on to reveal the us
 
 ![ScreenShot](/static/images/scrn_cap5.png "On click")
 
-The Naive Bayes classifier used for generating politicalness scores tends to overpredict political content, probably because the training data is not diverse enough and does not reflect the true proportion of political content on Twitter.
+The Naive Bayes classifier used for generating "politicalness" scores tends to overpredict political content, probably because the training data is not diverse enough and does not reflect the true proportion of political content on Twitter.
 
 My training data consists of 60,000 tweets harvested in late November 2014 by querying for specific political and nonpolitical hashtags.
 
