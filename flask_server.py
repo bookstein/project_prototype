@@ -64,6 +64,9 @@ def display_friends(screen_name):
 	user = User(api, central_user=screen_name, user_id=screen_name)
 	timeline = user.get_timeline(user.USER_ID, user.MAX_NUM_TWEETS)
 
+	# initialize friend_scores object, which will pass friends and scores to d3
+	friend_scores = {"name": user.USER_ID, "children": []}
+
 	try:
 		friends_ids = user.get_friends_ids(screen_name)
 
@@ -76,32 +79,20 @@ def display_friends(screen_name):
 		if len(friendlist) > user.MAX_NUM_FRIENDS:
 			friendlist = get_top_influencers(friendlist, user.MAX_NUM_FRIENDS)
 
-	except tweepy.TweepError as e:
-		error_message = handle_error(e)
-		flash(error_message)
-		return redirect(url_for("index"))
-
-	# initialized friend_scores object with root, children
-	friend_scores = {"name": user.USER_ID, "children": []}
-
-	try:
 		for friend in friendlist:
 			timeline = friend.get_timeline(friend.USER_ID, friend.MAX_NUM_TWEETS)
 			friend.SCORE = friend.score(timeline, vectorizer, classifier)
 
 			friend_scores["children"].append({"name": friend.SCREEN_NAME, "size": friend.NUM_FOLLOWERS, "score": friend.SCORE})
 
+		json_scores = json.dumps(friend_scores)
+		return json_scores
+
 	except tweepy.TweepError as e:
 		error_message = handle_error(e)
 		flash(error_message)
 		return redirect(url_for("index"))
 
-	if len(friend_scores) > 0:
-		json_scores = json.dumps(friend_scores)
-		return json_scores
-
-	else:
-		return redirect("/")#, add flash --> errormessage="Unable to get friends")
 
 def process_friend_batch(user, page, api):
 	"""
