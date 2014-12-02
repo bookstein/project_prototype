@@ -18,24 +18,36 @@
     }
 
     function clearPreviousData() {
+
         // clear svg in case previous visualization exists
         $("svg").remove()
+
         // empty out #detail panel list items
         $("#detail ul li").empty()
+
         // clear previous headline
         $("#viz h3").remove();
+
         // remove timeline from twitter widget
         $("#tweets").empty()
     }
 
-    // success callback for visualization
+    /*
+        success callback calls createVisualization method in data_viz.js
+        @param response: JSON response from Flask server
+        @return svg element and D3 visualization
+    */
     function displaySuccess(response) {
+
         // re-enable button
         $("#visualize").removeClass("disabled");
+
         // show sidebar
         $("#detail").removeClass("hidden");
+
         // complete and remove progress bar
         showProgressComplete();
+
         // add header above visualization
         addVizHeadline(response["name"]);
 
@@ -43,33 +55,42 @@
         VIZ.createVisualization(response);
     }
 
+    /*
+        form submission event handler
+        sends form data with AJAX request to Flask
+        call displaySuccess on success
+    */
     $("form").on("submit", function(e){
         e.preventDefault();
+
+        // disable submit button
         $("#visualize").addClass("disabled");
 
         // store screen name
         var screenName = $("input[name=screen_name]").val();
-        // first-pass validation: remove punc, make sure screen_name is not blank
+
+        // first-pass validation: remove @, make sure screen_name is not blank
         if (screenName.length > 0) {
-            // remove @, if any
+
             if (screenName[0] === "@") {
                 screenName = screenName.slice(1)
             }
+
             // add progress bar
             showProgress(screenName);
+
             // clear any previous data
             clearPreviousData();
+
             // make AJAX request, using success callback
             TwitterAjax.callDisplay(screenName, displaySuccess);
 
         }
+
         else {
             $("#messages").empty().text("Please enter a valid Twitter handle!");
         }
     });
-
-
-
 
 })();
 
