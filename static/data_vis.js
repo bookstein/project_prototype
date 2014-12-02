@@ -1,3 +1,15 @@
+/*
+  VIZ acts as the namespace for all functions related to d3 and visualization interactivity.
+
+  showTweets: loads a given user's timeline using Twitter widget
+    @params: screen name
+    @returns: Twitter widget showing user's recent tweets embedded in #tweets div
+
+  createVisualization: creates svg and all related elements using the JSON response from server.
+    @params: JSON of user screen names, number of followers, and their politicalness scores.
+    @returns: d3 packed bubble chart
+
+*/
 var VIZ = VIZ || (function () {
 
   function showTweets(screenName) {
