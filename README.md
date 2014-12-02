@@ -4,7 +4,7 @@ A project for Hackbright Academy, Fall 2014.
 
 Using data from Twitter's Search and REST API, I classify any user's political activity with scikit-learn's Bernoulli Naive Bayesian classifer and visualize the politicalness of the top 50 friends (ranked by number of followers) with D3.
 
-##Stack/technology##
+##Main stack/technology##
 
 _backend_:
 
@@ -28,20 +28,31 @@ _frontend_:
 
 ![ScreenShot](/static/images/scrn_cap1.png "Landing Page")
 
-The Naive Bayes classifier has a precision of about 87% and recall of 88%, which I chose over a Logistic Regression classifier; despite good recall, LR precision was much lower.
+A user can search for any Twitter user's friend group politicization by entering a Twitter handle into the search field.
+
+Flask returns a JSON object containing the top 50 most influential friends of that person, as ranked by number of followers, as well as a "politicalness" score between 0 and 1 -- an average of probabilities given by a Naive Bayes classifier that each tweet is political. Only 20 tweets are collected per friend, so politicalness may be only a measure of recent political dialog.
+
+Finally, the data is rendered in d3 as a flattened hierarchy with a pack layout. Bubbles' opacity varies with the person's politicalness score -- dark bubbles are more political, light bubbles less so.
+
+![ScreenShot](/static/images/scrn_cap3.png "On hover")
+
+Bubbles can be hovered over for more information, or clicked on to reveal the user's 3 most recent tweets.
+
+![ScreenShot](/static/images/scrn_cap2.png "On click")
+
+The Naive Bayes classifier used for generating politicalness scores has a precision of about 87% and recall of 88%. It tends to overpredict political content.
 
 Previously I had used a simple hashtag counter to score users' politicalness, which counted the number of hashtags in a user's timeline and returned a ratio of political to total hashtags.
 
 My training data consists of 60,000 tweets harvested in late November 2014 by querying for specific political and nonpolitical hashtags.
+
+Before deciding on Naive Bayes, I compared its performance to a Logistic Regression algorithm. Both are available in scikit-learn.
 
     Metric| Bernoulli Naive Bayes  | Logistic Regression
     ------|------------- | -------------
  Precision| 87%          |  88%
     Recall| 76%          |  94%
 
-![ScreenShot](/static/images/scrn_cap3.png "On hover")
-
-![ScreenShot](/static/images/scrn_cap2.png "On click")
 
 ##Moving forward:##
  -Increase the precision of my classifier, both by tuning it, by improving training data, and by testing other classifiers (i.e., K-near neighbors, SVM).
