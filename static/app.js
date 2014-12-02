@@ -45,6 +45,9 @@
     // show sidebar
     $("#detail").removeClass("hidden");
 
+    // show instructions
+    $("#instructions").removeClass("hidden");
+
     // complete and remove progress bar
     showProgressComplete();
 
