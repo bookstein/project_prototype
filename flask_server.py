@@ -65,10 +65,10 @@ def display_friends(screen_name):
         vectorizer = pickle.load(f)
 
     user = User(api, central_user=screen_name, user_id=screen_name)
-    timeline = user.get_timeline(user.USER_ID, MAX_NUM_TWEETS)
+    timeline = user.get_timeline(user.user_id, MAX_NUM_TWEETS)
 
     # initialize friend_scores object, which will pass friends and scores to d3
-    friend_scores = {"name": user.USER_ID, "children": []}
+    friend_scores = {"name": user.user_id, "children": []}
 
     try:
         friends_ids = user.get_friends_ids(screen_name)
@@ -83,13 +83,13 @@ def display_friends(screen_name):
             friendlist = get_top_influencers(friendlist, MAX_NUM_FRIENDS)
 
         for friend in friendlist:
-            timeline = friend.get_timeline(friend.USER_ID,
+            timeline = friend.get_timeline(friend.user_id,
                                            MAX_NUM_TWEETS)
             friend.SCORE = friend.score(timeline, vectorizer, classifier)
 
-            friend_scores["children"].append({"name": friend.SCREEN_NAME,
-                                             "size": friend.NUM_FOLLOWERS,
-                                             "score": friend.SCORE})
+            friend_scores["children"].append({"name": friend.screen_name,
+                                             "size": friend.num_followers,
+                                             "score": friend.score})
 
         json_scores = json.dumps(friend_scores)
         return json_scores
@@ -117,9 +117,9 @@ def process_friend_batch(user, page, api):
     batch = []
     friend_objs = user.lookup_friends(f_ids=page)
     for f in friend_objs:
-        friend = User(api, central_user=user.CENTRAL_USER, user_id=f.id)
-        friend.NUM_FOLLOWERS = f.followers_count
-        friend.SCREEN_NAME = f.screen_name
+        friend = User(api, central_user=user.central_user, user_id=f.id)
+        friend.num_followers = f.followers_count
+        friend.screen_name = f.screen_name
         batch.append(friend)
     return batch
 
@@ -149,7 +149,7 @@ def get_top_influencers(friendlist, count):
     """
 
     sorted_by_influence = sorted(friendlist,
-                                 key=lambda x: x.NUM_FOLLOWERS,
+                                 key=lambda x: x.num_followers,
                                  reverse=True)
     friendlist = sorted_by_influence[:count]
 

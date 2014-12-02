@@ -11,15 +11,12 @@ import tweepy
 
 class User(object):
 
-    # important variables
-    CENTRAL_USER = None
-    USER_ID = None
-    SCREEN_NAME = None
-    NUM_FOLLOWERS = None
-    SCORE = None
-
-    # tweepy api instance
-    api = None
+    # class variables
+    central_user = None
+    user_id = None
+    screen_name = None
+    num_followers = None
+    score = None
 
     def __init__(self, api, central_user=None, user_id=None):
         """
