@@ -231,7 +231,7 @@ def handle_error(e):
     if e.args[0][0]['code'] == "88":
         return "Rate limit exceeded: please wait a few minutes to retry."
     else:
-        return "Error: We encountered an error while contacting Twitter: \n"
+        return "Error: We encountered an error while contacting Twitter \n"
         + e.args[0][0]["message"]
 
 
