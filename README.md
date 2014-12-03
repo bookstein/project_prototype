@@ -2,26 +2,18 @@
 
 A project for Hackbright Academy, Fall 2014.
 
->Using data from Twitter's Search and REST API, as well as scikit-learn's Bernoulli Naive Bayes classifer, visualize the recent intensity of political activity within any Twitter user's friend group. An interactive bubble chart shows the user's 50 most influential friends, as measured by number of followers.
+Using data from Twitter's Search and REST API, as well as scikit-learn's Bernoulli Naive Bayes classifer, visualize the recent intensity of political activity within any Twitter user's friend group in an interactive bubble chart.
 
 ##About the project##
 
-I chose my project inspired by my interest in social movements and informed by a past internship at Causes.com, a tech start-up that made tools for online activism. Towards the beginning of the project period, I learned that only 23% of millenials planned to vote in the 2014 midterm elections. I wondered how social media might have an impact on voter turnout: do people have political friends on social media? If so, do they put themselves in an echo chamber of like-minded people? While it was easy to brainstorm diverse project ideas, I narrowed my scope to scoring the "politicalness" of Twitter friends.
+I chose my project inspired by my interest in social movements and informed by a past internship at Causes.com, a tech start-up that made tools for online activism. Towards the beginning of the project period, I learned that only 23% of millenials planned to vote in the 2014 midterm elections. I wondered how social media might have an impact on voter turnout: do people have political friends on social media? If so, do they put themselves in an echo chamber of like-minded people?
 
-I began scoring Twitter users' tweets by counting political hashtags, based on ~1000 co-occurring political hashtags harvested from Twitter. But after my advisor suggested I look into machine learning as a way to identify political speech, I quickly re-oriented my project. Talking through the concepts of machine learning with mentors was invaluable; their explanations enabled me to understand the tools I was using in NLTK and scikit-learn.
+I began scoring Twitter users' tweets by counting political hashtags. Later, when simply counting hashtags proved too unreliable, I started exploring machine learning as a way to classify tweets.
 
-Several iterations of scoring algorithms later - simple hashtag counting, using NLTK's Naive Bayes to classify hashtags, and finally using scikit-learn's Bernoulli Naive Bayes to classify full-text tweets - my project identifies the average probability that a user's recent tweets are political.
+Talking through the principles of machine learning with mentors was invaluable; their explanations helped me to understand the problems and powers of classification. Armed with a conceptual understanding, I explored both NLTK and sci-kit learn -- python machine learning modules useful for my kind of problem.
 
-Naive Bayes classifiers are often used often to classify text documents -- for example, classifying emails as spam or not-spam. Rather than using the classifier's predicted _label_ for tweets, however, I make use of the _probability_ that any given document (e.g. tweet) belongs to a specific class (e.g. political / not political). That value becomes the political score of a user.
+Several iterations of scoring algorithms later - simple hashtag counting, using NLTK's Naive Bayes to classify hashtags, and finally using scikit-learn's Bernoulli Naive Bayes to classify full-text tweets - my project identifies the average probability that a user's recent tweets are political. My training data consists of 60,000 tweets harvested in late November 2014 by querying for specific political and nonpolitical hashtags.
 
-Before firmly deciding on Naive Bayes, I compared its performance to a scikit-learn Logistic Regression algorithm.
-
-    Metric| Bernoulli Naive Bayes  | Logistic Regression
-    ------|------------- | -------------
- Precision| 87%          |  76%
-    Recall| 88%          |  94%
-
-The Naive Bayes algorithm correctly selected political tweets (true positives) 87% of the time, and identified 88% of all political labels (missing 12% of them) in the test set. Perhaps because of the ratio and size of my training data, Logistic Regression correctly labelled only 76% of tweets, although it missed fewer political tweets overall.
 
 ##Main stack/technology##
 
@@ -59,24 +51,35 @@ Bubbles can be hovered over for more information, or clicked on to reveal the us
 
 ![ScreenShot](/static/images/scrn_cap5.png "On click")
 
-The Naive Bayes classifier used for generating "politicalness" scores tends to overpredict political content, probably because the training data is not diverse enough and does not reflect the true proportion of political content on Twitter.
+## More about classification ##
 
-My training data consists of 60,000 tweets harvested in late November 2014 by querying for specific political and nonpolitical hashtags.
+Naive Bayes classifiers are often used often to classify text documents -- for example, classifying emails as spam or not-spam. Rather than using the classifier's predicted _label_ for tweets, however, I make use of the _probability_ that any given document (e.g. tweet) belongs to a specific class (e.g. political / not political). That value becomes the political score of a user.
+
+Before firmly deciding on Naive Bayes, I compared its performance to a scikit-learn Logistic Regression algorithm.
+
+    Metric| Bernoulli Naive Bayes  | Logistic Regression
+    ------|------------- | -------------
+ Precision| 87%          |  76%
+    Recall| 88%          |  94%
+
+The Naive Bayes algorithm correctly selected political tweets (true positives) 87% of the time, and identified 88% of all political labels (missing 12% of them) in the test set. Perhaps because of the ratio and size of my training data, Logistic Regression correctly labelled only 76% of tweets, although it missed fewer political tweets overall.
+
+The Naive Bayes classifier used for generating "politicalness" scores tends to overpredict political content, probably because the training data is not diverse enough and does not reflect the true proportion of political content on Twitter.
 
 
 ##Moving forward:##
 
-In broad strokes, here's what I plan to do:
-
- - Increase the precision of my classifier, both by tuning it, by improving training data, and by testing other classifiers (i.e., Multinomial Bayes, K-near neighbors, SVM) for better performance.
-
  - Visualize liberal-conservative political leanings on Twitter, to investigate on a case-by-case basis when users have put themselves in a political echo chamber ("homophily") versus in conversation with politically diverse users.
-
- - Enable login with OAuth (currently using app auth)
 
  - Recommend diverse Twitter accounts that are either highly similar or highly different, politically, from the current user.
 
- - Reduce the number of API calls with memcache.
+ - Show which features were most important in causing a user's timeline to receive a certain political score.
+
+ - Increase the precision of my classifier, both by tuning it, by improving training data, and by testing other classifiers (i.e., Multinomial Bayes, K-near neighbors, SVM) for better performance.
+
+ - Enable login with OAuth (currently using app auth) to deal with Twitter rate limiting in production
+
+ - Reduce the number of API calls by storing data in memcache.
 
  - Continuously update the visualization, rather than wait for all tweets to be processed (the bottleneck is the Twitter api; getting 20 tweets for 50 friends can take up to 25 seconds altogether!)
 
