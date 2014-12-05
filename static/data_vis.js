@@ -81,10 +81,14 @@ var VIZ = VIZ || (function () {
           });
 
       node.append("text")
-        .attr("dy", ".3em")
-        .style("text-anchor", "middle")
-        .text(function(d) { return d.className.substring(0, d.r / 3);
-        });
+        .text(function(d) {
+          return d.className.substring(0, d.r / 3)
+        })
+        .style("font-size", function(d) {
+          return Math.min(2 * d.r, (2 * d.r - 8) / this.getComputedTextLength() * 10) + "px";
+        })
+        .attr("dy", ".3em");
+
 
       node.on("mouseover", function(d) {
 
