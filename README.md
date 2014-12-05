@@ -37,7 +37,7 @@ _frontend_:
 
 ##Current project state##
 
-![ScreenShot](/static/images/scrn_cap1.png "Loading Data")
+![ScreenShot](/static/images/scrn_cap0.png "Loading Data")
 
 Search for any Twitter user by entering a Twitter handle into the search field.
 
