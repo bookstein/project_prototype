@@ -37,7 +37,7 @@ _frontend_:
 
 ##Current project state##
 
-![ScreenShot](/static/images/scrn_cap1.png "Landing Page")
+![ScreenShot](/static/images/scrn_cap1.png "Loading Data")
 
 Search for any Twitter user by entering a Twitter handle into the search field.
 
@@ -45,11 +45,11 @@ The result is a "politicalness" score for each of the top 50 most influential fr
 
 The data is rendered in d3 as a bubble chart, with each bubble representing a Twitter account. Bubbles' opacity varies with the person's score -- dark bubbles mean more political, light bubbles less so. Bubble radii reflect the number of followers.
 
-![ScreenShot](/static/images/scrn_cap4.png "On hover")
+![ScreenShot](/static/images/scrn_cap2.png "On hover")
 
 Bubbles can be hovered over for more information, or clicked on to reveal the user's 3 most recent tweets.
 
-![ScreenShot](/static/images/scrn_cap5.png "On click")
+![ScreenShot](/static/images/scrn_cap3.png "On click")
 
 ## More about classification ##
 
