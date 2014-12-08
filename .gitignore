@@ -1,6 +1,6 @@
 #ignore "scratch" directory -- proofs of concept, scraps, ipython notebook files
 scratch/*
-static/css_2/.sass-cache
+static/css/.sass-cache
 
 
 #specific files to ignore in Naive Bayes version:
