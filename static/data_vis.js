@@ -72,7 +72,6 @@ var VIZ = VIZ || (function () {
 
       node.append("circle")
           .attr("r", function(d) { return d.r; })
-          .attr("stroke", "gray")
           .attr("fill", function(d) {
 
             // opacity is a function of political score
