@@ -92,8 +92,8 @@ $font-family-sans-serif: "Montserrat", "Helvetica Neue", Helvetica, Roboto, Aria
 // $font-family-monospace: Consolas, "Liberation Mono", Courier, monospace;
 
 // We use these to define default font weights
-// $font-weight-normal: normal !default;
-// $font-weight-bold: bold !default;
+$font-weight-normal: normal !default;
+$font-weight-bold: bold !default;
 
 $white       : #FFFFFF;
 // $ghost       : #FAFAFA;
@@ -114,9 +114,10 @@ $vapor       : #F6F6F6;
 // $oil         : #333333;
 $jet         : #222222;
 $black       : #000000;
-$steelblue   : #4682B4;
+$steelblue   : #329bc2;
 $purple      : #551A8B;
 $twitterblue : #55ACEE;
+$sandybrown  : #ffcc4d;
 
 // We use these as default colors throughout
 $primary-color: $steelblue;
@@ -143,8 +144,8 @@ $body-font-style: normal;
 // $last-child-float: $opposite-direction;
 
 // We use these to make sure border radius matches unless we want it different.
-// $global-radius: 3px;
-// $global-rounded: 1000px;
+$global-radius: 3px;
+$global-rounded: 1000px;
 
 // We use these to control inset shadow shiny edges and depressions.
 // $shiny-edge-size: 0 1px 0;
@@ -187,8 +188,8 @@ $body-font-style: normal;
 
 // We use this as cursors values for enabling the option of having custom cursors in the whole site's stylesheet
 // $cursor-crosshair-value: crosshair;
-// $cursor-default-value: default;
-// $cursor-pointer-value: pointer;
+$cursor-default-value: default;
+$cursor-pointer-value: pointer;
 // $cursor-help-value: help;
 // $cursor-text-value: text;
 
@@ -436,7 +437,7 @@ $button-lrg: rem-calc(18);
 // We use these to control button text styles.
 $button-font-family: $body-font-family;
 $button-font-color: $white;
-$button-font-color-alt: $oil;
+$button-font-color-alt: $jet;
 $button-font-tny: rem-calc(11);
 $button-font-sml: rem-calc(13);
 $button-font-med: rem-calc(16);
@@ -635,7 +636,7 @@ $input-focus-border-color: scale-color($white, $lightness: -40%);
 $input-border-style: solid;
 $input-border-width: 1px;
 $input-border-radius: $global-radius;
-$input-disabled-bg: $gainsboro;
+$input-disabled-bg: $jet;
 $input-disabled-cursor: $cursor-default-value;
 $input-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
 
@@ -703,22 +704,22 @@ $input-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
 // $include-html-inline-list-classes: $include-html-classes;
 
 // We use this to control the margins and padding of the inline list.
-// $inline-list-top-margin: 0;
-// $inline-list-opposite-margin: 0;
-// $inline-list-bottom-margin: rem-calc(17);
-// $inline-list-default-float-margin: rem-calc(-22);
-// $inline-list-default-float-list-margin: rem-calc(22);
+$inline-list-top-margin: 0;
+$inline-list-opposite-margin: 0;
+$inline-list-bottom-margin: rem-calc(17);
+$inline-list-default-float-margin: rem-calc(-22);
+$inline-list-default-float-list-margin: rem-calc(22);
 
-// $inline-list-padding: 0;
+$inline-list-padding: 0;
 
 // We use this to control the overflow of the inline list.
-// $inline-list-overflow: hidden;
+$inline-list-overflow: hidden;
 
 // We use this to control the list items
-// $inline-list-display: block;
+$inline-list-display: block;
 
 // We use this to control any elements within list items
-// $inline-list-children-display: block;
+$inline-list-children-display: block;
 
 // 14. Joyride
 // - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1031,24 +1032,24 @@ $input-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
 // $include-html-media-classes: $include-html-classes;
 
 // We use this to set the progress bar height
-// $progress-bar-height: rem-calc(25);
-// $progress-bar-color: $vapor  ;
+$progress-bar-height: rem-calc(25);
+$progress-bar-color: $vapor  ;
 
 // We use these to control the border styles
-// $progress-bar-border-color: scale-color($white, $lightness: 20%);
-// $progress-bar-border-size: 1px;
-// $progress-bar-border-style: solid;
-// $progress-bar-border-radius: $global-radius;
+$progress-bar-border-color: scale-color($white, $lightness: 20%);
+$progress-bar-border-size: 1px;
+$progress-bar-border-style: solid;
+$progress-bar-border-radius: $global-radius;
 
 // We use these to control the margin & padding
-// $progress-bar-pad: rem-calc(2);
-// $progress-bar-margin-bottom: rem-calc(10);
+$progress-bar-pad: rem-calc(2);
+$progress-bar-margin-bottom: rem-calc(10);
 
 // We use these to set the meter colors
-// $progress-meter-color: $primary-color;
-// $progress-meter-secondary-color: $secondary-color;
-// $progress-meter-success-color: $success-color;
-// $progress-meter-alert-color: $alert-color;
+$progress-meter-color: $primary-color;
+$progress-meter-secondary-color: $secondary-color;
+$progress-meter-success-color: $success-color;
+$progress-meter-alert-color: $alert-color;
 
 // 24. Range Slider
 // - - - - - - - - - - - - - - - - - - - - - - - - -
