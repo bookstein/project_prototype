@@ -24,7 +24,7 @@ _frontend_:
 
 ##About the project##
 
-Motivated by low voter turnout in the 2014 midterm elections, and inspired by my experience with (online and offline) grassroots organizing, I set out to answer this question: do people expose themselves to political content on social media?
+Galvanized by low voter turnout in the 2014 midterm elections, and inspired by my experience with (online and offline) grassroots organizing, I set out to answer this question: do people expose themselves to political content on social media?
 
 I decided to analyze users' friends (people they follow) on Twitter. Initially I scored users' "politicalness" by comparing their hashtags against a set of political hashtags collected using the Twitter API. When simply counting political hashtags proved too unreliable, I started exploring machine learning as a way to classify tweets.
 
