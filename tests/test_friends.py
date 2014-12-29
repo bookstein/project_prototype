@@ -5,18 +5,13 @@ from mock import Mock, patch, ANY
 sys.path.append("../")
 import politwit.friends as friends
 
-print "imports done"
 
 class TestFriends(unittest.TestCase):
     def setUp(self):
-        print "starting set up"
-
+        """Create mock tweepy with patch"""
         patcher = patch("politwit.friends.tweepy")
 
-        print "patch made"
-
         self.mock_tweepy = patcher.start()
-
         self.addCleanup(patcher.stop)
 
     def tearDown(self):
@@ -24,16 +19,23 @@ class TestFriends(unittest.TestCase):
 
     def test_get_friends_ids(self):
 
-        mock_api = Mock(name="tweepy_api") # creates mock object
-        user = friends.User(api=mock_api, user_id="bookstein", central_user="bookstein") # create user with mock api object
+        test_username = "bookstein"
+
+        api_spec = ["friends_ids"]
+        mock_api = Mock(name="tweepy_api", spec=api_spec)
+        # creates mock object
+
+        user = friends.User(api=mock_api, user_id=test_username,
+                            central_user=test_username)
+                            # create user with mock api object
 
         result = user.get_friends_ids()
 
-        print result
+        print "result", result
 
-        print self.mock_tweepy.mock_calls
-
-        print mock_api
+        print "mock calls to api:", mock_api.mock_calls
+        mock_api.friends_ids.assert_called_with(screen_name=test_username)
+        print "mock api", mock_api
 
         print "\n***********************"
 
