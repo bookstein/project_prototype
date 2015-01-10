@@ -39,12 +39,40 @@ def get_friends_ids(api, screen_name):
     except tweepy.TweepError as e:
         print e
 
-def main():
-    api = connect_to_API()
-    print api
-    friends = get_friends_ids(api, "iamjohnoliver")
-    print friends
+def get_timeline(count):
+        """
+        Get n number of tweets by passing in user id and number of statuses.
+
+        Parameters:
+        -----------
+        User id for which to get tweets
+        Number of tweets to get
+
+        Output:
+        -------
+        An array of {count} lower-cased tweet texts, including retweets.
+        If user has protected tweets, returns [].
+        """
+        timeline = []
+
+        try:
+            for tweet in tweepy.Cursor(api.user_timeline, id="bookstein",
+                                       include_rts=True).items(count):
+                print tweepy.Cursor
+                print tweet
+                timeline.append(tweet.text.lower())
+            return timeline
+
+        except tweepy.TweepError as e:
+            print e
+            raise  # NewRelic::Agent.notice_error(e)
 
 
-if __name__=="__main__":
-    main()
+api = connect_to_API()
+print api
+friends = get_friends_ids(api, "iamjohnoliver")
+print friends
+
+
+# if __name__=="__main__":
+#     main()
