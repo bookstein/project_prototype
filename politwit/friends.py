@@ -154,6 +154,9 @@ class User(object):
         """
         score = 0
 
+        if timeline == []:
+            return score
+
         vector = vectorizer.transform(timeline)
         prediction = classifier.predict(vector)
         probs = classifier.predict_proba(vector)
