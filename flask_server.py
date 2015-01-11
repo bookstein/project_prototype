@@ -47,18 +47,14 @@ def get_user():
 
     try:
         # check to make sure this user exists before proceeding
-        user = api.get_user(screen_name=screen_name, include_entities=False)
-        if user.id_str:
-            return redirect(url_for("display_friends",
-                            screen_name=screen_name))
-        else:
-            flash("Error: Twitter couldn't find that username.")
-            return redirect(url_for("index"))
+        api.get_user(screen_name=screen_name, include_entities=False)
 
-    except tweepy.TweepError as e:
-        error_message = handle_error(e)
-        flash(error_message)
+    except tweepy.error.TweepError as e:
+        print e.message[0]['message'], "OH NO"
+        flash("Error: Twitter couldn't find that username.")
         return redirect(url_for("index"))
+
+    return redirect(url_for("display_friends", screen_name=screen_name))
 
 
 @app.route("/get/display/<screen_name>")
